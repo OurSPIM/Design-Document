@@ -1,4 +1,10 @@
-\documentclass[parskip=half, fontsize=12pt]{scrartcl}
+\documentclass[
+    parskip=half,
+    fontsize=12pt,
+    titlepage=firstiscover,
+    toc=bibliography,
+    numbers=endperiod
+]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb} % Additional symbols
 \usepackage[english]{babel}
@@ -41,7 +47,8 @@
 \makeatother
 
 % Show 4 levels of depth in TOC
-\setcounter{secnumdepth}{4}
+\setcounter{secnumdepth}{\paragraphtocdepth}
+\setcounter{tocdepth}{\paragraphtocdepth}
 
 % Use Times New Roman
 \fontfamily{ptm}\selectfont
@@ -62,10 +69,8 @@
 \date{}
 
 \begin{document}
-\renewcommand*{\titlepagestyle}{empty}
-\maketitle
-\clearpage
 
+\maketitle
 
 \pagenumbering{arabic}
 \setcounter{page}{1}
