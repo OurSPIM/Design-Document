@@ -97,7 +97,9 @@ SWIM is planned to be available to use by anyone at no cost. Similarly, SWIM wil
 
 Subsequent sections of this document outline and organize the design process for SWIM, including research into the MIPS64 instruction set architecture, project requirements and specifications, and project code management. The following section describes in more detail the motivations and outline of the project, and later sections describe its successes, challenges, and auxiliary information surrounding its design.
 
-\section{Project Description}
+\section{Overview}
+
+\subsection{Project Description}
 When studying Computer Science or a related field, students must learn about computer architecture and design, which includes assembly languages and instruction set architectures. In many universities, including the University of Central Florida, the chosen instruction set architecture is MIPS32. If students proceed to take more advanced courses centered on computer architecture, they inevitably encounter MIPS64 in that process, as well.
 
 While there are already a number of emulators and tools available for students and instructors to learn and teach MIPS, there can be a number of issues surrounding them that make them difficult or even impossible to use in some cases. Current options for MIPS emulation software are overly-complex or use out-of-date frameworks. Our project aims to be a new, alternative MIPS emulation tool that is easier to digest compared to existing options. The current go-to option for educational MIPS simulation is SPIM \cite{spim}. While it has a rich feature-set, SPIM is no longer actively maintained, is aging since its original release in 1990, and is not user-friendly by modern standards.
@@ -108,7 +110,7 @@ Our solution to this issue is SWIM, a simple web interface for MIPS32 and MIPS64
 
 The code for the project will be written primarily in Rust \cite{rust-book} to utilize its secure memory management systems, type checking, and borrow checking. Where necessary, JavaScript will be used to supplement this for web-based development. The text editing interface will use the Monaco library \cite{monaco} due to its existing familiarity with programmers. The server-side component of SWIM merely serves to deliver content and application files. SWIM will implement a strong subset of the instructions supported by MIPS32 and MIPS64.
 
-\subsection{The Tech Stack}
+\subsubsection{The Tech Stack}
 SWIM's tech stack is unique in the fact that a lot of the tools and frameworks used in its development are still in their preliminary stages, unlike conventional tools such as JavaScript, React, Emscripten, and MongoDB. This project's tech stack uses the Rust programming language for developing all parts of the application: emulation core, parser, and interface. This helps with having a cohesive understanding of how the codebase is structured, as all code from all components use the same programming language.
 
 Moving up to abstraction in Rust, the Yew framework \cite{yew} and Gloo toolkit \cite{gloo} facilitates how the front end interacts with Javascript APIs and aids in converting Rust code into the appropriate WebAssembly binaries and JavaScript files without direct intervention or understanding from a development perspective. WebAssembly \cite{webassembly} is still in its infancy, but it will allow our Rust code to be run on browsers like Google Chrome, Mozilla Firefox, Apple Safari, and Microsoft Edge. Due to the recency of WebAssembly, users must run the latest version of those browsers – or their respective FOSS forks (i.e. Chromium, Waterfox, etc.) – in order for WebAssembly to function properly. While the majority of code running for this project will be in WebAssembly, JavaScript is still essential for the application to initially load on the web browser. Trunk \cite{trunk} will be the tool for packaging and finalizing the software; Trunk has configurations that would allow us to compile test versions of the software as we edit it automatically and if they fail, alert us.
@@ -120,7 +122,7 @@ GitHub Pages is used to host the website, additionally allowing users access to 
     \caption{Visualization of the Tech Stack}
 \end{figure}
 
-\section{Project Motivation}
+\subsection{Project Motivation}
 % TODO: Proofread this section
 The motivations for this project come from many different directions. We wanted to do something amazing; something that we felt was realistic and useful. Most of the initial project proposals for senior design were just turns offs for us. Much of our team is made up of low level enthusiasts. AI and front-end replacement projects did not fit our cup of tea. We want to introduce more people to the low level reality of computation. Along the way, we also want to improve our own understanding of computation and reality of what a computer actually does. There is major room for improvement in the educational MIPS emulation scene. Number one, there are no real options for those who want to learn MIPS64. All the options for MIPS32 educational emulation are arguably not the most welcoming to new users. These are some clear holes in the education emulation world waiting for someone to fill. Writing a MIPS emulator seems like a fun thing to do, and best of all, has clear direction. We know roughly what to expect tackling such an endeavor. The job prospects for emulation are also significant. We want to get jobs that we can be proud of through doing this project. So our project motivation comes from many different directions. Our motivations are mainly inspiration, personal educational benefits, teaching others, clear direction, and jobs. There is just something gripping about writing an emulator. It is like magic to see software run in a simulation.
 
@@ -130,8 +132,8 @@ One of the big issues with many of the projects proposed for senior design is th
 
 Currently there is a solid demand out there in the cyber industry for custom emulation. To become a professional emulator developer, small steps of learning are required. By writing this emulator our team will be taking a small step, we should all leave with a better understanding of the world of emulation development. In the cyber world hacking has been becoming harder and harder. Everyone is trying to automate. In part with AI, in part with special algorithms and software. For much of the automation there's a need for scale and state access. The ability to know everything, ram, flash, register states, and so on, is very important. With real hardware your access to know exactly what the system is doing is limited. Real hardware can also be very costly, on the order of millions per unit. Sometimes real hardware can be inaccessible by normal means, for example weapon systems. Security researchers want to be able to make as many virtual environments as possible with minimal cost. They want to be able to understand anything that a system is doing.
 
-\section{Individual Motivations}
-\subsection{Kevin Cahalan}
+\subsection{Individual Motivations}
+\subsubsection{Kevin Cahalan}
 \begin{figure}[H]
     \includegraphics[height=7cm]{profile-kevin}
 \end{figure}
@@ -141,7 +143,7 @@ For a while I have been wanting to write an awesome emulator. Things kept gettin
 Another big individual motivation for this are the job prospects. There is solid money out there for emulation development. Emulators have all sorts of uses, hacking, training, testing, legacy hardware replacement, and so on. In the world of professional hacking, the need for automation fits hand in hand with emulator development. Automated bug finders need a surface to play with. Preferably a scalable surface. Using real hardware can get super expensive very fast. It can be millions or billions of dollars, sometimes impossible to get. With training it is not best to trust a new person with expensive equipment. Issues of money and safety come into play. It would not be the best idea to just drop someone into an f-35, you start them with an accurate flight simulator. So accurate that you emulate the computers within the aircraft for the simulation. When testing new software for an f-35, initially using a real aircraft would be unsafe. You test your software in emulation. In the world of banking there are old legacy computers that need to be replaced. Re-writing the software for these ancient computers can be very risky and costly. The solution is to write an emulation layer to port so that the old software could run on modern computers. With many more examples out there, emulation happens to be very important for this world. And the best part of all this, there's big money in the industry.
 
 
-\subsection{Jerrett Longworth}
+\subsubsection{Jerrett Longworth}
 \begin{figure}[H]
     \includegraphics[height=7cm]{profile-jerrett}
 \end{figure}
@@ -156,7 +158,7 @@ Based on these ideas, I feel SWIM is an incredibly valuable project, both for th
 Another reason why this project is important to me is due to my affiliation with Wiki Knights, which is a student organization dedicated to reducing or eliminating the costs of textbooks and homework access codes by encouraging the adoption of Open Educational Resources (OER) in courses across the university. This group has already been developing a free Introduction to C Programming (COP 3223) textbook with examples and practice problems, which is currently deployed in classes as of the time of writing. Further development is active within the group to re-open the Adaptive Learning Engine project authored by the ALOSI Labs as a collaboration between Harvard University's Office of the Vice Provost for Advances in Learning and Microsoft. Along these efforts, an open-source project such as SWIM offers another free resource for students, course instructors, and researchers in areas related to computer architecture.
 
 
-\subsection{Jimmie Smith}
+\subsubsection{Jimmie Smith}
 \begin{figure}[H]
     \includegraphics[height=7cm]{profile-jimmie}
 \end{figure}
@@ -168,7 +170,7 @@ This is my first time being relegated to front-end development solely so it is a
 My experience with MIPS in the past was easy-going at first, but by the time I took Computer Architecture it became overwhelming especially when it came to the different datapaths. By the end of the course, I was having a difficult time understanding the concepts and how significant they are. I had a harder time finding any tools that would help me understand MIPS64 compared to MIPS32, so SWIM would fill in that gap. With SWIM, it would not only remedy any confusions with MIPS64's concepts but it can also be the basis for studying different types of architecture and their feature set.
 
 
-\subsection{Evan Raiford}
+\subsubsection{Evan Raiford}
 \begin{figure}[H]
     \includegraphics[height=7cm]{profile-evan}
 \end{figure}
@@ -183,7 +185,7 @@ Another reason that I am motivated for this project is the lack of a sponsor. Ha
 
 
 
-\subsection{Huy Nguyen}
+\subsubsection{Huy Nguyen}
 \begin{figure}[H]
     \includegraphics[height=7cm]{profile-huy}
 \end{figure}
@@ -196,10 +198,10 @@ This project also seems like an opportunity to come in contact with more variety
 
 
 
-\section{Group Member Ideas}
+\subsection{Group Member Ideas}
 At the project's initial inception and gathering of group members, all group members contributed ideas to brainstorm the features and capabilities that would be supported by the project. Some of these ideas have been implemented into the project or its stretch goals, and others are left as possible suggestions for future revisions of the project. The following are the ideas provided by each group member.
 
-\subsection{Kevin Calahan}
+\subsubsection{Kevin Calahan}
 \begin{itemize}
     \item The project itself.
     \item The use of Rust for programming both the back end and front end.
@@ -211,7 +213,7 @@ At the project's initial inception and gathering of group members, all group mem
     \item How instructions are going to be handled in our codebase.
 \end{itemize}
 
-\subsection{Jerrett Longworth}
+\subsubsection{Jerrett Longworth}
 \begin{itemize}
     \item Interactive live view of the emulator pipeline with access to memory and register contents. A user could hover over various components or traces with their mouse to see their current contents.
     \item Alternative live view of the pipeline, which is overlaid onto a real-world image of a CPU die. This could be zoomed or panned to see individual bits in any of the components.
@@ -221,14 +223,14 @@ At the project's initial inception and gathering of group members, all group mem
     \item A “quiz mode,” which would allow an educator to create overlays similar to the “tutorial mode,” but with interactive questions and problems that can report results to an LMS such as Instructure Canvas.
 \end{itemize}
 
-\subsection{Jimmie Smith}
+\subsubsection{Jimmie Smith}
 \begin{itemize}
     \item As a design goal, SWIM should not only support MIPS64 but it should be designed openly to load in different emulators of CPUs and their respective datapaths (if available). This would require some careful planning, but should be feasible since this is being built from scratch.
     \item Having a live debugger for SWIM would be a simple feature to implement, but could streamline the debugging process even more.
     \item Since this is a web application, I think having customizable options would elevate the user experience like dark mode, color-coding for instructions, registers, etc.
 \end{itemize}
 
-\subsection{Evan Raiford}
+\subsubsection{Evan Raiford}
 \begin{itemize}
     \item An account system so that users are able to store something that they have been working on and then come back and continue working on it later. This would also allow lecturers the opportunity to store work that they can then access in a lecture.
     \item A tool that explains the function of instructions.
@@ -236,7 +238,7 @@ At the project's initial inception and gathering of group members, all group mem
     \item The name that we ended up going with: SWIM. A Simple Web Interface for MIPS.
 \end{itemize}
 
-\subsection{Huy Nguyen}
+\subsubsection{Huy Nguyen}
 \begin{itemize}
     \item We can make the front end look more accessible by giving the MIPS pipeline map more space as well as making the UI fit viewing mode, or hide them.
     \item Testing on Eustis3. Although I do think that this may not work or take forever to load the front end since our project is front end heavy.
@@ -245,13 +247,13 @@ At the project's initial inception and gathering of group members, all group mem
 
 
 
-\section{Broader Impacts}
+\subsection{Broader Impacts}
 The end goal of this project is to help make it easier for people to learn about the MIPS instruction set architecture and to create an intuitive and visually pleasing system with which people can interact with MIPS32 and MIPS64. This project aims to lower some of the barriers that are common when studying computer architecture and low-level programming. In this way, SWIM could help redefine how MIPS emulation is used in education, making MIPS more accessible. Since the project is designed entirely to run in a web browser, it is not only more accessible for students at UCF, but for learners all over the world.
 
 Additionally, with the project being available online, and thus immediately accessible by any computer with a modern web browser, SWIM would be a great option for professors and course instructors to use during lectures, as they do not have to spend time or effort to install additional software to use in classroom computers. In this way, SWIM could become the de facto way of teaching MIPS. By making MIPS easier to teach within lectures and easier for students to use on their own, we aim to make low-level programming concepts overall easier for students to learn.
 
 
-\section{Legal, Ethical, and Privacy Issues}
+\subsection{Legal, Ethical, and Privacy Issues}
 The most notable issue that arises from this project is the simulation of an instruction set architecture that was created not in the public domain, but as a commercial product by MIPS Technologies. After research, it is clear that the creation of a MIPS emulator is legal, and is supported anecdotally by other existing emulators. “Clean room design,” also known as the “Chinese wall technique,” is the concept of reverse engineering and using publicly available specifications from an original creator, then creating an original piece of work without infringing on copyright. The term “clean” is used to describe this process since there is no knowledge of copyrighted or private techniques. Creating SWIM, as well as any other emulator, is considered legal due to this argument. This is especially true for the case of MIPS, as all specifications for instruction set architecture are intentionally published by MIPS Technologies to be implemented by vendors.
 
 The same clean room concept is true for basing the software off of other options available publicly for emulating MIPS. Since this project is completely original with no code influence from these other projects, no legal issues are foreseen with basing features or aspects of the interface with software that already exists.
@@ -267,7 +269,7 @@ We are currently hoping to put the SWIM project under the GNU General Public Lic
 One subject that can often become an issue in regards to legality, privacy, and ethics is the use of cookies. We do not foresee having any issues on these fronts due to the limited extent to which cookies may be used. Internet cookies generally become issues when they start misusing personal information about users often to aid in targeted advertisements. SWIM does not intend to advertise, nor use cookies to track or identify personal information about users. Cookies, if used, are exclusively for storing user preferences like font, screen layout, and themes, so no privacy-related or ethical issues are foreseen to arise from the use of cookies. To avoid legal issues and comply with the GDPR, SWIM may include a small pop-up that appears on screen when a user first accesses our website notifying them of cookie use. As this project is currently projected to be used for North American audiences, this addition primarily serves to comply with international laws regarding digitized personal information.
 
 
-\section{Financing}
+\subsection{Financing}
 SWIM is a project that was pitched by a student, and thus funding support from a sponsor is not available for our group. However, with the planned scope of this project, we foresee that major funding will not be necessary. The project will run entirely client-side in a web browser, and needs no paid components to be developed. At this time, the only likely cost associated with SWIM would be for server hosting and deployment, but many options for this have free tiers available.
 
 After considerable research, hosting and deployment will be free through the use of GitHub Pages and GitHub Actions. See Section \ref{subsec:deployment} for more details. Other initially considered free hosting solutions included Heroku and UCF's Linux server (Eustis).  Heroku previously offered free dynamic hosting for projects up to 1,000 hours, however this option was discarded as inviable, since Heroku removed support for their free hosting tier in November 2022. This would not only be infeasible for long-term use, but would have interrupted development plans, as SWIM is to be designed and created from September 2022 to Spring 2023.
@@ -460,352 +462,7 @@ Another prominent challenge of this project is less on a technical level, but it
 An additional solution to the challenge of meeting time is to create more meetings within small subgroups of members. In addition to meeting with the entire group at least once a week, we have found meeting in smaller groups specific to the area of focus within the program has allowed for more flexibility and collaboration.
 
 
-\section{Prototypes}
-
-\subsection{User Interface}
-
-Since one of our main goals with SWIM was to create a visually pleasing,
-modern interface for users to work with, one of the biggest goals on the
-front end was creating mock-ups for how the interface will look. The
-prototypes for the graphical front end and user interface are created by
-Figma. Figma allowed us to quickly create a general outline of how our
-project will look in its final version.
-
-The earliest sketches of the prototype are as follows, showing the basic
-functionalities and user interface as well as indicating the locations
-of buttons, their function, and the layout of the page. Note that the
-functionalities buttons are to remain static on the page, as akin to
-tabs:
-
-\begin{figure}[H]
-    \includegraphics[width=\textwidth]{ui-prototype-1}
-    \caption{Layout of UI for SWIM.}
-\end{figure}
-
-\begin{figure}[H]
-    \includegraphics[width=\textwidth]{ui-prototype-2}
-    \caption{Layout of UI for SWIM.}
-\end{figure}
-
-From this initial design, we further refined the graphical interface. In
-this newer iteration, we worked to define button size as well as the
-sizes of the various windows of the project. We also sought to get a
-general idea of what a possible color scheme could look like on the
-project.
-
-\begin{figure}[H]
-    \includegraphics[width=\textwidth]{new-ui-prototype}
-    \caption{Layout of UI for SWIM on an example browser, made in Figma, used a code editor mockup in the Figma community for most of the editor, output and register screen layout.}
-    \label{fig:new-ui-prototype}
-\end{figure}
-
-% TODO: Unclear
-
-The prototype indicated by Figure \ref{fig:new-ui-prototype} shows more clearly the
-graphical implementation of SWIM. The figure does not show more
-functionalities we want to implement or the core functionalities of MIPS
-as it is a core implementation not meant to be seen by the user. After
-that prototype is done, it is a matter of personalization like color
-themes, distinction between screens (for resizing the windows),
-streamlining the style of buttons, etc. This will make SWIM fit its name
-and not look like another Visual Studio Code.
-
-\subsection{Early November Mini Projects}
-
-By the end of October, we had a general idea of our overall approach for
-how we were going to build our project. However, most of the technology
-we were planning to use were systems that few or none of us had used
-before. Even the main programming language of our project, Rust, had
-only been used in any serious capacity by a single group member. Along
-with that, our actual roles on the project are fairly isolated from each
-other. In other words, the implementation of aspects to the graphical
-interface has relatively little impact on the way the emulation core or
-parser function, for example. To compound this, SWIM is the first time
-these group members have worked together on a software project.
-
-Each of those were issues we wanted to address. If we had not used the
-technology before, it would be difficult to write extensively about it.
-Similarly, we would not know what issues might come up while using those
-technologies. Since our roles are so isolated from each other, we wanted
-to make sure that each of us knew the scope of our individual roles, as
-well as the individual roles of other team members. This understanding
-is crucial for the eventual connection of project components between
-each of the roles, and to ensure that there is a clear and unified
-understanding of the structure and design of the project. Finally, since
-none of us have worked together on a project before, there was no
-baseline to understanding how our team members work and operate on
-software projects and technical tasks. This is especially needed for the
-front-end and emulation core roles, where multiple people will be
-working in tandem on the same task.
-
-To address all of these issues, we decided to build a series of projects
-in the second half of Senior Design I. During the week of October 31st
-through November 4th, each team member worked on a small project
-individually corresponding to their role on the overall project. Jerrett
-and Kevin each worked on creating a small MIPS CPU representation in
-Rust, Evan wrote a program in Rust that converted a subset of MIPS
-instructions into their binary representation, Jimmie got the Monaco
-library in an operational browser demo using the Yew framework, and Huy
-built a system to display register values as either hexadecimal or
-decimal using the Yew framework.
-
-\subsubsection{Mini Instruction Parser / Assembler - Evan Raiford}
-
-The mini project that I built was a small parser that could read text
-files comprised of a small handful of MIPS instructions and comments and
-then assembled the instructions as their corresponding binary
-representations. This mini project performed the same main task that the
-full parser and assembler will do just on a much smaller instruction set
-so working on it provided a meaningful glimpse into what I will be doing
-on the full project next semester.
-
-The structure of the mini project was fairly simple. It took a .txt file
-as input and read its contents into a String and then a for loop
-iterated over each of the lines in the String and then printed out the
-binary instructions. Since MIPS is an assembly language without the
-features of higher level languages like traditional functions or even
-variables, most of the work a normal parser needs to take care of is
-unnecessary. Each instruction is broken up into a vector of tokens
-delimited by the space character. Then, the first element is run through
-a match statement to determine what instruction type it is. To keep
-things simple for the mini project, the only instructions supported were
-ADD, SUB, and ADDI but the system also was built to ignore blank lines
-and comment lines and it also made note of when an unrecognized
-instruction was read.
-
-Inside each match case, the binary instruction is built. The first six
-bits of the instruction correspond to the instruction type so that
-starts the instruction string. Afterward, the destination register is
-passed into a function that removes the comma and any extra spaces in
-the string and the value is compared in a match statement which returns
-the binary value of the register number, between 0 and 31. For ADD and
-SUB, this is done twice more to get the other two vectors in the
-instruction. The SHAMT on both is zero and then the remaining part of
-the instruction corresponds to what type of arithmetic is being done so
-that completes the full instruction which is then passed back to the
-main function to be printed out. For ADDI, the next step is to read the
-source register similar to ADD and SUB but the remaining bits of the
-binary instruction are made of the binary for the immediate value being
-added. To do this, the String representation of the immediate value is
-typecast to being an int and is then translated into binary. However,
-there are only 16 bits on the ADDI function for the immediate value so
-the function checks to make sure the value is within the range for a 2's
-complement 16 bit integer and notates if it is not. The function also
-sign extends positive numbers to be 16 bits long and culls negative
-numbers down to 16 bits. The value is then returned back to the previous
-function and combined with the other binary to complete the instruction.
-
-Since my mini project was fairly straightforward, I ran into a minimal
-amount of issues with building it out. Most of the issues that I did run
-into stemmed from my unfamiliarity with Rust. Some of those were minor
-like learning Rust does not support do while loops or that its switch
-statements are called match statements while others were more
-complicated like trying to understand when to use String versus when to
-use str and what exactly are the limitations of each.
-
-The mini project provided lots of insights into how I want to structure
-the parser and assembler in the full project and helped me figure out
-what other things I need to review more and make decisions on. Since the
-crux of my role will effectively be just a gigantic match statement, I
-want to now try to plan it out to be as readable as possible. It also
-helped me realize where my knowledge on MIPS is lacking, for example, on
-how MIPS handles an instruction that is broken across multiple lines.
-
-\subsubsection{Register View Decimal to Hex Conversion - Huy Nguyen}
-
-% TODO: sp unclear
-
-The register view window aims to include labels for data, address, and
-sp. Its main feature that is different from other register viewers is
-the ability to switch between hexadecimal and decimal representation of
-the numbers input through the data or address. The main function of
-decimal to hexadecimal conversion, as well as converting the opposite
-way, is completed, but the UI looks nothing like it should. As of
-current time, the system is definitely not completed. The mini-project
-still has not had the data and MIPS address, even though the conversion
-number form is correct. However, when every functionality is accounted
-for and made, it will definitely be incorporated in the main project.
-What has already been implemented is the conversion between hexadecimal
-and decimal values, and a dropdown list for different kinds of
-registers. The goal now is to show the register data when the type is
-selected.
-
-\begin{figure}[H]
-    \includegraphics[height=17cm]{huy-register-view-project}
-    \caption{main.rs of this register view project. This current code only shows the conversion between hex and decimal values.}
-\end{figure}
-
-As seen in the above figure, this project uses dependencies like gloo,
-wasm-bindgen, HTML websys to be able to use HTML in Rust and most
-importantly, Yew. There can be more dependencies used as the project
-goes forward, and documentation will become necessary for those, as
-well.
-
-There are more challenges to getting this mini-project working than I
-expected, with the first being my unfamiliarity with Rust and Yew. Yew
-allows for HTML integration, and because of that, I coded like it was
-JavaScript and HTML, which caused issues with incorporating with the
-example Rust code. I ended up having to use Rust hooks for the
-conversions, and it certainly takes longer than it should for me to read
-through the documents on how to do it. The Rust and Yew documentations
-help with this project, but with how much time I wasted for a supposedly
-easy component, this is going to be a major wall to the project, at
-least in my opinion.
-
-% TODO: sp unclear
-
-There is also seemingly a problem with API connection. The register
-window will need the core to upload the MIPS address and sp so that it
-has data to display. I am not too sure if it could be extracted from
-within an operating system of a computer, since MIPS is the base of it.
-However, it may not be plausible compared to other ways I could think
-of, which shows that I need more understanding on the issue so that this
-mini-project goes better and helps the bigger main project.
-
-\subsubsection{Monaco Window - Jimmie Smith}
-
-My mini-project for the project was to get some understanding of how
-``rust-monaco'' works. Already, I noticed how different it is to use Rust
-as a language to render a webpage compared to JavaScript and it has been
-a year since I did anything JavaScript related. I have done a lot of
-research on WebAssembly and Yew in order to get an idea of how Rust is
-used for front-end development. There is still a lot of ground to cover
-since I have to account for documentation for ``web-sys,'' ``yew,''
-``gloo,'' ``rust-monaco'' for the implementation in Rust with the addition
-of ``monaco-editor'' and JS APIs as reference. What I did was looked into
-the examples provided by Microsoft to see how the configurations are set
-up, and they were not too difficult to understand with the built-in
-options or configuring how the code would look with formatting. The
-difficulty I had with the features is figuring out what needs to be
-implemented since this is supposed to be an educational tool. While I
-keep on exploring the Monaco Editor's features and code, I keep a list
-of features from the team on me to look into. Implementing Intellisense
-as a toggle would be challenging since it would undermine the concepts
-of the instructions and what they do, so having the ability to mouse
-over the instructions the user types and provide them information on
-them would be a nice compromise. Monaco Editor does support MIPS syntax,
-so it was a matter of toggling it although the team wanted full support
-of MIPS32 and MIPS64 which needs further examination. Monaco Editor has
-a built-in diff editor, but its usage for a project like this seems
-useless for educational purposes.
-
-The best way for me to get an understanding of Monaco and Rust was
-through the example code provided with the repository. The first thing
-that I was confused by was how the window was not rendered correctly,
-the default setting for the window size made it so only a small section
-was presented. Jerrett assisted me on remedying the issue, because I was
-too used to the documentation being complete for most of the crates and
-frameworks. This is where we both learned that rust-monaco's
-documentation was not complete which resorted to us looking through the
-source code. For example, the documentation does not state that it
-supports automatic layout which would let the window scale based on the
-current size of the browser window. The hilarity of this is that when we
-brought in ``gloo-utils,'' it clicked to me why the crate is called
-``gloo.'' It is literally taking the idiomatic rust code and converting
-it to a web-sys binding which would finally result in JavaScript code to
-make the API call. It made me reconsider the whole ecosystem since it is
-just a whole bunch of wrappers, but the support for it is plentiful that
-it gave me some assurance that this could become an alternative to
-developing web applications. From there, it was easy to reconfigure the
-settings for the window to read MIPS code. It does auto complete but
-based on what was already typed out, and it has a mini preview of the
-code on the right by default. An idea I was throwing around is having
-line highlights for macro labels for improved readability, so the user
-does not have to use block comments to visually break them up.
-
-\begin{figure}[H]
-    \includegraphics[height=9cm]{jimmie-monaco-prototype}
-    \caption{Monaco Window showing MIPS highlighting, auto-complete, code preview, and auto-resizing.}
-  \end{figure}
-
-\subsubsection{Personal Emulation Core - Kevin Cahalan}
-
-My first major wall with this prototype is that I need to re-familiarize
-myself with Rust. It has been over a year since I last had to
-professionally develop in Rust. I was not the best at Rust and did not
-retain the syntax that well. Use it or lose it, I lost it. Luckily the
-principles of Rust exist elsewhere. Since initially learning Rust I have
-had to develop and learn Haskell, Go, C++, Swift, TypeScript, and get
-massively better at Python. A lot carries over across these languages.
-From Swift and TypeScript I got more used to the Rust style of syntax.
-Swift in particular held a lot of commonality syntax wise. From Haskell
-I picked true functional programming better. Rust takes a lot of
-Haskell. I got better with deterministic programming with Haskell. That
-deterministic thinking carries over to Rust.
-
-For the first prototype I am doing a simple command line emulator. I am
-not even going to worry about web stuff yet. The hope is to support
-maybe 15ish mips instructions. These instructions will probably be taken
-in as bare binary from a file, or maybe hex from the command line. Gonna
-forget about parsing, web stuff, and any real planning. I just want to
-get something slapped together and started. After putting together a
-bare bones starter emulator my understanding of difficulty and on what
-to move onto should become more clear.
-
-For my initial bare bones emulator I started by laying out some
-structures. This took a surprisingly long time as I was simultaneously
-learning Rust. Particularly I got burned on figuring out how scoping and
-modules worked. After some time, and reading the Rust book, I got to the
-bottom of things. Finally after so long, I figured out modules to a
-usable point. Modules can be thought of as namespaces, probably carried
-over from C++ or whatever.
-
-A big part of writing an emulator is to keep track of processor state
-and memory. Our simple emulator can be broken down into processor state,
-memory, and instructions to change state and memory. MIPS is a simple
-Von Neumann Architecture to emulate.
-
-The processor for our project can be thought of as two distinct units,
-the Central Processing Unit, and the Floating Processing Unit. The CPU
-is the main import unit for doing most basic operations of the
-processor. It does all the basic ALU operations, loading, storing, and
-so on. Initially in the old days MIPS processors would only have a CPU.
-Floating point operations were first implemented in software. As the
-years went on, there was a great need for accelerated floating point
-calculations. To do these accelerated float pointer operations, MIPS
-introduced a new processing unit for their processors, the FPU. A FPU is
-a specialized unit used for floating point instructions. Initially these
-early FPU's were on a separate chip from the main processing unit, the
-CPU. Having the FPU be distinctly separated from the CPU has had a
-lasting effect on how floating point operations are done with MIPS.
-
-For laying out the state structures for this emulator, I kept the CPU -
-FPU distinction clear. The processor structure both has a CPU struct,
-and an FPU struct. Each of these structures then have their own states
-to keep track of. I figure that by making this distinction clear, it may
-be easier in the future to connect the emulation core to datapath
-graphics. We are taking an approach on this emulator less focused on
-sense and performance, more-so focused on working like theoretical
-hardware. Anyway in Figure \ref{fig:kevin-emulation-core-prototype} before are my initial processor state
-structures:
-
-\begin{figure}[H]
-    \includegraphics[height=9cm]{kevin-emulation-core-prototype}
-    \caption{Processor structure for prototype emulation core.}
-    \label{fig:kevin-emulation-core-prototype}
-\end{figure}
-
-The processor structure is, to some extent, simple. It got the basic
-general purpose register, floating point registers, and the instruction
-pointer PC. There are likely several other state registers that I will
-have to add in the future. For now this processor structure is good
-enough to move on.
-
-My general emulation core is all under some structure called
-``Emulator''. So far this struct just holds the memory array and
-processor struct. Glued to the Emulator struct are some basic methods
-for emulation and access to the emulation core. To interact with the
-emulation core, the front end will call a set of public methods that the
-emulation core implements. Currently the only public method that I have
-made is called ``run\_instruction()''. This method will exactly as
-stated, step forward running one instruction. Underneath the protection
-of the emu module are the private methods for actually doing the hard
-work of emulation. I am going with the heavy encapsulation on this
-emulation core. The front-end developers should not have to worry about
-any of the details of emulation core implementation.
-
-
-\section{MIPS64 ISA}
+\section{Research - MIPS64 ISA}
 
 With creating SWIM, it is important to have a strong foundational
 understanding of the Microprocessor without Interlocked Pipelined Stages
@@ -1125,8 +782,920 @@ be used with the corresponding real instruction.
 \end{itemize}
 
 
+\section{Research - Web Development in Rust}
+
+Rust, in general, is a relatively recent programming language, being
+originally released in 2010 \cite{asay2021}. As such, it has modern features such as its
+borrow checker that makes development more secure. The Rust borrow
+checker, essentially replacing the garbage collection used in other
+languages, manages ownership by assigning an owner to each variable,
+where that variable may only have one owner at a time \cite{rust-book-ownership}. This implies that
+the owner can be changed, as long as the variable is still available
+within some scope. Should a variable reach the end of its scope, the
+borrow checker will drop the value from used memory (akin to garbage
+collection). One advantage of the borrow checker is that there become
+defined points in code where it is safely determined a piece of data is
+no longer being used. Functions may use references to variables made by
+``borrowing'' a variable, meaning in this case going out of scope does
+not correlate to lost ownership \cite{rust-book-borrowing}. The borrowed reference instead is
+returned to its original owner when the scope of the borrow finishes.
+This system of borrow checking allows Rust to pitch itself as a
+programming language perfect for low-level and embedded systems. As SWIM
+is primarily intended to emulate a MIPS processor, this was a deciding
+factor to using Rust.
+
+Despite Rust having high praise for its static borrow checking, some of
+Rust's functionalities make development difficult based
+on these same concepts. Data types are more rigid and access to data is
+more restrictive than in other languages.
+
+To understand how to develop a web application with Rust, a number of
+components are involved to make this process approachable for
+development. The following subsections outline the research completed to
+use Rust for SWIM's planned feature set.
+
+\subsection{Using WebAssembly}
+
+% TODO: Add subsections on "wasm-pack" and "wasm-bindgen" and incorporate info from the MDN Web Docs.
+
+This project is unique in that rather than using the standard JavaScript
+framework like React, Angular, and Vue to build the front end, it is
+utilizing a new method to build web applications, WebAssembly. As the
+development team explains,
+
+\begin{quote}
+    ``WebAssembly (abbreviated Wasm) is a \emph{safe, portable, low-level
+        code format} designed for efficient execution and compact
+    representation. Its main goal is to enable high performance applications
+    on the Web, but it does not make any Web-specific assumptions or provide
+    Web-specific features, so it can be employed in other environments as
+    well.'' \cite{webassembly-introduction}
+\end{quote}
+
+Historically, HTML, CSS, and JavaScript were the only languages to run
+code on web browsers and it has been the standard for almost 20 years.
+WebAssembly aims to allow programmers to write in other languages, like
+Rust, and compile to a binary file that could run on the web. This is
+still in its infancy, so one of the biggest challenges is how our
+project may change as WebAssembly matures.
+
+WebAssembly code is packaged in an Assembly-like language, represented
+in either binary data corresponding to instructions, types, etc. as a
+.wasm file or human-readable text (.wat). The language is designed to be
+independent of programming languages, computer hardware, and the browser
+it runs on. Currently, WebAssembly is supported on Google Chrome,
+Microsoft Edge, Mozilla Firefox, and Apple Safari, limiting legacy
+browser users from using SWIM. It is important to note that Chrome and
+Firefox have FOSS forks that could run WebAssembly, but support for
+these forks varies, since WebAssembly is only supported by the more
+recent versions of the four aforementioned browsers. % TODO: Source for this sentence?
+Additionally,
+WebAssembly was never meant to replace JavaScript, as it is synonymous
+with web development, but they can be used together to improve the
+user's experience on the web with WebAssembly's speed and JavaScript's
+libraries and tools. As an example, Figma, the tool we used to design
+our UI, was developed using C++ and Enscripten to export to asm.js, and
+later switched to WebAssembly to take advantage of its speed for loading
+in documents \cite{figma-webassembly, madewithwebassembly-figma}. However, the implementation resulted in the app being unusable exclusively for Google Chrome users. The two
+bugs were failing to cache the translated WebAssembly code, also it
+would crash due to the app accessing
+WebAssembly's memory limit. The first would force Chrome
+to reload the translated code resulting in slower performance and the
+second made the app unusable in inconsistent intervals \cite{chromium-webassembly-bug1, chromium-webassembly-bug2}. Fortunately,
+both of those bugs are fixed within months.
+
+% TODO: More steps will be added in the future
+
+In order for Rust and WebAssembly to work \cite{wasm-game-of-life-introduction}, the project requires us to
+have the most recent version of Rust's toolchain (rustup, rustc, and
+cargo), wasm-pack, cargo-generate, and npm. wasm-bindgen is required as
+a dependency in the project's .toml file, then you can use wasm-pack to
+build your project. By typing in ``wasm-pack build'' in the main
+directory of your project, WebAssembly will generate a .wasm, .js,
+.json, and .ts file in the package directory. Within the package
+directory, you run the following npm commands:
+
+\begin{enumerate}
+    \tightlist
+    \item init wasm-app \textless new subdirectory\textgreater, to produce the
+    appropriate .json, .config.js, .html, and .js in the new subdirectory.
+    \item install, to ensure the local development server and its dependencies
+    are installed.
+    \item run start, to run the web application locally. If you want to see any
+    changes made through the web application, run ``wasm-pack build'' in
+    the main directory then refresh the page.
+\end{enumerate}
+
+\subsubsection{Using ``wasm-pack'' \& ``wasm-bindgen''}
+
+With ``wasm-pack'' \cite{wasm-pack} being used for building, Rust WebAssembly packages
+could be published to the npm registry or allow it to be used alongside
+any JavaScript packages already well-established. This interoperability
+is integral to incorporating a new framework such as Rust with existing
+JavaScript projects. ``wasm-bindgen'' \cite{wasm-bindgen} is a Rust library and CLI tool
+that facilitates high-level interactions between wasm modules and
+JavaScript. There are two additional crates that helps with WebAssembly
+binding JS's API libraries, and they are packaged with wasm-bindgen:
+
+\begin{enumerate}
+    \tightlist
+    \item ``js-sys'' \cite{js-sys} provides raw bindings to all the global APIs guaranteed to
+    exist in every JavaScript environment by the ECMAScript standard. With
+    it, we can work with JS types without writing the imports by hand.
+    \item ``web-sys'' \cite{web-sys} provides raw wasm-bindgen imports for all of the Web's
+    APIs, so the required APIs for our project like DOM, Console, UI
+    Events, Canvas/WebGL, and Web Animations are supported here.
+\end{enumerate}
+
+\subsubsection{Thoughts on WebAssembly}
+
+While WebAssembly is a great innovation for web development, its
+learning curve is steep given the time available to study and use it
+effectively. While working on a miniature project with WebAssembly, a
+huge issue was encountered with code organization and understanding of
+the available tools. The documentation is expansive since the
+aforementioned crates have to support all JavaScript API calls, and some
+of them are not necessary to our current goals. While this is not
+without its merits, it will take additional time through the development
+of the project to learn about WebAssembly's full capability.
+
+Since WebAssembly is still new in the web development ecosystem, there
+are a few methods to incorporate it on the Web. According to the MDN web
+docs for WebAssembly, ``porting a C/C++ application with Emscripten,
+writing or generating WebAssembly directly at the assembly level,
+writing a Rust application and targeting WebAssembly as its output, and
+using AssemblyScript which looks similar to TypeScript and compiles to
+WebAssembly binary'' \cite{mozilla-webassembly-concepts} are the main entry points to incorporate
+it into web applications.
+
+Despite the challenges that come with WebAssembly, it has the advantage
+of any assembly language, where binary data can be disassembled into
+text, and this can be further converted with a decompiler to readable
+code. This allows developers to debug and understand web applications
+that utilize WebAssembly. However, this is only useful if the developer
+understands WebAssembly's instruction set, and if a decompiler can
+provide a 1:1 translation of code and text, the latter being especially
+difficult given the loss of information associated with compiling.
+
+\subsection{Using Yew}
+
+% TODO: More to fill out
+
+\ul{\emph{\textbf{Note: As of November 28th, 2022, Yew was updated to
+            version 0.20, so the information provided here may not be accurate to
+            it. However, we plan on using the development build to take advantage of
+            all of its features and bug fixes.}}}
+
+While WebAssembly provides an environment for programming languages to
+be used in web development, there are more steps involved to get a web
+application developed, so we selected Yew as our framework. Yew is
+comparable to React, as it is component-based, which aids in building
+interactive UIs for web applications. Yew has excellent performance
+compared to other web frameworks since it minimizes DOM API calls and
+offloads processing to background threads using web workers. It also has
+JavaScript interoperability which allows users to leverage Node.js
+packages and to integrate with existing JavaScript applications \cite{malomo2022}.
+
+Having a framework like Yew to use on top of WebAssembly is beneficial
+for development, since WebAssembly's learning curve is otherwise
+comparatively steep. Developing in WebAssembly and JavaScript to
+incorporate features directly can make the project's code cumbersome and
+ineffective. Instead, Yew aims for developers to use a familiar or
+desired programming language like Rust to build the web application,
+while the translation to WebAssembly and JavaScript are abstracted to
+libraries.
+
+\subsubsection{Yew's Components Model}
+
+% TODO: There could be a diagram to visualize the lifecycle
+
+One of Yew's defining features is how it streamlines web application
+development; it uses a lifecycle model for components. Components manage
+their state and render themselves to the DOM. The lifecycle, taken from
+Yew's Documentation \cite{yew-lifecycle}, is as follows:
+
+\begin{enumerate}
+    \tightlist
+    \item Create -- The component receives properties from its parent component
+    and stores them within itself. This initializes its state and creates
+    a link that can be used for callbacks or sending messages.
+    \item View -- This describes how the component should be rendered to the
+    DOM. Yew has an ``html!'' macro for declaring HTML and SVG nodes, and
+    attributes and event listeners can be attached to them. The macro is
+    similar in function to React's JSX, but allows shorthand syntax for
+    readability.
+    \item Rendered -- Once the ``view'' method is called, this method will render the results from the component's view method to
+    the DOM, but before the browser refreshes the page. This is useful
+    when you want to perform actions that can only be completed after the
+    component has rendered elements. A few situations where this is applied to SWIM are getting the values
+    from the core and displaying them in their respective areas and displaying error messages from the parser.
+    \item Update -- This is where the communication between components occurs
+    and a component may update and re-render itself based on received
+    messages. These messages can be sent by event listeners, child
+    components, Agents, Services, or Futures. Agents are used to offload tasks to
+    web workers. Services for interacting with external resources like mouse/keyboard events, geolocation changes,
+    output from an external JavaScript library, and WebSocket messages. Futures are Rust's representation of an
+    asynchronous operation's success (or failure) and its value;
+    this is a concept borrowed from JavaScript's ``Promise'' objects.
+    \item Changed -- This eases the parent-to-child node communication by only
+    changing the values of a property.
+    \item Destroy -- This is for general clean-up of the component's prior
+    actions, and it automatically does this once the component is
+    unmounted from the DOM.
+\end{enumerate}
+
+It is possible to implement infinite loops by updating the component
+after every render when the update also requests the component to be
+rendered. This is done by setting the ``update'' method to {\em true} to always request
+to re-render on any message from the ``rendered'' method. This lifecycle could make the implementation process easier
+for the back end of this project. A good example is implementing a live
+debugger in SWIM, and this can easily be done by running the parser
+in an infinite loop so it can catch whenever the user mistyped an
+instruction or try to access memory that would cause the virtual machine
+to crash upon execution.
+
+The components only have two associated types: Message and Properties.
+The Message type is used for a component to send messages after an event
+has taken place, like a button being clicked. A Message, in
+implementation, is an enum where each variant is an event to be handled
+by that component, making handling multiple types of events in a
+component easier to develop and implement. The Properties type
+represents the information passed to a component from its parent.
+Properties is a trait that must be implemented, and specifies whether
+properties are required or optional. This type is used when a component
+is being created or updated, as new values of component properties can
+be provided during these instances. With both Message and Properties, it
+is wise to keep them in the corresponding component's module and stay
+encapsulated there.
+
+Callbacks are the primary method of communication, and they are usually
+located in the ``view'' function within a component with the actions to
+initiate the communication stored inside the ``html!'' macro. The
+handler function passed to ``callback'' must always take a parameter,
+which is usually a type of a UI Event. An example of this is shown in Yew's sample code with the ``onclick'' handler,
+being rendered as a button, requires a ``callback'' to the ``AddOne'' message to
+tell the component to add one to ``value'' upon the button being clicked on.  With that in mind, the handler can
+determine what kind of message to be sent to the component then the
+message is scheduled for the next update loop regardless. In order for
+the callback to not cause any updates, ``batch\_callback'' can be used
+to create conditionals for which message to send.
+
+\begin{figure}[H]
+    \includegraphics[height=14cm]{yew-sample-code}
+    \caption{Yew's sample app code to show how the lifecycle model improves readability and how certain components behave through callbacks.}
+\end{figure}
+
+\subsubsection{The ``html!'' Macro}
+\label{subsec:html-macro}
+
+Yew's ``html!'' macro, as stated before, allows writing HTML and SVG
+code directly into Rust, and the rules for using valid HTML tags still
+apply here. The macro helps explicitly specify what will be rendered on
+the webpage through the DOM API.
+% Sometimes we do not want to directly
+% change the DOM but want to send instructions to Yew's virtual DOM, which is a lightweight JavaScript representation of the DOM.
+% TODO: Virtual DOM and "ref" unexplained
+% Using the ``ref'' keyword allows us to access and manipulate the underlying DOM node
+% directly, which means that we could make changes to the DOM outside of
+% the ``view'' method. And to restate it, any type that implements
+% TODO: Restating what
+% ``component'' can be used in this macro.
+
+There are a few caveats with ``html!'' compared to normal html. For
+example, consider an html button \textless button onclick =
+\{onclick\_list\}\textgreater Show\textless/button\textgreater. This
+syntax is valid in html, but it will throw an error in ``html!''. The
+correct ``html!'' format is \textless button onclick =
+\{onclick\_list\}\textgreater\{"Show"\}\textless/button\textgreater. As
+seen in this example, the syntax between html and html! can be
+different. While the compiler will show how html can be changed to
+``html!'' for specific syntax errors, the macro can be a little jarring
+to use for novice HTML developers.
+
+\subsubsection{Yew Routers}
+
+Yew also supports routers, which is a way for single-page applications
+to display different information depending on the URL. Rather than
+requesting a completely new page when a link to the same site is
+clicked, by default, the router sets the URL locally to point to a valid
+route in the Yew application and the content for that location would be
+rendered without reloading the entire page. In implementation, this
+would be extremely useful for implementing the datapath window to show
+how code is processed. In order to use routers, we would need yew-router
+crate must be added as a dependency, then imported using ``use
+yew\_router::prelude::*;''. ``Route'' is an enum type, so match
+statements can be used to render each page neatly, and each page can be
+encapsulated in their own method. If a given URL is not found, the
+router would direct to a page with the ``not found'' attribute,
+which could be used as the default case. From there, you would have a switch
+function that would match the current Route based on its type. Within
+the main function to run the app, we would have to use ``BrowserRouter'' inside ``html!'' to
+insert the switch function and render the current page. The advantage to this is that
+we could separate how the pages would render in their own function,
+which improves readability and finding rendering bugs due to the
+page functions being isolated compared to having them stored in one function.
 
 
+\subsubsection{Thoughts on Yew}
+
+What was discussed in this subsection are only the significant topics
+that pertain to the general understanding of Yew's code and feature
+structure. Yew assists with the translation process to WebAssembly by
+having little-to-no developer interaction with JavaScript, as this
+interaction is generated from the Rust code. The main disadvantage of
+using Yew is that it is still in early development, so any features used
+in SWIM may not be supported in the future once it is officially
+% TODO: We are still not sure
+released. We are not going to rely on web-sys for the API
+calls since the documentation is vast to account for all the APIs
+supported by JavaScript. There is a toolkit that could remedy
+this. The documentation for Yew is hard to follow, but there are
+examples that show the concepts in action. Yew has a lot of support
+% TODO: "contemporaries" could use examples
+compared to its contemporaries, there are plenty of real-world examples
+that used Yew as a framework to develop their apps. One example is
+qubit \cite{qubit}, which is a calculator that could do algebra, conversions, and
+functions. It would update the output based on the
+user's input automatically. The parser used in this
+project was pest \cite{pest}, which is a parsing library that allows developers to
+easily create a parser and define a grammar. While pest may be appealing
+in other applications, it will not be used with SWIM since a custom
+parser was deemed to be more capable of understanding MIPS syntax and
+pseudo-instructions, as well as interacting with the emulation core and
+front end.
+
+\subsubsection{Using Trunk}
+
+Yew uses Trunk \cite{trunk}, a WebAssembly web application bundler for Rust, which
+streamlines the development process, as Trunk can be used to detect
+changes on the filesystem and automatically trigger new builds by
+enabling the ``watch'' parameter. It runs `cargo build` on the project
+targeting the wasm32 instruction set, runs `wasm-bindgen` on the
+assembled .wasm, and spawns asset build pipelines for any assets defined
+in the target ``index.html.'' Trunk's specialty is using a source HTML
+to drive all asset building and bundling, which makes the project look
+cleaner at the top-most level.
+
+\subsubsection{Using Gloo}
+
+Gloo \cite{gloo} is a toolkit to abstract JavaScript API calls to simple functions.
+It works by providing a collection of crates that can be added based on
+the specific API calls needed. While the calls are ``simplistic,'' they
+are wrappers to ``web-sys'' calls. This implies that during development,
+one may need to read both the documentation for the specific Gloo crate
+and the JavaScript API documentation to gather a complete understanding
+of its implementation. It may come into question at this point the
+number of layers of abstraction needed for SWIM's development,
+especially since the majority of the calls are housed in the
+``gloo-utils'' crate which would be used for calls to the DOM API.
+However, the advantage of more readable code from an outsider's
+perspective is preferred since the function calls are labeled
+idiomatically.
+
+The following describe the crates provided by Gloo as of the time of
+writing:
+
+\begin{itemize}
+    \tightlist
+    \item Console -- This crate gives us access to the browser's console for
+    logging information onto it, clearing it, and more. This does not have
+    a lot of use for deployment unless it becomes desired to allow users
+    to access the browser. However, this is impractical since a terminal
+    window to show errors and warnings will already be designed on the
+    page.
+    \item Dialogs -- This crate allows the user to interact with the program by
+    asking for input, alerting them of a certain event, or confirming a
+    selection. This appears to be useful for creating a small help section
+    with a browser's `alert` feature, but this should not be abused, as
+    users should not click through many windows to do a simple task.
+    \item Events -- This crate is for implementing event listeners to user
+    actions or calling directly to the emulation core.
+    \item File -- This crate is for supporting file transfers, which could be
+    useful for loading in example code but to translate it from text to
+    bytecode will be the job of the parser and assembler.
+    \item History -- This crate is for accessing a browser's session history.
+    This crate will be discarded for development of SWIM due to its
+    irrelevance to planned features.
+    \item Net -- This crate is for websockets and HTTP fetching. This will
+    similarly be discarded for development.
+    \item Render -- This crate is for rendering animation frames; this would be
+    integral for visualizing code moving through a datapath.
+    \item Storage -- This crate focuses on bindings to the Web Storage API, so
+    for anything larger than what a cookie could handle. We talked about
+    using cookies to store user customizations or even the bytecode in the
+    early stage, but this was quickly dropped in favor of the Web Storage
+    API. We will use this API extensively since it provides more security
+    with user data, allows us to save data even if the user closes the
+    browser, and allocates more storage for us to use for custom themes
+    and future features. See Section \ref{subsec:storing-session-data} for additional details on the use of cookies.
+    \item Timers -- This crate is for binding with timers, specifically
+    setTimeout and setInterval. This one has features that are yet to be
+    implemented, namely intervals with a callback function and intervals as \texttt{Stream}s,
+    but has no real use for the project currently.
+    \item Utils -- This crate houses convenience functions to access web\_sys bindings. This means that
+    if we have to use web\_sys as a fallback to access APIs that are not
+    supported by gloo, then we can use this to improve readability. Due to that previous fact, the
+    documentation fallbacks on web\_sys which is huge given its nature.
+    As mentioned before, it is recommended that we compare the documentation to
+    the one provided by Mozilla. For example if we to use yew\_router to naviagte through SWIM,
+    we would need to use the history function to access web\_sys bindings for the History API.
+    % TODO: Could use examples
+    \item Worker -- This crate is for implementing web workers to improve
+    performance of our project. Another crucial crate uses this concept,
+    % TODO: Might research further
+    so we might research further on this to see where it can be applied
+    appropriately within SWIM. For now, this crate will have little
+    relevance for the project.
+\end{itemize}
+
+\subsection{Monaco}
+\label{subsec:monaco}
+
+The open-source library Monaco, developed by Microsoft \cite{monaco}, is the key to
+making the editing experience of users similar to software they have
+already used. In practice, Monaco is used as the editor in the popular
+editor Visual Studio Code. The library comes included with all the major
+features a developer might expect when using a modern code editor. With
+% TODO: Describe what are the major features
+its popularity, many users of Monaco apps feel comfortable and familiar,
+which is ideal for use with SWIM.
+
+The feature set of Monaco fits well with SWIM, as there should be ample
+user assistance such as error highlighting, tab completion, and
+suggestions. Monaco comes with a usable API for providing these
+features, which in one example, is particularly important for supporting
+step-through execution with line highlighting. Monaco also has a
+built-in auto-commenting feature, where a single button can be pressed
+when selecting text to comment said text.
+
+By default, code syntax highlighting works in Monaco without
+modification. If this were not the case, it is even possible to markup
+and support syntax highlighting for custom programming languages \cite{monaco-custom-languages}. Monaco
+performs syntax highlighting with the help of the Monarch library \cite{monarch}. This
+custom syntax highlighting can come into importance, should support for
+different MIPS dialects be desired in future iterations of the project.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{monaco-mips-syntax-highlighting}
+    \caption{MIPS syntax Highlighting Inside Monaco}
+\end{figure}
+
+An additional feature of Monaco is tab completion, which is crucial for
+many developers, often present in popular editors such as Visual Studio
+Code, Vim, or Atom. Those new to a language or framework often use tab
+completion and other assistance tools to help in writing code, and even
+more experienced developers may choose to use tab completion to increase
+their code output speed. At a minimum, Monaco will recognize patterns in
+code, it will then use these patterns to provide suggestions. With some
+configuring, it would be possible to give code suggestions in SWIM based
+on a particular MIPS instruction. For example, after writing an
+instruction, a register usually will come next, so a pop-up box could
+suggest registers to type. For jump and branch instructions, the editor
+may suggest labels to use. This suggestion feature is a stretch goal of
+SWIM.
+
+\begin{figure}[H]
+    \includegraphics[height=5cm]{monaco-suggestions}
+    \caption{A code suggestion in Visual Studio Code, an IDE that uses the Monaco library.}
+\end{figure}
+
+The API for Monaco, while extensive, can be difficult to read or parse
+through. Due to the common naming conventions used by Microsoft, unlike
+in other languages, names can be overly-descriptive and complex. is
+documented on the Microsoft website.
+% TODO: This sentence could use a source
+There are so many features to the
+editor it is crazy. Despite this, Monaco has become an extremely popular
+library, and many developers build projects with it. With this
+popularity comes more experience and help from other developers via
+online forums, and any problem that may arise through the use of Monaco
+has likely already been seen before. There are many different tutorials
+% TODO: Add sources of tutorials
+on using Monaco from developers as well.
+
+The Monaco editor is written in TypeScript and its API is written in
+JavaScript. While Rust will be the primary language used in SWIM, the
+following section describes how Monaco can be interfaced with.
+
+\subsubsection{rust-monaco}
+
+``rust-monaco'' \cite{rust-monaco} is a crate that provides bindings between Monaco Editor
+and Rust via ``wasm-bindgen.'' In order to fully understand its API
+calls for development, Monaco's documentation must be referred to in
+addition to the documentation for the Rust bindings \cite{rust-monaco-docs}, as documentation is
+currently only 78 percent complete at the time of writing. rust-monaco
+does allow developers to implement new options and features that may not
+yet be explicitly bound with this crate.
+
+The following outline the currently available modules for the
+rust-monaco crate:
+
+\begin{itemize}
+    \tightlist
+    \item api -- This is where all the wrappers for the JavaScript code for
+    Monaco's settings are in. The main struct to create the window is
+    called ``CodeEditorOptions'' and the translation between Rust and
+    JavaScript is quite simple with the comparison shown below.
+
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{monaco-initialize}
+        \caption{Comparison of initializing the Monaco Editor on Rust(left, rust-monaco) vs. JavaScript(right, Monaco Editor).}
+    \end{figure}
+
+    \item sys -- This is where the bindings for monaco's namespace are located,
+    this is how we bind events to the monaco window. An example of this is
+    we can use IMouseEvent and IPosition to see if the cursor is hovering
+    over a line that has an error, and the result of it would show an
+    error message.
+    \item workers -- This is required for the performance of Monaco Editor to be
+    adequate otherwise via web workers, we get a performance penalty for
+    not using it.
+    \item yew -- This is for turning the Monaco Editor into a yew component.
+\end{itemize}
+
+The sys module is the only one that is optional to use, but the rest are
+required (turned on by default) to have it functional on Yew.
+
+\subsection{CodeMirror}
+
+CodeMirror is an older alternative front-end library to Monaco. Monaco
+was released in 2016 \cite{monaco-changelog}, while CodeMirror's first version was released
+around 2009 \cite{codemirror-changelog}. Despite this additional age,
+CodeMirror has a considerably modern interface and a rounded style and
+works well with touch screens. In a way, CodeMirror is the modern
+replacement of Monaco. For example, the online code editor Replit
+switched from Monaco to CodeMirror for its front end after finding it to
+be more advantageous for their uses \cite{replit-code-editors}.
+
+Although CodeMirror has its advantages and was considered for use in
+SWIM, it has no major support for Yew at this time, and would
+necessitate additional JavaScript for the integral part of the editor.
+Thus, it was decided that SWIM will continue to use Monaco for editing.
+In the future, should CodeMirror support as a Yew component be
+supported, this may be considered as an alternative to Monaco again.
+
+
+\section{Prototypes}
+
+\subsection{User Interface}
+
+Since one of our main goals with SWIM was to create a visually pleasing,
+modern interface for users to work with, one of the biggest goals on the
+front end was creating mock-ups for how the interface will look. The
+prototypes for the graphical front end and user interface are created by
+Figma. Figma allowed us to quickly create a general outline of how our
+project will look in its final version.
+
+The earliest sketches of the prototype are as follows, showing the basic
+functionalities and user interface as well as indicating the locations
+of buttons, their function, and the layout of the page. Note that the
+functionalities buttons are to remain static on the page, as akin to
+tabs:
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{ui-prototype-1}
+    \caption{Layout of UI for SWIM.}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{ui-prototype-2}
+    \caption{Layout of UI for SWIM.}
+\end{figure}
+
+From this initial design, we further refined the graphical interface. In
+this newer iteration, we worked to define button size as well as the
+sizes of the various windows of the project. We also sought to get a
+general idea of what a possible color scheme could look like on the
+project.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{new-ui-prototype}
+    \caption{Layout of UI for SWIM on an example browser, made in Figma, used a code editor mockup in the Figma community for most of the editor, output and register screen layout.}
+    \label{fig:new-ui-prototype}
+\end{figure}
+
+% TODO: Unclear
+
+The prototype indicated by Figure \ref{fig:new-ui-prototype} shows more clearly the
+graphical implementation of SWIM. The figure does not show more
+functionalities we want to implement or the core functionalities of MIPS
+as it is a core implementation not meant to be seen by the user. After
+that prototype is done, it is a matter of personalization like color
+themes, distinction between screens (for resizing the windows),
+streamlining the style of buttons, etc. This will make SWIM fit its name
+and not look like another Visual Studio Code.
+
+\subsection{Early November Mini Projects}
+
+By the end of October, we had a general idea of our overall approach for
+how we were going to build our project. However, most of the technology
+we were planning to use were systems that few or none of us had used
+before. Even the main programming language of our project, Rust, had
+only been used in any serious capacity by a single group member. Along
+with that, our actual roles on the project are fairly isolated from each
+other. In other words, the implementation of aspects to the graphical
+interface has relatively little impact on the way the emulation core or
+parser function, for example. To compound this, SWIM is the first time
+these group members have worked together on a software project.
+
+Each of those were issues we wanted to address. If we had not used the
+technology before, it would be difficult to write extensively about it.
+Similarly, we would not know what issues might come up while using those
+technologies. Since our roles are so isolated from each other, we wanted
+to make sure that each of us knew the scope of our individual roles, as
+well as the individual roles of other team members. This understanding
+is crucial for the eventual connection of project components between
+each of the roles, and to ensure that there is a clear and unified
+understanding of the structure and design of the project. Finally, since
+none of us have worked together on a project before, there was no
+baseline to understanding how our team members work and operate on
+software projects and technical tasks. This is especially needed for the
+front-end and emulation core roles, where multiple people will be
+working in tandem on the same task.
+
+To address all of these issues, we decided to build a series of projects
+in the second half of Senior Design I. During the week of October 31st
+through November 4th, each team member worked on a small project
+individually corresponding to their role on the overall project. Jerrett
+and Kevin each worked on creating a small MIPS CPU representation in
+Rust, Evan wrote a program in Rust that converted a subset of MIPS
+instructions into their binary representation, Jimmie got the Monaco
+library in an operational browser demo using the Yew framework, and Huy
+built a system to display register values as either hexadecimal or
+decimal using the Yew framework.
+
+\subsubsection{Mini Instruction Parser / Assembler - Evan Raiford}
+
+The mini project that I built was a small parser that could read text
+files comprised of a small handful of MIPS instructions and comments and
+then assembled the instructions as their corresponding binary
+representations. This mini project performed the same main task that the
+full parser and assembler will do just on a much smaller instruction set
+so working on it provided a meaningful glimpse into what I will be doing
+on the full project next semester.
+
+The structure of the mini project was fairly simple. It took a .txt file
+as input and read its contents into a String and then a for loop
+iterated over each of the lines in the String and then printed out the
+binary instructions. Since MIPS is an assembly language without the
+features of higher level languages like traditional functions or even
+variables, most of the work a normal parser needs to take care of is
+unnecessary. Each instruction is broken up into a vector of tokens
+delimited by the space character. Then, the first element is run through
+a match statement to determine what instruction type it is. To keep
+things simple for the mini project, the only instructions supported were
+ADD, SUB, and ADDI but the system also was built to ignore blank lines
+and comment lines and it also made note of when an unrecognized
+instruction was read.
+
+Inside each match case, the binary instruction is built. The first six
+bits of the instruction correspond to the instruction type so that
+starts the instruction string. Afterward, the destination register is
+passed into a function that removes the comma and any extra spaces in
+the string and the value is compared in a match statement which returns
+the binary value of the register number, between 0 and 31. For ADD and
+SUB, this is done twice more to get the other two vectors in the
+instruction. The SHAMT on both is zero and then the remaining part of
+the instruction corresponds to what type of arithmetic is being done so
+that completes the full instruction which is then passed back to the
+main function to be printed out. For ADDI, the next step is to read the
+source register similar to ADD and SUB but the remaining bits of the
+binary instruction are made of the binary for the immediate value being
+added. To do this, the String representation of the immediate value is
+typecast to being an int and is then translated into binary. However,
+there are only 16 bits on the ADDI function for the immediate value so
+the function checks to make sure the value is within the range for a 2's
+complement 16 bit integer and notates if it is not. The function also
+sign extends positive numbers to be 16 bits long and culls negative
+numbers down to 16 bits. The value is then returned back to the previous
+function and combined with the other binary to complete the instruction.
+
+Since my mini project was fairly straightforward, I ran into a minimal
+amount of issues with building it out. Most of the issues that I did run
+into stemmed from my unfamiliarity with Rust. Some of those were minor
+like learning Rust does not support do while loops or that its switch
+statements are called match statements while others were more
+complicated like trying to understand when to use String versus when to
+use str and what exactly are the limitations of each.
+
+The mini project provided lots of insights into how I want to structure
+the parser and assembler in the full project and helped me figure out
+what other things I need to review more and make decisions on. Since the
+crux of my role will effectively be just a gigantic match statement, I
+want to now try to plan it out to be as readable as possible. It also
+helped me realize where my knowledge on MIPS is lacking, for example, on
+how MIPS handles an instruction that is broken across multiple lines.
+
+\subsubsection{Register View Decimal to Hex Conversion - Huy Nguyen}
+
+% TODO: sp unclear
+
+The register view window aims to include labels for data, address, and
+sp. Its main feature that is different from other register viewers is
+the ability to switch between hexadecimal and decimal representation of
+the numbers input through the data or address. The main function of
+decimal to hexadecimal conversion, as well as converting the opposite
+way, is completed, but the UI looks nothing like it should. As of
+current time, the system is definitely not completed. The mini-project
+still has not had the data and MIPS address, even though the conversion
+number form is correct. However, when every functionality is accounted
+for and made, it will definitely be incorporated in the main project.
+What has already been implemented is the conversion between hexadecimal
+and decimal values, and a dropdown list for different kinds of
+registers. The goal now is to show the register data when the type is
+selected.
+
+\begin{figure}[H]
+    \includegraphics[height=17cm]{huy-register-view-project}
+    \caption{main.rs of this register view project. This current code only shows the conversion between hex and decimal values.}
+\end{figure}
+
+As seen in the above figure, this project uses dependencies like gloo,
+wasm-bindgen, HTML websys to be able to use HTML in Rust and most
+importantly, Yew. There can be more dependencies used as the project
+goes forward, and documentation will become necessary for those, as
+well.
+
+There are more challenges to getting this mini-project working than I
+expected, with the first being my unfamiliarity with Rust and Yew. Yew
+allows for HTML integration, and because of that, I coded like it was
+JavaScript and HTML, which caused issues with incorporating with the
+example Rust code. I ended up having to use Rust hooks for the
+conversions, and it certainly takes longer than it should for me to read
+through the documents on how to do it. The Rust and Yew documentations
+help with this project, but with how much time I wasted for a supposedly
+easy component, this is going to be a major wall to the project, at
+least in my opinion.
+
+% TODO: sp unclear
+
+There is also seemingly a problem with API connection. The register
+window will need the core to upload the MIPS address and sp so that it
+has data to display. I am not too sure if it could be extracted from
+within an operating system of a computer, since MIPS is the base of it.
+However, it may not be plausible compared to other ways I could think
+of, which shows that I need more understanding on the issue so that this
+mini-project goes better and helps the bigger main project.
+
+\subsubsection{Monaco Window - Jimmie Smith}
+
+My mini-project for the project was to get some understanding of how
+``rust-monaco'' works. Already, I noticed how different it is to use Rust
+as a language to render a webpage compared to JavaScript and it has been
+a year since I did anything JavaScript related. I have done a lot of
+research on WebAssembly and Yew in order to get an idea of how Rust is
+used for front-end development. There is still a lot of ground to cover
+since I have to account for documentation for ``web-sys,'' ``yew,''
+``gloo,'' ``rust-monaco'' for the implementation in Rust with the addition
+of ``monaco-editor'' and JS APIs as reference. What I did was looked into
+the examples provided by Microsoft to see how the configurations are set
+up, and they were not too difficult to understand with the built-in
+options or configuring how the code would look with formatting. The
+difficulty I had with the features is figuring out what needs to be
+implemented since this is supposed to be an educational tool. While I
+keep on exploring the Monaco Editor's features and code, I keep a list
+of features from the team on me to look into. Implementing Intellisense
+as a toggle would be challenging since it would undermine the concepts
+of the instructions and what they do, so having the ability to mouse
+over the instructions the user types and provide them information on
+them would be a nice compromise. Monaco Editor does support MIPS syntax,
+so it was a matter of toggling it although the team wanted full support
+of MIPS32 and MIPS64 which needs further examination. Monaco Editor has
+a built-in diff editor, but its usage for a project like this seems
+useless for educational purposes.
+
+The best way for me to get an understanding of Monaco and Rust was
+through the example code provided with the repository. The first thing
+that I was confused by was how the window was not rendered correctly,
+the default setting for the window size made it so only a small section
+was presented. Jerrett assisted me on remedying the issue, because I was
+too used to the documentation being complete for most of the crates and
+frameworks. This is where we both learned that rust-monaco's
+documentation was not complete which resorted to us looking through the
+source code. For example, the documentation does not state that it
+supports automatic layout which would let the window scale based on the
+current size of the browser window. The hilarity of this is that when we
+brought in ``gloo-utils,'' it clicked to me why the crate is called
+``gloo.'' It is literally taking the idiomatic rust code and converting
+it to a web-sys binding which would finally result in JavaScript code to
+make the API call. It made me reconsider the whole ecosystem since it is
+just a whole bunch of wrappers, but the support for it is plentiful that
+it gave me some assurance that this could become an alternative to
+developing web applications. From there, it was easy to reconfigure the
+settings for the window to read MIPS code. It does auto complete but
+based on what was already typed out, and it has a mini preview of the
+code on the right by default. An idea I was throwing around is having
+line highlights for macro labels for improved readability, so the user
+does not have to use block comments to visually break them up.
+
+\begin{figure}[H]
+    \includegraphics[height=9cm]{jimmie-monaco-prototype}
+    \caption{Monaco Window showing MIPS highlighting, auto-complete, code preview, and auto-resizing.}
+\end{figure}
+
+\subsubsection{Personal Emulation Core - Kevin Cahalan}
+
+My first major wall with this prototype is that I need to re-familiarize
+myself with Rust. It has been over a year since I last had to
+professionally develop in Rust. I was not the best at Rust and did not
+retain the syntax that well. Use it or lose it, I lost it. Luckily the
+principles of Rust exist elsewhere. Since initially learning Rust I have
+had to develop and learn Haskell, Go, C++, Swift, TypeScript, and get
+massively better at Python. A lot carries over across these languages.
+From Swift and TypeScript I got more used to the Rust style of syntax.
+Swift in particular held a lot of commonality syntax wise. From Haskell
+I picked true functional programming better. Rust takes a lot of
+Haskell. I got better with deterministic programming with Haskell. That
+deterministic thinking carries over to Rust.
+
+For the first prototype I am doing a simple command line emulator. I am
+not even going to worry about web stuff yet. The hope is to support
+maybe 15ish mips instructions. These instructions will probably be taken
+in as bare binary from a file, or maybe hex from the command line. Gonna
+forget about parsing, web stuff, and any real planning. I just want to
+get something slapped together and started. After putting together a
+bare bones starter emulator my understanding of difficulty and on what
+to move onto should become more clear.
+
+For my initial bare bones emulator I started by laying out some
+structures. This took a surprisingly long time as I was simultaneously
+learning Rust. Particularly I got burned on figuring out how scoping and
+modules worked. After some time, and reading the Rust book, I got to the
+bottom of things. Finally after so long, I figured out modules to a
+usable point. Modules can be thought of as namespaces, probably carried
+over from C++ or whatever.
+
+A big part of writing an emulator is to keep track of processor state
+and memory. Our simple emulator can be broken down into processor state,
+memory, and instructions to change state and memory. MIPS is a simple
+Von Neumann Architecture to emulate.
+
+The processor for our project can be thought of as two distinct units,
+the Central Processing Unit, and the Floating Processing Unit. The CPU
+is the main import unit for doing most basic operations of the
+processor. It does all the basic ALU operations, loading, storing, and
+so on. Initially in the old days MIPS processors would only have a CPU.
+Floating point operations were first implemented in software. As the
+years went on, there was a great need for accelerated floating point
+calculations. To do these accelerated float pointer operations, MIPS
+introduced a new processing unit for their processors, the FPU. A FPU is
+a specialized unit used for floating point instructions. Initially these
+early FPU's were on a separate chip from the main processing unit, the
+CPU. Having the FPU be distinctly separated from the CPU has had a
+lasting effect on how floating point operations are done with MIPS.
+
+For laying out the state structures for this emulator, I kept the CPU -
+FPU distinction clear. The processor structure both has a CPU struct,
+and an FPU struct. Each of these structures then have their own states
+to keep track of. I figure that by making this distinction clear, it may
+be easier in the future to connect the emulation core to datapath
+graphics. We are taking an approach on this emulator less focused on
+sense and performance, more-so focused on working like theoretical
+hardware. Anyway in Figure \ref{fig:kevin-emulation-core-prototype} before are my initial processor state
+structures:
+
+\begin{figure}[H]
+    \includegraphics[height=9cm]{kevin-emulation-core-prototype}
+    \caption{Processor structure for prototype emulation core.}
+    \label{fig:kevin-emulation-core-prototype}
+\end{figure}
+
+The processor structure is, to some extent, simple. It got the basic
+general purpose register, floating point registers, and the instruction
+pointer PC. There are likely several other state registers that I will
+have to add in the future. For now this processor structure is good
+enough to move on.
+
+My general emulation core is all under some structure called
+``Emulator''. So far this struct just holds the memory array and
+processor struct. Glued to the Emulator struct are some basic methods
+for emulation and access to the emulation core. To interact with the
+emulation core, the front end will call a set of public methods that the
+emulation core implements. Currently the only public method that I have
+made is called ``run\_instruction()''. This method will exactly as
+stated, step forward running one instruction. Underneath the protection
+of the emu module are the private methods for actually doing the hard
+work of emulation. I am going with the heavy encapsulation on this
+emulation core. The front-end developers should not have to worry about
+any of the details of emulation core implementation.
+
+
+\section{Implementation Overview}
+
+\subsection{Use Case Diagrams}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{use-case-diagram}
+    \caption{Preliminary Use Case Diagram of SWIM.}
+    \end{figure}
+
+
+\subsection{Block Diagrams}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{block-diagram}
+\caption{Basic Block Diagram of SWIM.}
+\end{figure}
 
 
 
@@ -2955,559 +3524,6 @@ can be cast to an int, is checked against the valid ranges and this
 error occurs if it is outside of those.
 
 
-\section{Research - Web Development in Rust}
-
-Rust, in general, is a relatively recent programming language, being
-originally released in 2010 \cite{asay2021}. As such, it has modern features such as its
-borrow checker that makes development more secure. The Rust borrow
-checker, essentially replacing the garbage collection used in other
-languages, manages ownership by assigning an owner to each variable,
-where that variable may only have one owner at a time \cite{rust-book-ownership}. This implies that
-the owner can be changed, as long as the variable is still available
-within some scope. Should a variable reach the end of its scope, the
-borrow checker will drop the value from used memory (akin to garbage
-collection). One advantage of the borrow checker is that there become
-defined points in code where it is safely determined a piece of data is
-no longer being used. Functions may use references to variables made by
-``borrowing'' a variable, meaning in this case going out of scope does
-not correlate to lost ownership \cite{rust-book-borrowing}. The borrowed reference instead is
-returned to its original owner when the scope of the borrow finishes.
-This system of borrow checking allows Rust to pitch itself as a
-programming language perfect for low-level and embedded systems. As SWIM
-is primarily intended to emulate a MIPS processor, this was a deciding
-factor to using Rust.
-
-Despite Rust having high praise for its static borrow checking, some of
-Rust's functionalities make development difficult based
-on these same concepts. Data types are more rigid and access to data is
-more restrictive than in other languages.
-
-To understand how to develop a web application with Rust, a number of
-components are involved to make this process approachable for
-development. The following subsections outline the research completed to
-use Rust for SWIM's planned feature set.
-
-\subsection{Using WebAssembly}
-
-% TODO: Add subsections on "wasm-pack" and "wasm-bindgen" and incorporate info from the MDN Web Docs.
-
-This project is unique in that rather than using the standard JavaScript
-framework like React, Angular, and Vue to build the front end, it is
-utilizing a new method to build web applications, WebAssembly. As the
-development team explains,
-
-\begin{quote}
-``WebAssembly (abbreviated Wasm) is a \emph{safe, portable, low-level
-code format} designed for efficient execution and compact
-representation. Its main goal is to enable high performance applications
-on the Web, but it does not make any Web-specific assumptions or provide
-Web-specific features, so it can be employed in other environments as
-well.'' \cite{webassembly-introduction}
-\end{quote}
-
-Historically, HTML, CSS, and JavaScript were the only languages to run
-code on web browsers and it has been the standard for almost 20 years.
-WebAssembly aims to allow programmers to write in other languages, like
-Rust, and compile to a binary file that could run on the web. This is
-still in its infancy, so one of the biggest challenges is how our
-project may change as WebAssembly matures.
-
-WebAssembly code is packaged in an Assembly-like language, represented
-in either binary data corresponding to instructions, types, etc. as a
-.wasm file or human-readable text (.wat). The language is designed to be
-independent of programming languages, computer hardware, and the browser
-it runs on. Currently, WebAssembly is supported on Google Chrome,
-Microsoft Edge, Mozilla Firefox, and Apple Safari, limiting legacy
-browser users from using SWIM. It is important to note that Chrome and
-Firefox have FOSS forks that could run WebAssembly, but support for
-these forks varies, since WebAssembly is only supported by the more
-recent versions of the four aforementioned browsers. % TODO: Source for this sentence?
-Additionally,
-WebAssembly was never meant to replace JavaScript, as it is synonymous
-with web development, but they can be used together to improve the
-user's experience on the web with WebAssembly's speed and JavaScript's
-libraries and tools. As an example, Figma, the tool we used to design
-our UI, was developed using C++ and Enscripten to export to asm.js, and
-later switched to WebAssembly to take advantage of its speed for loading
-in documents \cite{figma-webassembly, madewithwebassembly-figma}. However, the implementation resulted in the app being unusable exclusively for Google Chrome users. The two
-bugs were failing to cache the translated WebAssembly code, also it
-would crash due to the app accessing
-WebAssembly's memory limit. The first would force Chrome
-to reload the translated code resulting in slower performance and the
-second made the app unusable in inconsistent intervals \cite{chromium-webassembly-bug1, chromium-webassembly-bug2}. Fortunately,
-both of those bugs are fixed within months.
-
-% TODO: More steps will be added in the future
-
-In order for Rust and WebAssembly to work \cite{wasm-game-of-life-introduction}, the project requires us to
-have the most recent version of Rust's toolchain (rustup, rustc, and
-cargo), wasm-pack, cargo-generate, and npm. wasm-bindgen is required as
-a dependency in the project's .toml file, then you can use wasm-pack to
-build your project. By typing in ``wasm-pack build'' in the main
-directory of your project, WebAssembly will generate a .wasm, .js,
-.json, and .ts file in the package directory. Within the package
-directory, you run the following npm commands:
-
-\begin{enumerate}
-    \tightlist
-    \item init wasm-app \textless new subdirectory\textgreater, to produce the
-    appropriate .json, .config.js, .html, and .js in the new subdirectory.
-    \item install, to ensure the local development server and its dependencies
-    are installed.
-    \item run start, to run the web application locally. If you want to see any
-    changes made through the web application, run ``wasm-pack build'' in
-    the main directory then refresh the page.
-\end{enumerate}
-
-\subsubsection{Using ``wasm-pack'' \& ``wasm-bindgen''}
-
-With ``wasm-pack'' \cite{wasm-pack} being used for building, Rust WebAssembly packages
-could be published to the npm registry or allow it to be used alongside
-any JavaScript packages already well-established. This interoperability
-is integral to incorporating a new framework such as Rust with existing
-JavaScript projects. ``wasm-bindgen'' \cite{wasm-bindgen} is a Rust library and CLI tool
-that facilitates high-level interactions between wasm modules and
-JavaScript. There are two additional crates that helps with WebAssembly
-binding JS's API libraries, and they are packaged with wasm-bindgen:
-
-\begin{enumerate}
-    \tightlist
-    \item ``js-sys'' \cite{js-sys} provides raw bindings to all the global APIs guaranteed to
-    exist in every JavaScript environment by the ECMAScript standard. With
-    it, we can work with JS types without writing the imports by hand.
-    \item ``web-sys'' \cite{web-sys} provides raw wasm-bindgen imports for all of the Web's
-    APIs, so the required APIs for our project like DOM, Console, UI
-    Events, Canvas/WebGL, and Web Animations are supported here.
-\end{enumerate}
-
-\subsubsection{Thoughts on WebAssembly}
-
-While WebAssembly is a great innovation for web development, its
-learning curve is steep given the time available to study and use it
-effectively. While working on a miniature project with WebAssembly, a
-huge issue was encountered with code organization and understanding of
-the available tools. The documentation is expansive since the
-aforementioned crates have to support all JavaScript API calls, and some
-of them are not necessary to our current goals. While this is not
-without its merits, it will take additional time through the development
-of the project to learn about WebAssembly's full capability.
-
-Since WebAssembly is still new in the web development ecosystem, there
-are a few methods to incorporate it on the Web. According to the MDN web
-docs for WebAssembly, ``porting a C/C++ application with Emscripten,
-writing or generating WebAssembly directly at the assembly level,
-writing a Rust application and targeting WebAssembly as its output, and
-using AssemblyScript which looks similar to TypeScript and compiles to
-WebAssembly binary'' \cite{mozilla-webassembly-concepts} are the main entry points to incorporate
-it into web applications.
-
-Despite the challenges that come with WebAssembly, it has the advantage
-of any assembly language, where binary data can be disassembled into
-text, and this can be further converted with a decompiler to readable
-code. This allows developers to debug and understand web applications
-that utilize WebAssembly. However, this is only useful if the developer
-understands WebAssembly's instruction set, and if a decompiler can
-provide a 1:1 translation of code and text, the latter being especially
-difficult given the loss of information associated with compiling.
-
-\subsection{Using Yew}
-
-% TODO: More to fill out
-
-\ul{\emph{\textbf{Note: As of November 28th, 2022, Yew was updated to
-version 0.20, so the information provided here may not be accurate to
-it. However, we plan on using the development build to take advantage of
-all of its features and bug fixes.}}}
-
-While WebAssembly provides an environment for programming languages to
-be used in web development, there are more steps involved to get a web
-application developed, so we selected Yew as our framework. Yew is
-comparable to React, as it is component-based, which aids in building
-interactive UIs for web applications. Yew has excellent performance
-compared to other web frameworks since it minimizes DOM API calls and
-offloads processing to background threads using web workers. It also has
-JavaScript interoperability which allows users to leverage Node.js
-packages and to integrate with existing JavaScript applications \cite{malomo2022}.
-
-Having a framework like Yew to use on top of WebAssembly is beneficial
-for development, since WebAssembly's learning curve is otherwise
-comparatively steep. Developing in WebAssembly and JavaScript to
-incorporate features directly can make the project's code cumbersome and
-ineffective. Instead, Yew aims for developers to use a familiar or
-desired programming language like Rust to build the web application,
-while the translation to WebAssembly and JavaScript are abstracted to
-libraries.
-
-\subsubsection{Yew's Components Model}
-
-% TODO: There could be a diagram to visualize the lifecycle
-
-One of Yew's defining features is how it streamlines web application
-development; it uses a lifecycle model for components. Components manage
-their state and render themselves to the DOM. The lifecycle, taken from
-Yew's Documentation \cite{yew-lifecycle}, is as follows:
-
-\begin{enumerate}
-    \tightlist
-    \item Create -- The component receives properties from its parent component
-    and stores them within itself. This initializes its state and creates
-    a link that can be used for callbacks or sending messages.
-    \item View -- This describes how the component should be rendered to the
-    DOM. Yew has an ``html!'' macro for declaring HTML and SVG nodes, and
-    attributes and event listeners can be attached to them. The macro is
-    similar in function to React's JSX, but allows shorthand syntax for
-    readability.
-    \item Rendered -- Once the ``view'' method is called, this method will render the results from the component's view method to
-    the DOM, but before the browser refreshes the page. This is useful
-    when you want to perform actions that can only be completed after the
-    component has rendered elements. A few situations where this is applied to SWIM are getting the values
-    from the core and displaying them in their respective areas and displaying error messages from the parser.
-    \item Update -- This is where the communication between components occurs
-    and a component may update and re-render itself based on received
-    messages. These messages can be sent by event listeners, child
-    components, Agents, Services, or Futures. Agents are used to offload tasks to
-    web workers. Services for interacting with external resources like mouse/keyboard events, geolocation changes,
-    output from an external JavaScript library, and WebSocket messages. Futures are Rust's representation of an
-    asynchronous operation's success (or failure) and its value;
-    this is a concept borrowed from JavaScript's ``Promise'' objects.
-    \item Changed -- This eases the parent-to-child node communication by only
-    changing the values of a property.
-    \item Destroy -- This is for general clean-up of the component's prior
-    actions, and it automatically does this once the component is
-    unmounted from the DOM.
-\end{enumerate}
-
-It is possible to implement infinite loops by updating the component
-after every render when the update also requests the component to be
-rendered. This is done by setting the ``update'' method to {\em true} to always request
-to re-render on any message from the ``rendered'' method. This lifecycle could make the implementation process easier
-for the back end of this project. A good example is implementing a live
-debugger in SWIM, and this can easily be done by running the parser
-in an infinite loop so it can catch whenever the user mistyped an
-instruction or try to access memory that would cause the virtual machine
-to crash upon execution.
-
-The components only have two associated types: Message and Properties.
-The Message type is used for a component to send messages after an event
-has taken place, like a button being clicked. A Message, in
-implementation, is an enum where each variant is an event to be handled
-by that component, making handling multiple types of events in a
-component easier to develop and implement. The Properties type
-represents the information passed to a component from its parent.
-Properties is a trait that must be implemented, and specifies whether
-properties are required or optional. This type is used when a component
-is being created or updated, as new values of component properties can
-be provided during these instances. With both Message and Properties, it
-is wise to keep them in the corresponding component's module and stay
-encapsulated there.
-
-Callbacks are the primary method of communication, and they are usually
-located in the ``view'' function within a component with the actions to
-initiate the communication stored inside the ``html!'' macro. The
-handler function passed to ``callback'' must always take a parameter,
-which is usually a type of a UI Event. An example of this is shown in Yew's sample code with the ``onclick'' handler,
-being rendered as a button, requires a ``callback'' to the ``AddOne'' message to
-tell the component to add one to ``value'' upon the button being clicked on.  With that in mind, the handler can
-determine what kind of message to be sent to the component then the
-message is scheduled for the next update loop regardless. In order for
-the callback to not cause any updates, ``batch\_callback'' can be used
-to create conditionals for which message to send.
-
-\begin{figure}[H]
-    \includegraphics[height=14cm]{yew-sample-code}
-    \caption{Yew's sample app code to show how the lifecycle model improves readability and how certain components behave through callbacks.}
-\end{figure}
-
-\subsubsection{The ``html!'' Macro}
-\label{subsec:html-macro}
-
-Yew's ``html!'' macro, as stated before, allows writing HTML and SVG
-code directly into Rust, and the rules for using valid HTML tags still
-apply here. The macro helps explicitly specify what will be rendered on
-the webpage through the DOM API.
-% Sometimes we do not want to directly
-% change the DOM but want to send instructions to Yew's virtual DOM, which is a lightweight JavaScript representation of the DOM.
-% TODO: Virtual DOM and "ref" unexplained
-% Using the ``ref'' keyword allows us to access and manipulate the underlying DOM node
-% directly, which means that we could make changes to the DOM outside of
-% the ``view'' method. And to restate it, any type that implements
-% TODO: Restating what
-% ``component'' can be used in this macro.
-
-There are a few caveats with ``html!'' compared to normal html. For
-example, consider an html button \textless button onclick =
-\{onclick\_list\}\textgreater Show\textless/button\textgreater. This
-syntax is valid in html, but it will throw an error in ``html!''. The
-correct ``html!'' format is \textless button onclick =
-\{onclick\_list\}\textgreater\{"Show"\}\textless/button\textgreater. As
-seen in this example, the syntax between html and html! can be
-different. While the compiler will show how html can be changed to
-``html!'' for specific syntax errors, the macro can be a little jarring
-to use for novice HTML developers.
-
-\subsubsection{Yew Routers}
-
-Yew also supports routers, which is a way for single-page applications
-to display different information depending on the URL. Rather than
-requesting a completely new page when a link to the same site is
-clicked, by default, the router sets the URL locally to point to a valid
-route in the Yew application and the content for that location would be
-rendered without reloading the entire page. In implementation, this
-would be extremely useful for implementing the datapath window to show
-how code is processed. In order to use routers, we would need yew-router
-crate must be added as a dependency, then imported using ``use
-yew\_router::prelude::*;''. ``Route'' is an enum type, so match
-statements can be used to render each page neatly, and each page can be
-encapsulated in their own method. If a given URL is not found, the
-router would direct to a page with the ``not found'' attribute,
-which could be used as the default case. From there, you would have a switch
-function that would match the current Route based on its type. Within
-the main function to run the app, we would have to use ``BrowserRouter'' inside ``html!'' to
-insert the switch function and render the current page. The advantage to this is that
-we could separate how the pages would render in their own function,
-which improves readability and finding rendering bugs due to the
-page functions being isolated compared to having them stored in one function.
-
-
-\subsubsection{Thoughts on Yew}
-
-What was discussed in this subsection are only the significant topics
-that pertain to the general understanding of Yew's code and feature
-structure. Yew assists with the translation process to WebAssembly by
-having little-to-no developer interaction with JavaScript, as this
-interaction is generated from the Rust code. The main disadvantage of
-using Yew is that it is still in early development, so any features used
-in SWIM may not be supported in the future once it is officially
-% TODO: We are still not sure
-released. We are not going to rely on web-sys for the API
-calls since the documentation is vast to account for all the APIs
-supported by JavaScript. There is a toolkit that could remedy
-this. The documentation for Yew is hard to follow, but there are
-examples that show the concepts in action. Yew has a lot of support
-% TODO: "contemporaries" could use examples
-compared to its contemporaries, there are plenty of real-world examples
-that used Yew as a framework to develop their apps. One example is
-qubit \cite{qubit}, which is a calculator that could do algebra, conversions, and
-functions. It would update the output based on the
-user's input automatically. The parser used in this
-project was pest \cite{pest}, which is a parsing library that allows developers to
-easily create a parser and define a grammar. While pest may be appealing
-in other applications, it will not be used with SWIM since a custom
-parser was deemed to be more capable of understanding MIPS syntax and
-pseudo-instructions, as well as interacting with the emulation core and
-front end.
-
-\subsubsection{Using Trunk}
-
-Yew uses Trunk \cite{trunk}, a WebAssembly web application bundler for Rust, which
-streamlines the development process, as Trunk can be used to detect
-changes on the filesystem and automatically trigger new builds by
-enabling the ``watch'' parameter. It runs `cargo build` on the project
-targeting the wasm32 instruction set, runs `wasm-bindgen` on the
-assembled .wasm, and spawns asset build pipelines for any assets defined
-in the target ``index.html.'' Trunk's specialty is using a source HTML
-to drive all asset building and bundling, which makes the project look
-cleaner at the top-most level.
-
-\subsubsection{Using Gloo}
-
-Gloo \cite{gloo} is a toolkit to abstract JavaScript API calls to simple functions.
-It works by providing a collection of crates that can be added based on
-the specific API calls needed. While the calls are ``simplistic,'' they
-are wrappers to ``web-sys'' calls. This implies that during development,
-one may need to read both the documentation for the specific Gloo crate
-and the JavaScript API documentation to gather a complete understanding
-of its implementation. It may come into question at this point the
-number of layers of abstraction needed for SWIM's development,
-especially since the majority of the calls are housed in the
-``gloo-utils'' crate which would be used for calls to the DOM API.
-However, the advantage of more readable code from an outsider's
-perspective is preferred since the function calls are labeled
-idiomatically.
-
-The following describe the crates provided by Gloo as of the time of
-writing:
-
-\begin{itemize}
-    \tightlist
-    \item Console -- This crate gives us access to the browser's console for
-    logging information onto it, clearing it, and more. This does not have
-    a lot of use for deployment unless it becomes desired to allow users
-    to access the browser. However, this is impractical since a terminal
-    window to show errors and warnings will already be designed on the
-    page.
-    \item Dialogs -- This crate allows the user to interact with the program by
-    asking for input, alerting them of a certain event, or confirming a
-    selection. This appears to be useful for creating a small help section
-    with a browser's `alert` feature, but this should not be abused, as
-    users should not click through many windows to do a simple task.
-    \item Events -- This crate is for implementing event listeners to user
-    actions or calling directly to the emulation core.
-    \item File -- This crate is for supporting file transfers, which could be
-    useful for loading in example code but to translate it from text to
-    bytecode will be the job of the parser and assembler.
-    \item History -- This crate is for accessing a browser's session history.
-    This crate will be discarded for development of SWIM due to its
-    irrelevance to planned features.
-    \item Net -- This crate is for websockets and HTTP fetching. This will
-    similarly be discarded for development.
-    \item Render -- This crate is for rendering animation frames; this would be
-    integral for visualizing code moving through a datapath.
-    \item Storage -- This crate focuses on bindings to the Web Storage API, so
-    for anything larger than what a cookie could handle. We talked about
-    using cookies to store user customizations or even the bytecode in the
-    early stage, but this was quickly dropped in favor of the Web Storage
-    API. We will use this API extensively since it provides more security
-    with user data, allows us to save data even if the user closes the
-    browser, and allocates more storage for us to use for custom themes
-    and future features. See Section \ref{subsec:storing-session-data} for additional details on the use of cookies.
-    \item Timers -- This crate is for binding with timers, specifically
-    setTimeout and setInterval. This one has features that are yet to be
-    implemented, namely intervals with a callback function and intervals as \texttt{Stream}s,
-     but has no real use for the project currently.
-    \item Utils -- This crate houses convenience functions to access web\_sys bindings. This means that
-    if we have to use web\_sys as a fallback to access APIs that are not
-    supported by gloo, then we can use this to improve readability. Due to that previous fact, the
-    documentation fallbacks on web\_sys which is huge given its nature.
-    As mentioned before, it is recommended that we compare the documentation to
-    the one provided by Mozilla. For example if we to use yew\_router to naviagte through SWIM,
-    we would need to use the history function to access web\_sys bindings for the History API.
-    % TODO: Could use examples
-    \item Worker -- This crate is for implementing web workers to improve
-    performance of our project. Another crucial crate uses this concept,
-    % TODO: Might research further
-    so we might research further on this to see where it can be applied
-    appropriately within SWIM. For now, this crate will have little
-    relevance for the project.
-\end{itemize}
-
-\subsection{Monaco}
-\label{subsec:monaco}
-
-The open-source library Monaco, developed by Microsoft \cite{monaco}, is the key to
-making the editing experience of users similar to software they have
-already used. In practice, Monaco is used as the editor in the popular
-editor Visual Studio Code. The library comes included with all the major
-features a developer might expect when using a modern code editor. With
-% TODO: Describe what are the major features
-its popularity, many users of Monaco apps feel comfortable and familiar,
-which is ideal for use with SWIM.
-
-The feature set of Monaco fits well with SWIM, as there should be ample
-user assistance such as error highlighting, tab completion, and
-suggestions. Monaco comes with a usable API for providing these
-features, which in one example, is particularly important for supporting
-step-through execution with line highlighting. Monaco also has a
-built-in auto-commenting feature, where a single button can be pressed
-when selecting text to comment said text.
-
-By default, code syntax highlighting works in Monaco without
-modification. If this were not the case, it is even possible to markup
-and support syntax highlighting for custom programming languages \cite{monaco-custom-languages}. Monaco
-performs syntax highlighting with the help of the Monarch library \cite{monarch}. This
-custom syntax highlighting can come into importance, should support for
-different MIPS dialects be desired in future iterations of the project.
-
-\begin{figure}[H]
-    \includegraphics[width=\textwidth]{monaco-mips-syntax-highlighting}
-    \caption{MIPS syntax Highlighting Inside Monaco}
-\end{figure}
-
-An additional feature of Monaco is tab completion, which is crucial for
-many developers, often present in popular editors such as Visual Studio
-Code, Vim, or Atom. Those new to a language or framework often use tab
-completion and other assistance tools to help in writing code, and even
-more experienced developers may choose to use tab completion to increase
-their code output speed. At a minimum, Monaco will recognize patterns in
-code, it will then use these patterns to provide suggestions. With some
-configuring, it would be possible to give code suggestions in SWIM based
-on a particular MIPS instruction. For example, after writing an
-instruction, a register usually will come next, so a pop-up box could
-suggest registers to type. For jump and branch instructions, the editor
-may suggest labels to use. This suggestion feature is a stretch goal of
-SWIM.
-
-\begin{figure}[H]
-    \includegraphics[height=5cm]{monaco-suggestions}
-    \caption{A code suggestion in Visual Studio Code, an IDE that uses the Monaco library.}
-\end{figure}
-
-The API for Monaco, while extensive, can be difficult to read or parse
-through. Due to the common naming conventions used by Microsoft, unlike
-in other languages, names can be overly-descriptive and complex. is
-documented on the Microsoft website.
-% TODO: This sentence could use a source
-There are so many features to the
-editor it is crazy. Despite this, Monaco has become an extremely popular
-library, and many developers build projects with it. With this
-popularity comes more experience and help from other developers via
-online forums, and any problem that may arise through the use of Monaco
-has likely already been seen before. There are many different tutorials
-% TODO: Add sources of tutorials
-on using Monaco from developers as well.
-
-The Monaco editor is written in TypeScript and its API is written in
-JavaScript. While Rust will be the primary language used in SWIM, the
-following section describes how Monaco can be interfaced with.
-
-\subsubsection{rust-monaco}
-
-``rust-monaco'' \cite{rust-monaco} is a crate that provides bindings between Monaco Editor
-and Rust via ``wasm-bindgen.'' In order to fully understand its API
-calls for development, Monaco's documentation must be referred to in
-addition to the documentation for the Rust bindings \cite{rust-monaco-docs}, as documentation is
-currently only 78 percent complete at the time of writing. rust-monaco
-does allow developers to implement new options and features that may not
-yet be explicitly bound with this crate.
-
-The following outline the currently available modules for the
-rust-monaco crate:
-
-\begin{itemize}
-    \tightlist
-    \item api -- This is where all the wrappers for the JavaScript code for
-    Monaco's settings are in. The main struct to create the window is
-    called ``CodeEditorOptions'' and the translation between Rust and
-    JavaScript is quite simple with the comparison shown below.
-
-    \begin{figure}[H]
-        \includegraphics[width=\textwidth]{monaco-initialize}
-        \caption{Comparison of initializing the Monaco Editor on Rust(left, rust-monaco) vs. JavaScript(right, Monaco Editor).}
-    \end{figure}
-
-    \item sys -- This is where the bindings for monaco's namespace are located,
-    this is how we bind events to the monaco window. An example of this is
-    we can use IMouseEvent and IPosition to see if the cursor is hovering
-    over a line that has an error, and the result of it would show an
-    error message.
-    \item workers -- This is required for the performance of Monaco Editor to be
-    adequate otherwise via web workers, we get a performance penalty for
-    not using it.
-    \item yew -- This is for turning the Monaco Editor into a yew component.
-\end{itemize}
-
-The sys module is the only one that is optional to use, but the rest are
-required (turned on by default) to have it functional on Yew.
-
-\subsection{CodeMirror}
-
-CodeMirror is an older alternative front-end library to Monaco. Monaco
-was released in 2016 \cite{monaco-changelog}, while CodeMirror's first version was released
-around 2009 \cite{codemirror-changelog}. Despite this additional age,
-CodeMirror has a considerably modern interface and a rounded style and
-works well with touch screens. In a way, CodeMirror is the modern
-replacement of Monaco. For example, the online code editor Replit
-switched from Monaco to CodeMirror for its front end after finding it to
-be more advantageous for their uses \cite{replit-code-editors}.
-
-Although CodeMirror has its advantages and was considered for use in
-SWIM, it has no major support for Yew at this time, and would
-necessitate additional JavaScript for the integral part of the editor.
-Thus, it was decided that SWIM will continue to use Monaco for editing.
-In the future, should CodeMirror support as a Yew component be
-supported, this may be considered as an alternative to Monaco again.
-
-
 \section{The Front End}
 
 The main four components that constitute the front end are the Monaco
@@ -4665,75 +4681,61 @@ stylist-rs.
 
 
 
-\section{Use Case Diagrams}
+\section{Project Management}
 
-\begin{figure}[H]
-    \includegraphics[width=\textwidth]{use-case-diagram}
-    \caption{Preliminary Use Case Diagram of SWIM.}
-\end{figure}
-
-
-\section{Block Diagrams}
-
-\begin{figure}[H]
-    \includegraphics[width=\textwidth]{block-diagram}
-    \caption{Basic Block Diagram of SWIM.}
-\end{figure}
-
-
-
-\section{Project Milestones}
+\subsection{Project Milestones}
+% TODO: Update milestones?
 
 {\renewcommand{\arraystretch}{1.4}
-\begin{tabularx}{\textwidth}{|l|X|}
-    \hline
-    \textbf{Date} & \textbf{Milestone} \\\hline
-    9/19          & Group introductions - Initial date to meet team members, discuss goals and ideas, and to schedule weekly meetings. \\\hline
-    9/23          & First regularly-scheduled group meeting - Collaboration on project requirements, choice of language(s) and framework(s), and project roles. \newline \textbf{Note: Every future regularly-scheduled meeting may not be listed here.} \newline \newline Group members begin self-learning the language and frameworks planned to be used for this project (Docker, Rust, Yew). Collaboration on the initial design proposal begins.\\\hline
-    9/27-10/4     & Get taken out for a week due to Hurricane Ian. :') \\\hline
-    10/5          & TA check-in \#1. (Show 3-5 pages contributed per member) \\\hline
-    10/7          & Regularly-scheduled group meeting - Final discussion, clarifications, and wrap-up of the Initial Design Proposal. \\\hline
-    10/7          & Assignment 3 (Initial Design Proposal) is due. (15 pages total) \\\hline
-    10/10-10/14   & Discuss project architecture scale and determine required features and stretch goals. \\\hline
-    10/10-10/14   & Research and set up the version control system to be used for the project. \\\hline
-    10/17         & Begin discussing interface design between front-end team members. \\\hline
-    10/17-10/21   & Research and set up the system to be used for linting code, running tests, and using these with a continuous integration system. \\\hline
-    10/19         & Meet with Dr. Gerber to check progress and understanding of the project. \\\hline
-    10/21         & Regularly-scheduled group meeting - Project status and design document review. \\\hline
-    10/24         & Begin discussing the emulation core structure and supported internal API calls. These API calls are used for the web interface to communicate with the emulation core. \\\hline
-    10/24-10/28   & Research and set up the hosting, server, and deployment solution for the project. \\\hline
-    10/31-11/11   & Each member creates a basic small project of their own, resembling the project. This can be achieved by having each team member be familiar with Rust, Yew, and other technologies needed. Depending on what that member will be working on, they will create a web application in Yew, a parser in Rust, or an emulation core in Rust. This project acts doubly as an early test of how the final full project will be constructed. \\\hline
-    11/6          & Assignment 4 (Individual pages in design document) is due. (15 pages per member contributed) \\\hline
-    11/7          & TA check-in \#2. (Show 20-25 pages contributed per member) \\\hline
-    11/11         & Initial interface design and emulation core plan is finished. Tangible coding work on the main project begins. \\\hline
-    11/16         & Emulation Core: Registers and memory implemented. \\\hline
-    11/21         & Emulation Core: Basic ALU and datapath components connected. \newline Interface: A basic in-browser GUI is created. A placeholder space to enter MIPS assembly instructions and stubbed functions to interface with the emulation core are added. \newline Parser: Basic instruction tokenization is implemented. \\\hline
-    11/24         & Interface: The ability to view register data from the emulation core is implemented. \\\hline
-    11/28         & Emulation Core: Simple R-type instructions are supported. (e.g. add, sub, mul) \newline Interface: The ability to view memory data from the emulation core is implemented. \newline Parser: Supported assembly for basic R-type instructions. \\\hline
-    12/1          & Emulation Core: Simple I-type instructions are supported. (e.g. addi) \\\hline
-    12/5          & Emulation Core: Support for lw and sw. \newline Interface: Ability to input direct binary instructions is added. This is temporary and for initial testing purposes. \newline Parser: Supported assembly for basic I-type instructions. \newline Final Design Document is due. (30 pages per member contributed) \\\hline
-    12/11         & Fall 2022 / Senior Design 1 concludes. \newline \textbf{Note: There will be no milestones over the winter break, but group members will continue to work on the project with periodic meetings.} \\\hline
-    1/9           & Spring 2023 / Senior Design 2 begins. Resume scheduled group activity. \\\hline
-    1/9-1/20      & Emulation Core: Initial support for MIPS64 instructions. \newline Interface: Ability to step through instructions one at a time. \\\hline
-    1/14          & More MIPS instructions are supported in the emulation core. MIPS64 support is introduced. \\\hline
-    1/20          & In-browser parsing and assembling of MIPS assembly code. This could initially be done with libraries. \\\hline
-    1/23-2/3      & Emulation Core: Simple J-type instructions are supported. \newline Interface: Support for sending MIPS instructions to the emulation core. \\\hline
-    1/23-3/10     & Parser: Supporting all planned instructions. \\\hline
-    2/1           & All planned instructions from the MIPS64 ISA are supported by the emulation core. \\\hline
-    2/6-2/10      & Emulation Core: Support for macro instructions. (i.e. li) \newline Interface: Support for highlighting the currently executed instruction in the editor. \\\hline
-    2/13-2/17     & Interface: Selecting pre-made applications supported. \\\hline
-    2/13-2/24     & Emulation Core: Support for advanced instructions. (i.e. syscall) \\\hline
-    2/15          & Full in-browser interface is functional. \\\hline
-    2/20-3/10     & Interface: Graphical pipeline view implemented. \emph{(Stretch goal)} \\\hline
-    2/27-3/10     & Emulation Core: Support for the remaining instructions and possibly stretch goal instructions. \newline Parser: Instruction error handling and suggestions implemented. \\\hline
-    3/10          & All high-priority features are completed. Polishing the GUI and front end. \\\hline
-    3/15          & Demo with Dr. Gerber/Dr. Leinecker. \\\hline
-    4/7           & Final Design Document due and presentations. \\\hline
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \textbf{Date} & \textbf{Milestone} \\\hline
+        9/19          & Group introductions - Initial date to meet team members, discuss goals and ideas, and to schedule weekly meetings. \\\hline
+        9/23          & First regularly-scheduled group meeting - Collaboration on project requirements, choice of language(s) and framework(s), and project roles. \newline \textbf{Note: Every future regularly-scheduled meeting may not be listed here.} \newline \newline Group members begin self-learning the language and frameworks planned to be used for this project (Docker, Rust, Yew). Collaboration on the initial design proposal begins.\\\hline
+        9/27-10/4     & Get taken out for a week due to Hurricane Ian. :') \\\hline
+        10/5          & TA check-in \#1. (Show 3-5 pages contributed per member) \\\hline
+        10/7          & Regularly-scheduled group meeting - Final discussion, clarifications, and wrap-up of the Initial Design Proposal. \\\hline
+        10/7          & Assignment 3 (Initial Design Proposal) is due. (15 pages total) \\\hline
+        10/10-10/14   & Discuss project architecture scale and determine required features and stretch goals. \\\hline
+        10/10-10/14   & Research and set up the version control system to be used for the project. \\\hline
+        10/17         & Begin discussing interface design between front-end team members. \\\hline
+        10/17-10/21   & Research and set up the system to be used for linting code, running tests, and using these with a continuous integration system. \\\hline
+        10/19         & Meet with Dr. Gerber to check progress and understanding of the project. \\\hline
+        10/21         & Regularly-scheduled group meeting - Project status and design document review. \\\hline
+        10/24         & Begin discussing the emulation core structure and supported internal API calls. These API calls are used for the web interface to communicate with the emulation core. \\\hline
+        10/24-10/28   & Research and set up the hosting, server, and deployment solution for the project. \\\hline
+        10/31-11/11   & Each member creates a basic small project of their own, resembling the project. This can be achieved by having each team member be familiar with Rust, Yew, and other technologies needed. Depending on what that member will be working on, they will create a web application in Yew, a parser in Rust, or an emulation core in Rust. This project acts doubly as an early test of how the final full project will be constructed. \\\hline
+        11/6          & Assignment 4 (Individual pages in design document) is due. (15 pages per member contributed) \\\hline
+        11/7          & TA check-in \#2. (Show 20-25 pages contributed per member) \\\hline
+        11/11         & Initial interface design and emulation core plan is finished. Tangible coding work on the main project begins. \\\hline
+        11/16         & Emulation Core: Registers and memory implemented. \\\hline
+        11/21         & Emulation Core: Basic ALU and datapath components connected. \newline Interface: A basic in-browser GUI is created. A placeholder space to enter MIPS assembly instructions and stubbed functions to interface with the emulation core are added. \newline Parser: Basic instruction tokenization is implemented. \\\hline
+        11/24         & Interface: The ability to view register data from the emulation core is implemented. \\\hline
+        11/28         & Emulation Core: Simple R-type instructions are supported. (e.g. add, sub, mul) \newline Interface: The ability to view memory data from the emulation core is implemented. \newline Parser: Supported assembly for basic R-type instructions. \\\hline
+        12/1          & Emulation Core: Simple I-type instructions are supported. (e.g. addi) \\\hline
+        12/5          & Emulation Core: Support for lw and sw. \newline Interface: Ability to input direct binary instructions is added. This is temporary and for initial testing purposes. \newline Parser: Supported assembly for basic I-type instructions. \newline Final Design Document is due. (30 pages per member contributed) \\\hline
+        12/11         & Fall 2022 / Senior Design 1 concludes. \newline \textbf{Note: There will be no milestones over the winter break, but group members will continue to work on the project with periodic meetings.} \\\hline
+        1/9           & Spring 2023 / Senior Design 2 begins. Resume scheduled group activity. \\\hline
+        1/9-1/20      & Emulation Core: Initial support for MIPS64 instructions. \newline Interface: Ability to step through instructions one at a time. \\\hline
+        1/14          & More MIPS instructions are supported in the emulation core. MIPS64 support is introduced. \\\hline
+        1/20          & In-browser parsing and assembling of MIPS assembly code. This could initially be done with libraries. \\\hline
+        1/23-2/3      & Emulation Core: Simple J-type instructions are supported. \newline Interface: Support for sending MIPS instructions to the emulation core. \\\hline
+        1/23-3/10     & Parser: Supporting all planned instructions. \\\hline
+        2/1           & All planned instructions from the MIPS64 ISA are supported by the emulation core. \\\hline
+        2/6-2/10      & Emulation Core: Support for macro instructions. (i.e. li) \newline Interface: Support for highlighting the currently executed instruction in the editor. \\\hline
+        2/13-2/17     & Interface: Selecting pre-made applications supported. \\\hline
+        2/13-2/24     & Emulation Core: Support for advanced instructions. (i.e. syscall) \\\hline
+        2/15          & Full in-browser interface is functional. \\\hline
+        2/20-3/10     & Interface: Graphical pipeline view implemented. \emph{(Stretch goal)} \\\hline
+        2/27-3/10     & Emulation Core: Support for the remaining instructions and possibly stretch goal instructions. \newline Parser: Instruction error handling and suggestions implemented. \\\hline
+        3/10          & All high-priority features are completed. Polishing the GUI and front end. \\\hline
+        3/15          & Demo with Dr. Gerber/Dr. Leinecker. \\\hline
+        4/7           & Final Design Document due and presentations. \\\hline
 \end{tabularx}}
 
 
 
-\section{Gantt Charts}
+\subsection{Gantt Charts}
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{gantt-sd1}
@@ -4745,9 +4747,6 @@ stylist-rs.
     \caption{Senior Design 2 Gantt Chart.}
 \end{figure}
 
-
-
-\section{Project Management}
 
 \subsection{Asynchronous Communication}
 
@@ -5365,6 +5364,7 @@ predicting the future, maybe there will be big improvements to SWIM
 after graduation. Much of the team has expressed some level of interest
 in working on SWIM after graduation.
 
+% TODO: Summary and Conclusion
 
 \printbibliography
 
