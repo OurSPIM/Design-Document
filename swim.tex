@@ -7,36 +7,45 @@
     numbers=endperiod
 ]{scrartcl}
 \usepackage[utf8]{inputenc}
-\usepackage{amssymb} % Additional symbols
-\usepackage{csquotes}
+\usepackage{amssymb}  % Additional symbols
+\usepackage{csquotes} % Context-sensitive quotes
 \usepackage[backend=biber,style=ieee]{biblatex}
 \usepackage{booktabs} % Convenience shortcuts for tables
-\usepackage{etoolbox}
-\usepackage{float} % Enables exact-placement of figures
+\usepackage{etoolbox} % Adds additional hooks like \AtBeginEnvironment
+\usepackage{float}    % Enables exact-placement of figures
+\usepackage{geometry} % Sets page margins
 \usepackage[hidelinks]{hyperref} % Enables linking
 \usepackage[none]{hyphenat} % Disable hyphenation
-\usepackage{tabularx}
-\usepackage{ltablex}
-\usepackage[margin=1in]{geometry}
-\usepackage{graphicx}
+\usepackage{tabularx} % Adds automatically-sized tables
+\usepackage{ltablex}  % Extension of tabularx for extending over pages
+\usepackage{graphicx} % Set additional properties (like dimensions) to graphics
 \usepackage{newtx} % Adds Times New Roman
-\usepackage{longtable}
-\usepackage{makecell}
-\usepackage{setspace}
-\usepackage{soul} % Better handling of certain text styles
-\usepackage{url} % Better display of URLs in references
-\usepackage{xpatch}
-
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-
-\AtBeginEnvironment{quote}{\par\singlespacing\small}
-
-\newcolumntype{C}{>{\centering\arraybackslash}X}
+%\usepackage{longtable} % Adds tables that can extend over pages
+%\usepackage{makecell}
+\usepackage{setspace} % Sets line spacing
+\usepackage{soul}     % Better handling of certain text styles
+\usepackage{url}      % Better display of URLs in references
+\usepackage{xpatch}   % Extension of etoolbox
 
 \addbibresource{references.bib}
 \graphicspath{ {./images/} }
-\setstretch{1.2} % From setspace package
+
+% Add the command \tightlist
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Define a blockquote
+\AtBeginEnvironment{quote}{\par\singlespacing\small}
+
+% Add resizable centered table columns
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+% From setspace package
+\setstretch{1.2}
+
+% 1 inch margins
+\AfterCalculatingTypearea{\geometry{margin=1in}}
+\recalctypearea
 
 % New page after sections
 \let\oldsection\section
