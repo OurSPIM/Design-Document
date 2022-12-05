@@ -3507,22 +3507,22 @@ supported, this may be considered as an alternative to Monaco again.
 \section{The Front end}
 
 The main four components that constitute the front end are the Monaco
-editor, the Register View, the Console for input/output and the buttons.
-Most of them are implemented using html with the ``html!'' macro
+editor, the register view, the console for input and output, and the buttons.
+Most of them are implemented using HTML with the ``html!'' macro
 discussed in section \ref{subsec:html-macro}. For the Monaco Editor library's details,
 see section \ref{subsec:monaco}, but overall, the Monaco Code Editor is going to be one
-of the main components the users see when the webapp is launched, as it
+of the main components the users see when the web application is launched, as it
 is the place where the code is displayed and edited by the users. The
-Register view component shows values of the register in the current
+register view component shows values of the register in the current
 system. The console is where inputs and outputs are managed as well as
-where error occurs when executing displays for the user. The buttons are
+where error are displayed to the user when they are found in the parser or emulation core. The buttons are
 designed to be separate components that use API calls to do their
-functions. All of them are wrapped together into a User Interface, which
+functions. All of them are wrapped together into a user interface, which
 will be discussed in section \ref{subsec:ui-design}.
 
 The reason the front end is structured this way is that it helps the
-user be familiar quickly with what SWIM does. This kind of layout is
-standard and is the staple for a lot of other code editor's layout, for
+user become familiar quickly with what SWIM does. This kind of layout is
+standard and is the staple for a lot of other code editors' layout. For
 example the MARS app, which is similar to what we are making as a code
 editor and MIPS processor, also has this interface setup. Visual Studio
 Code is another example of the layout we are aiming for SWIM to look
@@ -3537,13 +3537,13 @@ similar feeling to Visual Studio Code. The buttons, while having basic
 functionalities like those other code editors, are also made to stand
 out for the user to see it easily and be able to tell what they do at
 first glance. They will also be different in terms of looks compared to
-other similar apps, but making it blend into our theme may be hard. The
+other similar apps. The
 buttons are also what make SWIM standout from other emulators: a unique
-UI Design with familiarity for the user in mind.
+UI design with familiarity for the user in mind.
 
 Theoretically, the front end's process is as follows: there will be API
 calls available from the core, which are then hooked up to the front-end
-buttons so that when the buttons are interacted with by the user, the
+buttons so that, when the buttons are interacted with by the user, the
 API calls will be made and the core will transfer data queried to the
 front end for whatever the purpose of the button is.
 
@@ -3554,7 +3554,7 @@ When it came to building a foundation on what the user should expect
 from using SWIM, we chose MARS as a baseline for how the user would
 interface with SWIM. MARS is a Java-based MIPS simulator that is packed
 with features and tools to understand how MIPS Assembly work and was the
-recommended simulator to use during CDA3103 and EEL4768. The user would
+recommended simulator to use during CDA3103 and EEL4768 at the University of Central Florida. In MARS, the user can
 see three main windows:
 
 \begin{enumerate}
@@ -3581,9 +3581,9 @@ In addition to the windows, there are quick access buttons to easily
 create, open, and save assembly code and more. These concepts of ``pick
 up and code'' and ``call and response'' are keys to creating a simulator
 that is engaging to the user and helps them understand these concepts.
-While some of MARS's features and tools are nice, we do not want to over
+While many of MARS's features and tools are nice, we do not want to over
 engineer how it looks. We want the central focus to be how the code
-would process through the datapath with graphs and animations. The
+will process through the datapath with graphs and animations. The
 current methodology is to combine the registers window and some features
 from the execute window to present a visual-rich representation of a
 MIPS64 Processor processing each line or provide the classic view like
