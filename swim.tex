@@ -3181,8 +3181,8 @@ Yew's Documentation \cite{yew-lifecycle}, is as follows:
 % TODO: First sentence unclear
 It is possible to implement infinite loops by updating the component
 after every render when the update also requests the component to be
-rendered. This is done by setting the "update" method to {\em true} to always request 
-to re-render on any message from the "rendered" method. This lifecycle could make the implementation process easier
+rendered. This is done by setting the ``update'' method to {\em true} to always request 
+to re-render on any message from the ``rendered'' method. This lifecycle could make the implementation process easier
 for the back end of this project. A good example is implementing a live
 debugger in SWIM, and this can easily be done by running the parser
 in an infinite loop so it can catch whenever the user mistyped an
