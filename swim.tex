@@ -1029,6 +1029,7 @@ these coprocessors to use the opcode space for those tasks. However, for
 the floating point units to work, CP1 needs to be activated by CP0, or
 else it will return an exception.
 
+
 %\subsubsection{General Purpose and New Floating-Point Registers}
 
 % TODO
@@ -1039,6 +1040,7 @@ else it will return an exception.
 %registers compared to its 32-bit counterpart is that..
 
 % TODO: SPOT THAT KEVIN COULD POSSIBLY WORK ON
+
 
 \subsubsection{Additional Instructions}
 
@@ -3156,15 +3158,19 @@ Yew's Documentation \cite{yew-lifecycle}, is as follows:
     similar in function to React's JSX, but allows shorthand syntax for
     readability.
     % TODO: Rendered is still confusing
-    \item Rendered -- Renders the results from the component's view method to
+    \item Rendered -- Once the ``view'' method is called, this method will render the results from the component's view method to
     the DOM, but before the browser refreshes the page. This is useful
     when you want to perform actions that can only be completed after the
-    component has rendered elements. There's a parameter that can be used
-    to determine when the function is being called on a specific render.
+    component has rendered elements. A few situations where this is applied to SWIM are getting the values 
+    from the core and displaying them in their respective areas and displaying error messages from the parser.
     \item Update -- This is where the communication between components occurs
     and a component may update and re-render itself based on received
     messages. These messages can be sent by event listeners, child
-    components, and more. % TODO: Use something more specific than "and more"
+    components, Agents, Services, or Futures. Agents are used to offload tasks to 
+    web workers. Services for ineracting with external resources like mouse/keyboard events, geolocation changes,
+    output from an extrenal JavaScript library, and websocket messages. Futures are Rust's representation of an 
+    asynchronus operation's success (or failure) and its value, 
+    this is a concept borrowed from JavaScript's ``Promise'' objects.
     \item Changed -- This eases the parent-to-child node communication by only
     changing the values of a property.
     \item Destroy -- This is for general clean-up of the component's prior
@@ -3175,9 +3181,10 @@ Yew's Documentation \cite{yew-lifecycle}, is as follows:
 % TODO: First sentence unclear
 It is possible to implement infinite loops by updating the component
 after every render when the update also requests the component to be
-rendered. This lifecycle could make the implementation process easier
+rendered. This is done by setting the "update" method to {\em true} to always request 
+to re-render on any message from the "rendered" method. This lifecycle could make the implementation process easier
 for the back end of this project. A good example is implementing a live
-debugger for the IDE, and this can easily be done by running the parser
+debugger in SWIM, and this can easily be done by running the parser
 in an infinite loop so it can catch whenever the user mistyped an
 instruction or try to access memory that would cause the virtual machine
 to crash upon execution.
@@ -3199,9 +3206,10 @@ encapsulated there.
 Callbacks are the primary method of communication, and they are usually
 located in the ``view'' function within a component with the actions to
 initiate the communication stored inside the ``html!'' macro. The
-% TODO: callback unclear
 handler function passed to ``callback'' must always take a parameter,
-which is usually a type of a UI Event. From there, the handler can
+which is usually a type of a UI Event. An example of this is shown in Yew's sample code with the ``onclick'' handler, 
+being rendered as a button, requires a ``callback'' to the ``AddOne'' message to 
+tell the component to add one to ``value'' upon the button being clicked on.  With that in mind, the handler can
 determine what kind of message to be sent to the component then the
 message is scheduled for the next update loop regardless. In order for
 the callback to not cause any updates, ``batch\_callback'' can be used
@@ -3218,14 +3226,15 @@ to create conditionals for which message to send.
 Yew's ``html!'' macro, as stated before, allows writing HTML and SVG
 code directly into Rust, and the rules for using valid HTML tags still
 apply here. The macro helps explicitly specify what will be rendered on
-the webpage through the DOM API. Sometimes we do not want to directly
-change the DOM but want to send instructions to Yew's virtual DOM.
+the webpage through the DOM API. 
+% Sometimes we do not want to directly
+% change the DOM but want to send instructions to Yew's virtual DOM, which is a lightweight JavaScript representation of the DOM.
 % TODO: Virtual DOM and "ref" unexplained
-``ref'' allows us to access and manipulate the underlying DOM node
-directly, which means that we could make changes to the DOM outside of
-the ``view'' method. And to restate it, any type that implements
+% Using the ``ref'' keyword allows us to access and manipulate the underlying DOM node
+% directly, which means that we could make changes to the DOM outside of
+% the ``view'' method. And to restate it, any type that implements
 % TODO: Restating what
-``component'' can be used in this macro.
+% ``component'' can be used in this macro.
 
 There are a few caveats with ``html!'' compared to normal html. For
 example, consider an html button \textless button onclick =
@@ -3252,11 +3261,15 @@ crate must be added as a dependency, then imported using ``use
 yew\_router::prelude::*;''. ``Route'' is an enum type, so match
 statements can be used to render each page neatly, and each page can be
 encapsulated in their own method. If a given URL is not found, the
-router would direct to a page with the ``not found'' attribute. To
-implement the router onto the main code for rendering is simple as
-giving it the component type, then putting it in the app function with
-the ``BrowserRouter'' tag to render it on a browser.
-% TODO: Last sentence unclear. (Code snippet will be provided.)
+router would direct to a page with the ``not found'' attribute, 
+which could be used as the default case. From there, you would have a switch 
+function that would match the current Route based on its type. Within 
+the main function to run the app, we would have to use ``BrowserRouter'' inside ``html!'' to 
+insert the switch function and render the current page. The advantage to this is that 
+we could separate how the pages would render in their own function, 
+which improves readability and finding rendering bugs due to the 
+page functions being isolated compared to having them stored in one function.
+
 
 \subsubsection{Thoughts on Yew}
 
@@ -3268,9 +3281,9 @@ interaction is generated from the Rust code. The main disadvantage of
 using Yew is that it is still in early development, so any features used
 in SWIM may not be supported in the future once it is officially
 % TODO: We are still not sure
-released. We are still not sure about solely using web-sys for the API
+released. We are not going to rely on web-sys for the API
 calls since the documentation is vast to account for all the APIs
-supported by JavaScript, however there is a toolkit that could remedy
+supported by JavaScript. There is a toolkit that could remedy
 this. The documentation for Yew is hard to follow, but there are
 examples that show the concepts in action. Yew has a lot of support
 % TODO: "contemporaries" could use examples
@@ -3353,13 +3366,16 @@ writing:
     \item Timers -- This crate is for binding with timers, specifically
     % TODO: Specify which features are yet to be implemented?
     setTimeout and setInterval. This one has features that are yet to be
-    implemented but at the same time has no real use for the project.
-    \item Utils -- This crate is for binding common APIs, which means that this
-    is going to be required for a lot of basic functionalities and overall
-    structure on how the project will look. This one is notorious for
-    having a lot of documentation, but for good reason. As mentioned
-    before, it is recommended that we compare the documentation here to
-    the one provided by Mozilla. % TODO: Could use examples
+    implemented, Intervals with a Callback Function and Interval as ``Stream''s, 
+     but has no real use for the project currently.
+    \item Utils -- This crate houses convenience functions to access web\_sys bindings. This means that 
+    if we have to use web\_sys as a fallback to access APIs that are not 
+    supported by gloo, then we can use this to improve readability. Due to that previous fact, the 
+    documentation fallbacks on web\_sys which is huge given its nature.
+    As mentioned before, it is recommended that we compare the documentation to
+    the one provided by Mozilla. For example if we to use yew\_router to naviagte through SWIM,
+    we would need to use the history function to access web\_sys bindings for the History API.  
+    % TODO: Could use examples
     \item Worker -- This crate is for implementing web workers to improve
     performance of our project. Another crucial crate uses this concept,
     % TODO: Might research further
@@ -4467,7 +4483,7 @@ and readable in the future. Here are the candidates for SWIM:
     rules as a string literal followed by an argument list. The macro will
     replace ``\$\{arg\}'' with the argument in the argument list when
     creating the AST. If we do need to print a ``\$\{'' sequence, then we
-    may use ``\$\$\{`` to escape to a ``\$\{``
+    may use ``\$\$\{'' to escape to a ``\$\{''
 
     \begin{figure}[H]
         \includegraphics[height=16cm]{stylist-rust-example}
