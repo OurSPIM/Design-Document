@@ -12,6 +12,7 @@
 \usepackage[backend=biber,style=ieee]{biblatex}
 \usepackage{booktabs} % Convenience shortcuts for tables
 \usepackage{etoolbox} % Adds additional hooks like \AtBeginEnvironment
+\usepackage{fancyvrb} % Fancy verbatim environments
 \usepackage{float}    % Enables exact-placement of figures
 \usepackage{geometry} % Sets page margins
 \usepackage[hidelinks]{hyperref} % Enables linking
@@ -4818,6 +4819,7 @@ follow suit with a different method after it becomes less of a use to
 the team.
 
 \subsection{Version Control and Continuous Integration}
+\label{subsec:version-control-and-ci}
 
 Our group has decided to use GitHub as its primary location of storing
 and collaborating on code for this project, due to its wide use in
@@ -4996,29 +4998,26 @@ URL of deployment.
 \section{Testing}
 % TODO: Proofread
 
-With SWIM, we are not only trying to make a functional product; our goal
-is to create a development experience that is as easy to work with as we
-can so that there are as few barriers as possible in front of a user
-trying to work with the MIPS32 or MIPS64 instruction set architectures.
-To do that, we want to make sure that SWIM has as few technical issues
+With SWIM, the goal is to not only create a functional product but to also create a user experience that is as easy to work with as possible with MIPS32 or MIPS64.
+To do this, we want to make sure that SWIM has as few technical issues
 and bugs as possible and has an engaging and pleasing interface. To that
 end, we are planning on not only having extensive unit testing but are
 also planning on having a thorough user experience test plan, as well.
 
+% TODO: Edit this after SD2
 From a broad perspective, there are three distinct sections to SWIM: the
-emulation core, the parser, and the visual front end. While, in the end,
-these sections will all interface with each other, as they are being
-built, they will largely be completely isolated systems. Because of
-this, we will not be able to test interactivity between the three
-sections until relatively late into the second semester. Not only this,
-but many smaller aspects of the software might be used so infrequently
-that, if there is something wrong with it, it might go completely
-unnoticed for an extended period of time until someone stumbles upon it
-much later. To combat these potential issues, we are planning on having
-extensive unit tests in place for automated testing. That way, we are
-able to automatically test systems and ensure that layering the systems
-on top of each other does not cause any unexpected issues somewhere else
-in the project.
+emulation core, the parser, and the visual front end. While these
+sections will all interface with each other in the end product, they
+will largely be considered isolated systems for the sake of development.
+Because of this, we will not be able to test interactivity between the
+three sections until relatively later during Senior Design II. Not only
+this, but many smaller aspects of the software might be used so
+infrequently that, if there is something wrong, it may be unnoticed for
+an extended period of time. To combat these potential issues, we are
+planning on having extensive unit tests in place for automated testing.
+That way, we are able to automatically test systems and ensure that
+layering the systems on top of each other does not cause any unexpected
+issues somewhere else in the project.
 
 To that end, no section or subsection of the project will be considered
 finished until there are extensive unit tests in place that can be run
@@ -5033,29 +5032,57 @@ unit tests built for that file or function itself. Then, the unit tests
 for all of the other parts of the project should be run. Once all of
 these unit tests have passed, we should know with certainty that the
 software additions that we are adding to the project will not be
-breaking any other piece of the project.
+breaking any other piece of the project. For more details on the
+automatic testing process in place, see Section
+\ref{subsec:version-control-and-ci}.
 
 The main important focus of our unit testing is going to be on the
-emulation core. There are alot of little things that can go wrong when
-writing code for hundreds of instructions. Tracking down bugs in an
-emulator core can be hell. With heavy unit testing, hopefully debug time
-should be largely reduced. Frankly each instruction written needs its
-own unit test, or tests. The unit testing codebase for the emulation
-core could easily end up over twice the size of the emulation core code
-base. Having a huge suite of unit tests is not an uncommon phenomenon.
+emulation core, as it is both a core component of the project and issues for niche cases can easily be undetectable in development. To this end, each instruction written needs at least one unit test, or multiple for more complex instructions.
 
-For an internship groupmate Kevin worked on an emulator written in Rust.
-The process for developing the emulation core was super test driven, it
-was test driven development. Instruction tests were written before
-actual code, or at least were supposed to be written before. Writing
-tests was a way of documenting what the instructions were intended to
-do. The Tests helped a lot with learning what random code did.
-Everything had a test, not just the emulation core.
+Anecdotally, the merit of testing is clear. Project member Kevin Cahalan
+worked on an emulator written in Rust for an internship, and the process
+for developing this was test-driven. Instruction tests were written
+before program code, which in effect was a way of documenting what the
+instructions were intended to do. The tests additionally help with
+learning and understanding the codebase. Everything had a test, not just
+the emulation core.
 
-The Rust testing suite is nice. Unlike C or C++, Rust is a new language
-with new practices and principles in mind. When you install Rust, it
-comes with some tool ``cargo''.
-% TODO: This paragraph could be expanded upon
+The Rust toolchain comes pre-equipped with support for testing, making
+this goal for extensive unit testing easy and effective in development.
+Using the command \texttt{cargo test}, a suite of tests can be run,
+disabled, or enabled per the needs of development. As an example of the
+simplicity of Rust's testing facilities, Figure
+\ref{fig:testing-registers-example} demonstrates tests for accessing
+emulation core registers.
+
+\begin{figure}[H]
+    \begin{Verbatim}[frame=single, framesep=2mm, label=src/tests/emulation\_core/registers.rs]
+use crate::emulation_core::mips::registers::{RegisterType, Registers};
+
+#[test]
+fn access_valid_register_by_enum() {
+    let mut registers = Registers::default();
+
+    registers[RegisterType::T2] = 4;
+
+    assert_eq!(registers.gpr[10], 4);
+}
+
+#[test]
+#[should_panic]
+fn access_bad_register_by_string() {
+    let mut registers = Registers::default();
+
+    registers["not_a_real_register"] = 7;
+}
+    \end{Verbatim}
+    \caption{Example of testing in Rust.}
+    \label{fig:testing-registers-example}
+\end{figure}
+
+% TODO: Consider writing about meeting a code coverage quota using tarpaulin (https://github.com/xd009642/tarpaulin)
+
+% TODO: Add information on testing the front end
 
 
 \section{Browser Support}
