@@ -1265,7 +1265,7 @@ should be somewhat straightforward.
 \end{tabularx}
 
 These are the shift instructions to support. There are 20 different
-shifts. There are both 32 and 64-bit versions of all the basic shifts.
+shifts, with both 32 and 64-bit versions of all the basic shifts.
 For the 64-bit shifts the instructions in the format ``\_\_\_\_32'' are
 for doing shifts on the upper 32-bits off the 64-bit registers.
 Implementing these shift instructions should be straightforward in the
@@ -1364,7 +1364,7 @@ Since our emulator is meant to partially be a 64-bit version of SPIM,
 these are the same basic system calls from SPIM. For the most part the
 system calls do as one may expect, the integer print system call prints
 an integer, and so on. The sbrk system call, system call 9, is an
-interesting one. It is effectively a malloc system call.
+interesting one. It is effectively a memory allocation system call.
 
 To implement these system calls we will be effectively emulating an
 operating system along with a CPU. In the real world, an operating
@@ -2088,9 +2088,7 @@ counterparts, but are completely original to this project and datapath.
     \end{itemize}
 \end{itemize}
 
-\subsection{Exception Handler}
-
-% TODO
+% TODO: Exception Handler
 
 \subsection{Emulation Core API}
 \label{subsec:emulation-core-api}
