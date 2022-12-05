@@ -2152,9 +2152,9 @@ powerful amount of functionality for development.
             \tightlist
             \item Execute a single stage of execution based on the current state of
             the datapath. Should the datapath not support stages, assume the
-            same behavior as \texttt{execute\_instruction().}
+            same behavior as\\ \texttt{execute\_instruction().}
         \end{itemize}
-        \item \texttt{fn get\_register\_by\_enum(\&self, register: Self::RegisterEnum) -\textgreater{} Self::RegisterData;}
+        \item \texttt{fn get\_register\_by\_enum(\&self, register: Self::RegisterEnum)\\ -\textgreater{} Self::RegisterData;}
         \begin{itemize}
             \tightlist
             \item Retrieve the data in the register indicated by the provided enum.
@@ -2193,7 +2193,7 @@ powerful amount of functionality for development.
             caller of these functions to decide to handle or ignore any
             failures.
         \item \texttt{fn store\_word(address: u64, data: u32) -\textgreater{} Result\textless(), String\textgreater;}
-        \item \texttt{fn store\_double\_word(address: u64, data: u64) -\textgreater{} Result\textless(), String\textgreater;}
+        \item \texttt{fn store\_double\_word(address: u64, data: u64) -\textgreater{}\\ Result\textless(), String\textgreater;}
         \item \texttt{fn load\_word(address: u64) -\textgreater{} Result\textless u32, String\textgreater;}
         \item \texttt{fn load\_double\_word(address: u64) -\textgreater{} Result\textless u64, String\textgreater;}
     \end{itemize}
