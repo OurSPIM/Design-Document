@@ -1,4 +1,5 @@
 \documentclass[
+    paper=letter,
     parskip=half,
     fontsize=12pt,
     titlepage=firstiscover,
@@ -7,13 +8,13 @@
 ]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb} % Additional symbols
-\usepackage[english]{babel}
 \usepackage{csquotes}
 \usepackage[backend=biber,style=ieee]{biblatex}
 \usepackage{booktabs} % Convenience shortcuts for tables
 \usepackage{etoolbox}
 \usepackage{float} % Enables exact-placement of figures
 \usepackage[hidelinks]{hyperref} % Enables linking
+\usepackage[none]{hyphenat} % Disable hyphenation
 \usepackage{tabularx}
 \usepackage{ltablex}
 \usepackage[margin=1in]{geometry}
@@ -22,7 +23,7 @@
 \usepackage{longtable}
 \usepackage{makecell}
 \usepackage{setspace}
-\usepackage{soul}
+\usepackage{soul} % Better handling of certain text styles
 \usepackage{url} % Better display of URLs in references
 \usepackage{xpatch}
 
@@ -51,7 +52,7 @@
 \setcounter{tocdepth}{\paragraphtocdepth}
 
 % Use Times New Roman
-\fontfamily{ptm}\selectfont
+\addtokomafont{disposition}{\rmfamily}
 
 \title{SWIM}
 \subtitle{Simple Web Interface for MIPS}
@@ -66,21 +67,17 @@
     \and
     Jimmie Smith
 }
-\date{}
 
 \begin{document}
+
+\sloppy
 
 \maketitle
 
 \pagenumbering{arabic}
 \setcounter{page}{1}
-% \pagenumbering{roman}
-% \setcounter{page}{1}
 \tableofcontents
-\clearpage
 
-% \pagenumbering{arabic}
-% \setcounter{page}{1}
 \section{Executive Summary}
 
 SWIM (Simple Web Interface for MIPS) is a web interface to view and interact with a MIPS64 emulator, designed by Kevin Cahalan, Jerrett Longworth, Huy Nguyen, Evan Raiford, and Jimmie Smith. This project was initially pitched by Kevin Cahalan and was designed in Senior Design at the University of Central Florida in Fall 2022.
@@ -107,7 +104,7 @@ The code for the project will be written primarily in Rust \cite{rust-book} to u
 \subsection{The Tech Stack}
 SWIM's tech stack is unique in the fact that a lot of the tools and frameworks used in its development are still in their preliminary stages, unlike conventional tools such as JavaScript, React, Emscripten, and MongoDB. This project's tech stack uses the Rust programming language for developing all parts of the application: emulation core, parser, and interface. This helps with having a cohesive understanding of how the codebase is structured, as all code from all components use the same programming language.
 
-Moving up to abstraction in Rust, the Yew framework \cite{yew} and Gloo toolkit \cite{gloo} facilitates how the front end interacts with Javascript APIs and aids in converting Rust code into the appropriate WebAssembly binaries and JavaScript files without direct intervention or understanding from a development perspective. WebAssembly \cite{webassembly} is still in its infancy, but it will allow our Rust code to be run on browsers like Google Chrome, Mozilla Firefox, Apple Safari, and Microsoft Edge. Due to the recency of WebAssembly, users must run the latest version of those browsers – or their respective FOSS forks (i.e. Chromium, Waterfox, etc.) – in order for WebAssembly to function properly. While the majority of code running for this project will be in WebAssembly, JavaScript is still essential for the application to initially load on the web browser. Trunk \cite{trunk} will be the tool for packaging and finalizing the software; Trunk has configurations that would allow us to compile test versions of the software as we edit it automatically and if they fail, alert us. 
+Moving up to abstraction in Rust, the Yew framework \cite{yew} and Gloo toolkit \cite{gloo} facilitates how the front end interacts with Javascript APIs and aids in converting Rust code into the appropriate WebAssembly binaries and JavaScript files without direct intervention or understanding from a development perspective. WebAssembly \cite{webassembly} is still in its infancy, but it will allow our Rust code to be run on browsers like Google Chrome, Mozilla Firefox, Apple Safari, and Microsoft Edge. Due to the recency of WebAssembly, users must run the latest version of those browsers – or their respective FOSS forks (i.e. Chromium, Waterfox, etc.) – in order for WebAssembly to function properly. While the majority of code running for this project will be in WebAssembly, JavaScript is still essential for the application to initially load on the web browser. Trunk \cite{trunk} will be the tool for packaging and finalizing the software; Trunk has configurations that would allow us to compile test versions of the software as we edit it automatically and if they fail, alert us.
 
 GitHub Pages is used to host the website, additionally allowing users access to the project's source code on the same site. For the user interface, Microsoft's Monaco Editor will be used, given its support for assembly syntax, Intellisense, themes, and its extensible API.
 
@@ -120,7 +117,7 @@ GitHub Pages is used to host the website, additionally allowing users access to 
 % TODO: Proofread this section
 The motivations for this project come from many different directions. We wanted to do something amazing; something that we felt was realistic and useful. Most of the initial project proposals for senior design were just turns offs for us. Much of our team is made up of low level enthusiasts. AI and front-end replacement projects did not fit our cup of tea. We want to introduce more people to the low level reality of computation. Along the way, we also want to improve our own understanding of computation and reality of what a computer actually does. There is major room for improvement in the educational MIPS emulation scene. Number one, there are no real options for those who want to learn MIPS64. All the options for MIPS32 educational emulation are arguably not the most welcoming to new users. These are some clear holes in the education emulation world waiting for someone to fill. Writing a MIPS emulator seems like a fun thing to do, and best of all, has clear direction. We know roughly what to expect tackling such an endeavor. The job prospects for emulation are also significant. We want to get jobs that we can be proud of through doing this project. So our project motivation comes from many different directions. Our motivations are mainly inspiration, personal educational benefits, teaching others, clear direction, and jobs. There is just something gripping about writing an emulator. It is like magic to see software run in a simulation.
 
-There is a need for improving the computer architecture education scene. Many people learning computer architecture dread having to learn and use MIPS. There is just not the same kind of assistance out there that many students have come accustomed to expect. If a student wants to learn Python, there are so many resources to help them along the way. They have great IDE's, online resources for running Python, and so on. For learning MIPS, things are more to the contrary. Many of the people on our team were directly affected by this. The current emulation software could be vastly improved upon. The needs to be a highly accessible emulator out there better tailored to students learning MIPS, or any computer architecture for that matter. 
+There is a need for improving the computer architecture education scene. Many people learning computer architecture dread having to learn and use MIPS. There is just not the same kind of assistance out there that many students have come accustomed to expect. If a student wants to learn Python, there are so many resources to help them along the way. They have great IDE's, online resources for running Python, and so on. For learning MIPS, things are more to the contrary. Many of the people on our team were directly affected by this. The current emulation software could be vastly improved upon. The needs to be a highly accessible emulator out there better tailored to students learning MIPS, or any computer architecture for that matter.
 
 One of the big issues with many of the projects proposed for senior design is that many had unclear direction. Many of the projects proposed were by people who had no technical experience, many seemed to believe in magic. They had no real idea on time and difficulty. Many of the projects could be summarized into two categories, “We have this problem, please fix it with the magic of AI”, and “Bla bla bla, VR, and AI”. Nobody on our team wanted to end up on a project that could be impossible to complete. After all, not completing a project could mean having graduation held back by a year. It can be very hard to gauge the difficulty and time needed for a project without clear direction, and especially one depending on the magic of AI. We all want to graduate, we do not want to gamble on a project to get lost on. This MIPS project felt like a great balance between direction and difficulty.
 
@@ -199,7 +196,7 @@ At the project's initial inception and gathering of group members, all group mem
 \begin{itemize}
     \item The project itself.
     \item The use of Rust for programming both the back end and front end.
-    \item Test driven development. All instructions should have test cases to prove that they work correctly. 
+    \item Test driven development. All instructions should have test cases to prove that they work correctly.
     \item Naming the project “OurSPIM.” This name was based on an assignment named “MySPIM.” We decided that we do not want our own SPIM.
     % TODO: Unclear sentence
     \item The possible project name “MipAndNayNay64.” This project name is based off the song “Watch Me.”
@@ -220,7 +217,7 @@ At the project's initial inception and gathering of group members, all group mem
 \subsection{Jimmie Smith}
 \begin{itemize}
     \item As a design goal, SWIM should not only support MIPS64 but it should be designed openly to load in different emulators of CPUs and their respective datapaths (if available). This would require some careful planning, but should be feasible since this is being built from scratch.
-    \item Having a live debugger for SWIM would be a simple feature to implement, but could streamline the debugging process even more. 
+    \item Having a live debugger for SWIM would be a simple feature to implement, but could streamline the debugging process even more.
     \item Since this is a web application, I think having customizable options would elevate the user experience like dark mode, color-coding for instructions, registers, etc.
 \end{itemize}
 
@@ -340,21 +337,21 @@ The emulation core acts as the project component performing simulation of a proc
     \item Instruction-by-instruction execution / step-through debugging
 
     The interface should be able to execute instructions one at a time. Users should be able to know which line is being executed. The function of our step-through debugging should be very similar to that of Visual Studio Code. We will be using the same front-end code editor library that Visual Studio Code uses, Monaco.
-    
+
     \begin{figure}[H]
         \includegraphics[height=7cm]{step-through-debugging}
         \caption{Step through Debugging with Visual Studio Code.}
     \end{figure}
-    
+
     \item Register view
 
     Users should be able to view register values. Visual Studio Code acts as a preferred reference of a layout to follow:
-  
+
     \begin{figure}[H]
         \includegraphics[height=7cm]{vs-code-registers}
         \caption{Visual Studio Code Register View.}
     \end{figure}
-    
+
     \item Users should be given the option to change the number format for showing the contents of the registers between binary, integer, and hexadecimal.
     \item Memory view: Users should be able to view the entire contents of the instruction and data memory.
 \end{itemize}
@@ -370,12 +367,12 @@ The emulation core acts as the project component performing simulation of a proc
 \begin{itemize}
     \item While stepping through execution, registers that change flash with a temporary highlight.
     \item Registers should have the ability of being organized by category. In the MIPS architecture, there would likely be 3 categories: One for general-purpose registers, one for floating-point registers, and one for internal hidden registers (e.g., the PC or the condition code register).
-  
+
     \begin{figure}[H]
         \includegraphics[height=6cm]{vs-code-register-categories}
         \caption{Visual Studio Code Register Categories for x86-64.}
     \end{figure}
-    
+
     \item The user should be able to directly edit the values of registers.
     \item Time slider: The user should be able to choose the rate at which instructions are run, up to a limit based on the capabilities of the user's browser client and hardware.
     \item Entropy viewer for registers: The user should be able see which registers have the most activity and are changing.
@@ -391,7 +388,7 @@ The emulation core acts as the project component performing simulation of a proc
         \includegraphics[height=2cm]{vs-code-hover-variable}
         \caption{Mouse hover function and variables assistance.}
     \end{figure}
-    
+
     \item The information provided in the hover dialog should include the effect of the instruction in pseudocode, parameters to a given instruction name, and any possible limitations to this instruction. (For example, the maximum or minimum immediate values for the addi instruction.)
     \item Graphical memory viewing
 
@@ -399,9 +396,10 @@ The emulation core acts as the project component performing simulation of a proc
 
     Users would additionally be able to choose which parts of memory to view graphically and the dimensions of the representation (e.g., all in one line, in a 256x256 grid).
     \item Reverse execution
-    
+
     Reverse execution is the capability to step backwards in execution. In other words, the emulator should record its past states so that it can go back to them later. This could allow students to thoroughly understand how a program works, or undo previous parts of execution to replace with other instructions.
     \item The interface should be able to support a light and dark theme.
+    % TODO: Is toggling between MIPS32 and MIPS64 a stretch goal?
 \end{itemize}
 
 \subsection{Parser}
@@ -428,19 +426,20 @@ The emulation core acts as the project component performing simulation of a proc
 \end{itemize}
 
 \subsubsection{Stretch Goals}
+\label{subsec:parser-stretch-goals}
 \begin{itemize}
     \item Suggestions for correct instruction or label when an invalid one is recognized
-    
+
     This falls as an extension to the existing functionality of reporting errors. In the event that there are invalid instructions or labels used in inputted assembly code, the parser should also be able to give suggestions on which instructions or labels to use in replacement. If there are instructions or labels with similar names to the invalid ones, these will be suggested first before others. The existing error recognition for instruction names and label names should still operate at a similar level of quality and speed, with or without this feature.
 
     \ul{Tentative specification:} One way to have this implemented is via a string similarity function, where the parser would then be able to suggest the instruction name or label name that is most similar to the one the user wrote. One version of this is the Levenshtein Distance function, which finds the number of edits required to alter one string into another \cite{seth-string-similarity}. This function is already included in the Rust programming language as an external crate \cite{rust-doc-levenshtein}.
-    
+
     Both the runtime and space complexity of this function are $O(m*n)$, where $m$ is the length of the first string and $n$ is the length of the second string. This implies that the addition and implementation of instruction and label suggestion should be within specified time requirements.
-    
+
     \item Recognition when a label is created but never used
-    
+
     This extends required support for providing errors of using labels in J-type instructions that do not exist elsewhere in a given assembly program. The parser should also be able to recognize labels that are created but never used as an operand in any instruction of the program, and return a warning for this case. If there exists any unused labels in a program, there should be no effective impediment for the user with respect to running their program.
-    
+
     \ul{Tentative specification:} This system could be implemented by associating a boolean value with each label, defaulting to false and only switching to true when the label is found as an operand. Then, any label that has a boolean value of false after the parser and assembler have completed their processes would be instances of this issue.
 \end{itemize}
 
@@ -1205,6 +1204,7 @@ the instruction decode phase of execution.
 \subsection{Supported Instructions}
 \label{subsec:supported-instructions}
 
+% TODO: Re-clarify supported instructions.
 The following table is an all-inclusive list of the assembly
 instructions supported in SWIM.
 
@@ -1564,6 +1564,7 @@ dynamic, having at runtime their operations specified with some kind of
 operation code. There is no standard for how many bits these opcodes
 are, exactly what, and how many operations an ALU can do.
 
+% TODO: This must be clarified. The ALU's functionality should be certain.
 The ALU generally taught for MIPS education is a general eight operation
 unit. It takes in a three bit operation specification code. Most
 diagrams you would see for MIPS use this ALU. The standard eight
@@ -1746,7 +1747,7 @@ pub struct Memory {
 impl Default for Memory {
     fn default() -> Self {
         Self {
-            memory: vec!{[}0; CAPACITY\_BYTES{]},
+            memory: vec![0; CAPACITY_BYTES],
         }
     }
 }
@@ -2148,7 +2149,7 @@ powerful amount of functionality for development.
             \tightlist
             \item Execute a single stage of execution based on the current state of
             the datapath. Should the datapath not support stages, assume the
-            same behavior as \texttt{execute\_instruction().}
+            same behavior as \texttt{execute\_instruction()}.
         \end{itemize}
         \item \texttt{fn get\_register\_by\_enum(\&self, register: Self::RegisterEnum) -\textgreater{} Self::RegisterData;}
         \begin{itemize}
@@ -2198,92 +2199,92 @@ powerful amount of functionality for development.
 
 \section{Parser and Assembler}
 
-In the stages of SWIM, once a user has written a program in the Monaco
-code editor, the next step is to pass the text to the parser and
-assembler stage of SWIM not only to yield the executable binary of the
-program to the emulation core but also to provide as much information
-about the program as possible back to the front end so it can be
-displayed to the user in the way they best see fit.
+In the process of using SWIM, once a user has written a program in the
+code editor, the inputted text is then passed to the parser and
+assembler component of SWIM to not only generate the executable binary
+of the program for the emulation core, but to additionally provide as
+much information about the program as possible back to the front end so
+it can be displayed to the user.
 
 \subsection{The Parser and Assembler Pipeline and Overview}
 
 There are multiple stages within the parser and assembler of SWIM. The
-order that they are done in is structured to make sure that program is
-structured in as consistent a way as possible before actually reading
-the instructions and their operands to keep that part of the system as
-simple as is reasonably possible.
+order that these stages are arranged in aim to ensure that the assembly
+input code is structured in as consistent a way as possible before
+subsequently reading instructions and their operands. This is to keep
+each part of the system as simple as reasonably possible.
 
 The program written in the Monaco code editor is passed to the parser
 and assembler as a string. The first step of the parser is to remove any
-of the non-functional parts of the program by removing all of the
-comments from the program as well as any extra spaces and blank lines.
+of the non-functional parts of the program by removing all comments,
+extra spaces, and blank lines from the program.
 
-After this, the system goes through the program a second time finding
-any label names and builds a table of them and their corresponding
-instruction number. This is where it starts checking for errors, as
-well. Any errors with the labels are recorded to be passed back to the
-front end. If there is an error, the process will not stop but the
-program will not be able to be passed to the emulation core. Once a
-label has been read, it can be removed from the string of the program.
+After this, the system goes through the program a second time, finding
+any label names and building a table of these with their corresponding
+instruction/line number. This is additionally where the parser starts
+checking for errors. Any errors pertaining to labels are recorded to
+later be passed back to the front end. In this case, parsing will not
+stop, but the final binary program will not be able to be passed to the
+emulation core. Once a label has been read successfully, it can be
+removed from the input string.
 
 After all of the labels have been found, the individual instructions can
 then be read. Without comments, labels, and extra blank lines, each line
-should be an instruction and instruction will have a single space
-between the tokens it is comprised of. The system can go through the
-program line by line. The first word on every line should be the
-instruction name so it is compared against a match case housing all
+should be an instruction and each instruction will have a single space
+between the tokens it is comprised of. The parser can then read through
+the cleaned string line by line. The first word on every line should be
+the instruction name, so it is compared against a list containing all
 valid instruction names. If there is an error with the instruction name,
-it is logged here. The match case for each specific instruction houses
+it is then logged. The match case for each specific instruction houses
 function calls to verify that the given operands match the expected
-type; if they do not, this is logged. Once all of the operands are
-verified as valid, the system can construct the binary representation of
-the instruction which is then stored in a vector.
+type; if they do not, this is also logged. Once all of the operands are
+verified as valid, the assembler can then construct the binary
+representation of the instruction, stored in a vector.
 
 The above process is continued for each line in the program, logging
-information about each line in the program to provide to the front end
-and building up a vector of the binary of the instructions to provide to
-the emulation core. Once all instruction has been iterated through, the
-process is complete. If there have not been any errors found, the binary
-can be provided to the emulation core while the information about the
-instructions is provided to the front end regardless.
+information about each line in the program for the front end and
+building up a vector of binary instructions for the emulation core. Once
+all instructions have been processed, the parsing and assembling is
+completed and the results are returned to their respective locations. If
+no errors have been found, the binary can be provided to the emulation
+core, however the metadata and error information about the instructions
+is provided to the front end regardless.
 
 \subsection{Blank Line and Extra Space Removal}
 
 In MIPS assembly languages, newline characters separate different
-instructions while space characters separate the operator and the
-different operands on the line as well as labels. While only a single
-newline character is needed to separate instructions and a single space
-character is enough to separate the terms of an instruction, MIPS does
-not mandate that the user only use a single one of these characters to
-do the job. They can put as many spaces between terms in an instruction
-as they want and as many blank lines between instructions as they want,
-as well; these extra spaces and newline characters do not affect what
-the program does so the system can just ignore these characters.
-Similarly, the user can have a line in their program that is just some
-number of space characters. This can be ignored, also.
+instructions while space characters separate instruction names,
+operands, and labels. While only a single newline character is needed to
+separate instructions and a single space character is needed to separate
+terms of an instruction, MIPS does not mandate that the user only use
+one of these characters. Users may add as many spaces between terms and
+as many blank lines between instructions as they want; these extra
+spaces and newline characters do not affect what the program does, so
+the parser can simply ignore these characters. Similarly, the user can
+have a line in their program that solely consists of space characters.
+This can also be ignored.
 
 Since a blank line on its own does not affect the program, it can safely
-be removed from the program. So, if the system finds a newline character
-immediately followed by another newline character, it can remove the
-second one. This process can be repeated until a non-newline character
-is found to remove multiple blank lines in a row. This can be done for
-lines only containing space characters as well. So, if between two
-newline characters, there are only space characters, all of the space
-characters and one of the newline characters can safely be removed.
+be removed from the program. Consequently, if the system finds a newline
+character immediately followed by another newline character, it can
+remove the second one. This process can be repeated until a non-newline
+character is found to remove sequential blank lines. This can
+additionally incorporate lines containing only space characters, so if
+between two newline characters there are only space characters, all of
+the space characters and one of the newline characters can be safely
+removed.
 
 Since there can be any number of spaces between instructions, if the
-system is reading a line character by character, it will have to be
-written in a way to accommodate any number of extra space characters
-being present if it were to handle extra spaces only as they show up.
-Since it can be done between any two terms in the instruction, this
-would have to be done for every instruction type and multiple times
-within each.
+parser is reading a line one character at a time, it will have to be
+written in a way to accommodate any number of extra space characters,
+even without the foresight of future characters. Since there could be
+many blank spaces between any term of an instruction, this extra space
+handling would have to be included for every instruction type.
 
 Instead of handling extra spaces and lines as they show up, the parser
 can do an initial pass through of the program when it first receives it
 to remove these instead, similar to how it will handle comments. This
-pass through can be done at the same time as the pass through to remove
-comments.
+pass-through can be done at the same time as when removing comments.
 
 Removing blank lines and lines with only space characters can be done as
 detailed above. Extra spaces can be done similarly by checking if a
@@ -2298,19 +2299,19 @@ a newline character, the space character can safely be removed.
 \subsection{Label Handling}
 
 MIPS assembly languages do not have support for functions, however they
-do have support for labels. A label is essentially a name that is given
-to an instruction. This name can then be used by J-type instructions as
-an operand which then moves the program counter the instruction that the
+do use labels. A label is essentially a name that can be given to a
+specific instruction. This name can then be used by J-type instructions
+as an operand to move the program counter to the instruction that the
 label corresponds to.
 
 In the assembler, the bits corresponding to the label within a J-type
-instruction are an abbreviated version of the address of the location in
-memory where the instruction is stored. This means that, when building
-the binary for a J-type instruction, the address the labeled instruction
-will be at will have to be known already. Otherwise, if a line with a
-J-type instruction came before the line with the label it is supposed to
-branch to, it would not know the address of the labeled instruction to
-use to complete building the binary for the J-type instruction with.
+instruction are a truncated version of the address of the location in
+memory where the instruction is stored. This means when building
+the binary form of a J-type instruction, the address of the labeled
+instruction must already be known. Otherwise, if a line with a J-type
+instruction came before the line with the label it is supposed to branch
+to, it would not know the address of the labeled instruction to use to
+complete building the binary for the J-type instruction with.
 
 Grammatically, the way the user is able to specify an instruction as a
 labeled instruction is by writing the label name followed by a colon,
@@ -2321,85 +2322,80 @@ addFive: addi $t1, $t1, 5
 j addFive
 \end{verbatim}
 
-In the brief example above, the first line is the labeled line with
-``addFive'' being the label. The second line is a jump instruction that
-would move the program counter back to the address of the addFive
-instruction in memory once the jump instruction is reached. Since the
-labeled instruction starts with the label name itself, if the line was
-to go through the parser as it is, the label would have to be matched
-against every possible instruction name before it is recognized to not
-be an instruction and is, instead, recognized to be a label.
+In the brief example above, the first line is the labeled with
+``addFive.'' The second line is a jump instruction that moves the
+program counter back to the address of the instruction labeled
+``addFive.'' Since all labeled instructions start with a label name
+rather than an instruction, if the line were to go through the parser
+as-is, the label would have to be matched against every possible
+instruction name before it is recognized to not be an instruction and
+is, instead, recognized to be a label.
 
-Because of the two issues with handling instruction addresses as the
-line they are on shows up as mentioned in the previous paragraphs, the
-best way of handling instructions is by running through the written
-program in its entirety and searching for labels before actually trying
-to read the individual instructions.
+Based on the two previously mentioned issues with labeled instructions,
+the best way of handling this case is by passing through the written
+program in its entirety and searching for labels before trying to read
+individual instructions.
 
-To check for labels, the system will look specifically for lines with
-the colon character on it. Colons are only used in MIPS to denote
-labels. The exception to this is that comments can have the colon
-character in them as well, so, to combat this, the process of removing
-comments from the program will be done before checking for labels. The
-colon character is the terminating character of an instruction so
-anything up to and including the label is checked to be a correctly
-formatted label using the method described under the Invalid Label Names
-subsection of Error Recognition and Handling.
+To check for labels, the parser will specifically look for lines with
+the colon character in it, as colons are only used in assembly to denote
+labels. The only exception to this is in comments, but this is combated
+by removing comments before checking for labels. The colon is the
+terminating character of a label, so any characters from be beginning of
+the interpreted line to this colon is checked for correctness using the
+method described in Section \ref{subsec:invalid-label-names}.
 
 Once the label is recognized, the label name and the instruction number
-it occurred on is stored in a table that can be referenced whenever the
-instructions themselves are read by the system. After that, the
-characters of the label up to and including colon are removed from the
-line that they occurred on.
+it occurs on is stored in a table that can be referenced for other
+instructions read by the parser. After all labels are read, the
+characters of the label up to and including the colon are removed from
+the line that they occur on.
 
-MIPS also allows labels to be on a line on their own. In this case, the
-line immediately following the line with the label is the instruction
-that is associated with the label. Once this has been recognized by the
-parser, the entire line that the label is on can be removed from the
-program, instead.
+MIPS also allows labels to be on their own line. In this case, the line
+immediately following the line with the label is the instruction that is
+associated with the label. Once this has been recognized by the parser,
+the entire line that the label is on can be removed from the string
+instead.
 
 \subsubsection{Label to Bit Translation}
 
-In a J-type instruction, the bits corresponding to the label are an
-abbreviated version of the address in memory where the instruction
-corresponding to the label is. As mentioned in the section above, the
-instruction number of a labeled instruction is stored in a table when
-labels are first recognized. For our project, the instructions of a
-program are stored right at the beginning of memory meaning instruction
-one will be at address zero.
+As previously mentioned, in a J-type instruction, the bits corresponding
+to the label are a truncated version of the address in memory where the
+instruction corresponding to the label is located. The instruction
+number of a labeled instruction is stored in a table when labels are
+first recognized. For our project, the instructions of a program are
+stored right at the beginning of memory, meaning the first instruction
+will be at address 0.
 
-All instructions in both MIPS32 and MIPS64 are 32-bits long \cite{brady-instruction-formats} meaning
-every instruction will take up the same amount of space in memory. The
-first 32-bits of memory correspond to the first instruction, the second
-32-bits correspond to the second instruction and so on. This means that
-the bit location in memory of an instruction can be found by subtracting
-one from the instruction number and then multiplying the resulting value
-by four. As an example, instruction number nine start at bit number 256
-in memory since ${{({9 - 1})} \ast 32} = 256.$
+All instructions in both MIPS32 and MIPS64 are 32 bits long
+\cite{brady-instruction-formats}, meaning the first 32 bits of memory
+correspond to the first instruction, the second 32 bits correspond to
+the second instruction, and so on. This means that the bit location in
+memory of an instruction can be found by subtracting 1 from the
+instruction number, then multiplying the resulting value by 4. As an
+example, instruction 9 would start at bit 256 in memory since
+$(9 - 1) \cdot 32 = 256$.
 
-However, MIPS does not have bit-addressable \cite{sciencedirect-addressable-memory} memory. MIPS has
-byte-addressable memory meaning referencing an address in memory does
-not just give the specific bit at that location but rather gives that
-bit and the seven subsequent bits, as well. So, to find the actual
-address of an instruction in memory, the bit location of an instruction
-then has to be divided by the number of bits in a byte, eight, to get
-the address of the instruction in memory. To continue the example from
-before, instruction number nine will start at bit number 256 but the
-address for the instruction will be at address 32.
+However, MIPS does not have bit-addressable
+\cite{sciencedirect-addressable-memory} memory. MIPS instead has
+byte-addressable memory, meaning the granularity of an address in memory
+is only by every byte. To find the actual address of an instruction in
+memory, the bit location of an instruction must be divided by the number
+of bits in a byte (8) for the instruction. The emulation core handles
+this byte-level addressing as per the MIPS specification. To continue
+the previous example, instruction 9 starts at bit 256 and the address
+associated with the instruction is 32.
 
-In a section of memory, an address is specified by 32-bits. So, to
+In a section of memory, an address is specified with 32 bits. Thus to
 reference the instruction at address 32, the address name in bits is
-00000000000000000000000000100000. However, MIPS instructions are also
-32-bits long and the entirety of the instruction cannot be the address
-so parts of the address have to be removed to make space for the six bit
-opcode of the instruction. Since instructions are always 32-bits long
-and memory is byte-addressable, each instruction will always take up
-four bytes of memory so addresses for instructions will always go up in
-increments of four. This means that the last two bits of an
-instruction's address will always be 00 so these can be omitted from the
-J-type instruction. The other four bits removed from the address are
-removed from the front of the address. So the 26-bit version of the
-address for instruction number nine becomes 00000000000000000000001000.
+\texttt{00000000000000000000000000100000}. However, MIPS instructions
+are 32 bits long, meaning the entire address cannot be stored. As part
+of the MIPS specification, the address must be truncated to make space
+for the 6-bit instruction opcode. Since instructions are always 32 bits
+long and memory is byte-addressable, the last two bits of an
+instruction's address will always be \texttt{00} and can be omitted from
+the J-type instruction. The other four bits removed from the address are
+from the front of the address. Thus, the 26-bit version of the address
+for instruction 9 becomes \texttt{00000000000000000000001000}.
 
 \subsection{MIPS32 / MIPS64 Instructions}
 
@@ -2414,63 +2410,60 @@ When students learn assembly languages with MIPS, they first learn
 MIPS32 and only after familiarizing themselves with that system do they
 learn MIPS64. At UCF, computer science students learn about MIPS32 in
 the required class, CDA3103, Computer Logic and Organization, and learn
-about MIPS64 in the optional class, EEL4768, Computer Architecture \cite{ucf-cs-electives}.
-Since we want students to be able to use our project as an educational
-tool, making it so the user is aware what instructions are MIPS32 versus
-MIPS64 is an important feature of the project.
+about MIPS64 in the optional class, EEL4768, Computer Architecture
+\cite{ucf-cs-electives}. Since students should be able to SWIM
+% TODO: Is this a stretch goal?
+as an educational tool, a stretch goal is to make the user aware of
+which instructions are in MIPS32 versus only in MIPS64.
 
 To do this, the parser will send this information about each line back
 to the front end so it can be displayed to the user. As an instruction
 is being processed, once the instruction type has been found, the parser
-will notate whether the instruction is a MIPS64 exclusive instruction or
+will notate whether the instruction is a MIPS64-exclusive instruction or
 a MIPS32 instruction.
 
 \subsection{Pseudo-Instructions}
 
-One of the goals we had with SWIM was that we wanted to be able to
-support some amount of common pseudo-instructions. Pseudo-instructions
-are instructions that do not have a direct translation to a hardware
-instruction but are so useful or convenient to a programmer that they
-are still supported within MIPS programming languages. The way this is
-done is that the pseudo-instruction is translated by the assembler into
-an instruction or a set of instructions that are supported by the MIPS
-hardware that collectively perform the task for the pseudo-instruction,
-instead \cite{koehn-pseudoinstructions}.
+One of the requirements of SWIM is to support at least some common
+pseudo-instructions. Pseudo-instructions do not have a direct
+translation to a hardware instruction, but are useful and convenient for
+programming in assembly. These are implemented in the assembler by
+translating the pseudo-instruction into one or multiple instructions
+that are supported by the MIPS hardware that collectively perform the
+task of the pseudo-instruction \cite{koehn-pseudoinstructions}.
 
-For example, a commonly used instruction in MIPS is ``li'' which loads
-an immediate integer value into a given register. This instruction,
-though, is not supported at the hardware level but it is still a legal
-MIPS Assembly Language instruction so it is a pseudo-instruction. Since
-MIPS cannot just load an immediate into a register, it instead uses a
-hardware supported instruction that does the equivalent of that. In this
-case, it uses the ``ori'', or immediate, instruction to perform the
-task. The or immediate instruction performs a bitwise or between an
-immediate value and a specified register and puts the end result into a
-register. The assembler takes advantage of this and compares the
-immediate value against the register, \$zero, which can only ever
-contain the binary representation of zero. The result of a bitwise or
-between any value and zero will just be that original value so the end
-result of ori between a zero and the immediate performs the same
-function that li was trying to do.
+For example, a commonly used pseudo-instruction is ``li'' (load
+immediate), which loads an integer value into a given register. This
+instruction is not written in the MIPS specification, so it is
+considered a pseudo-instruction. While MIPS cannot directly load an
+integer into a register, it instead uses a hardware-supported
+instruction that can accomplish an equivalent task. In this case, it
+uses the ``ori'' (or immediate) instruction to perform the task. The
+``or immediate'' instruction performs a bitwise or between an immediate
+value and a specified register and writes the end result into a
+register. The assembler takes advantage of the register \$zero, defined
+in the MIPS specification, which states it can only contain the binary
+representation of zero. The result of the bitwise or between any value
+and \$zero will be that value, so this effectifely accomplishes the same
+function of ``li.''
 
-In the case that there is no single hardware recognized instruction that
-can perform an equivalent task for a pseudo-instruction, a single
-pseudo-instruction might be translated into multiple hardware supported
-instructions instead. Fundamentally, this works the same way as a one to
-one translation, however, more instructions being used also means they
-might increase the runtime more than the user would expect since
-something that they likely expect to take a single cycle will actually
-take multiple.
+In the case where there is no single hardware-recognized instruction
+that can perform an equivalent task for a pseudo-instruction, the
+pseudo-instruction would instead be translated into multiple hardware
+supported instructions. Fundamentally, this works the same way as a
+one-to-one translation, but more instructions may eventually increase
+the runtime more than a programmer would expect, since it only appears
+as one instruction.
 
-For our implementation of pseudo-instructions, it was important to us to
-make sure that the most commonly used ones are supported. For example,
-load immediate is such a commonly used instruction that many people
+For SWIM's implementation of pseudo-instructions, it was important to
+ensure sure that the most commonly used ones are supported. For example,
+load immediate is such a commonly used instruction, that many people
 would likely be surprised to find out that it is not a ``real'' MIPS
-instruction. However, SWIM is built to be a learning tool so we want to
-make sure that the limited selection of MIPS instructions that we do
-support captures the essence of the MIPS hardware and assembly language.
-Because of that, we have been selective in choosing which
-pseudo-instructions we support.
+instruction. SWIM is built to be a learning tool so we want to make sure
+that the limited selection of MIPS instructions that we do support
+captures the essence of the MIPS hardware and assembly language. Because
+of that, we have been selective in choosing which pseudo-instructions
+are supported.
 
 Along with that, we are hoping to indicate in the code editor when a
 pseudo-instruction is used. When an instruction is being read in the
@@ -2489,7 +2482,7 @@ highlight how the MIPS hardware actually functions.
 A separate decision we have to make for the implementation of
 pseudo-instructions is how it is handled during step-through debugging
 where a single instruction is run at a time. There are two different
-ways this can be handled both with their own drawbacks. The first option
+ways this can be handled, both with their own drawbacks. The first option
 is that, when the program gets to a pseudo-instruction, they are all run
 together as if they are all part of the same long instruction. There are
 two downsides to this, though. One of them is that the emulation core
@@ -2519,42 +2512,41 @@ project as representative of actual MIPS hardware as possible.
 
 \subsection{Comment Removal}
 
-The MIPS assembly language does support having comments within written
-code to allow the programmer to detail the intention of their software.
-Part of the job of the parser is to recognize what text is part of a
-comment and remove it before assembling instructions from the program.
-In MIPS, comments can be denoted by the hash sign, \#. Any text written
-after a \# on a line in a MIPS program is ignored by the compiler \cite{wikibooks-mips-instructions}.
-Comments do not have to be written on their own line; a line with an
-instruction on it followed by a comment on that same line is still
-recognized. MIPS does not support block comments like other languages
-do. Each line in a multi-line comment must begin with the \# character.
-Along with that, the only terminating character for a comment is the new
-line character.
+The MIPS assembly language supports comments within written code to
+allow programmers to detail the intention of their software. Part of the
+parser's functionality is to recognize what text is part of a comment
+and remove it before assembling instructions from the program. In MIPS,
+comments can be denoted by the hash sign: \#. Any text written after a
+\# on a line in a MIPS program is ignored by the compiler
+\cite{wikibooks-mips-instructions}. Comments do not have to be written
+on their own line; a line with an instruction followed by a comment is
+still recognized. It should be noted that MIPS does not support block
+comments like other languages. Each line in a ``multi-line'' comment
+must begin with the \# character. Along with that, the only terminating
+character for a comment is the new line character.
 
-Thanks to these limitations of the structure of comments, the actual
-work that the parser has to do to remove a comment from the text of a
-program is fairly simple. Since the only use of the \# character in the
-MIPS assembly language is to denote the start of a comment, once the
-parser recognizes that character, it can keep removing characters until
-it reaches a new line character. What does make comment removal a little
-bit more complicated is in the decision of what part of the parser to
-handle this process.
+Due to these restrictions of comment structure, the actual work that the
+parser has to do to remove a comment from the text of a program is
+fairly simple. Since the only use of the \# character in the MIPS
+assembly language is to denote the start of a comment, once the parser
+recognizes that character, it can keep removing characters until it
+reaches a new line character. What makes comment removal slightly more
+intricate is in the decision of where in the parsing process this is
+handled.
 
 The first option is to do this immediately. Once the parser receives the
 text file representing a program, the string representing the file is
 passed through a function that iterates through each character checking
 if it is a \# symbol and then removes that character and all following
 characters until it reaches the new line character. This method would
-guarantee that the code is comment free when it is passed into the bulk
+guarantee that the code is comment-free when it is passed into the bulk
 of the parser and its match statements would not have to have any cases
-to handle the comments. The downside to this method, though, is that it
-means that, every time a program is run through the parser, the text of
-it has to be run through an extra time. Even if a program has no
-comments in it, this extra passthrough of the code would still be run
-when the code is compiled.
+to handle the comments. The downside to this method, though, is that
+every time a program is run through the parser, the text of it has to be
+run through an extra time. Even if a program has no comments in it, this
+extra pass would still be executed on compilation.
 
-A different method would be to handle comments as they come up. This
+A different method would be to handle comments as they arise. This
 approach would have to handle comments that are on their own line and
 comments that are part of a line with an instruction differently. For
 comments that are on their own line, the \# symbol would just have to be
@@ -2575,68 +2567,65 @@ them as they show up seemed like the ideal option at first since the
 code that handles it will only execute if an instruction is not matched
 to something else beforehand. However, while this would be marginally
 more efficient than the alternative, the code to handle this would be
-far less user friendly. Having the code that handles the comments
+far less user-friendly. Having the code that handles the comments
 separated into two different spots, one for handling whole line comments
 and the other for handling end of the line comments, would make it
-significantly harder to debug, to edit, and to read. Since one of our
-hopes is that whatever we build to complete senior design will be able
-to be built upon and edited by us or others afterward, making the code
-easier to work with seems like it would be the better option over a
-small performance boost.
+significantly harder to debug, to edit, and to read. Since one of the
+hopes of SWIM is to continue to be built upon, making the code easier to
+work with seems like it would be the better option over a small
+performance boost.
 
 \subsection{Error Recognition and Handling}
 
 One of the most important aspects of the parser is how it handles any
 errors that it recognizes in a program that a user writes. Inevitably,
-our users will write something that is not grammatically recognized,
+users will write something that is not grammatically recognized,
 especially since SWIM is primarily geared toward being an educational
-tool meaning most of our users will likely be relatively new to working
-in MIPS32 and MIPS64 or even programming in general. So, the question
-becomes, when do we check for errors, what does the parser do when it
-encounters one, and how does it surface information to the user about
-why this issue occurred and how they can fix the issue.
+tool and most users will likely be relatively new to working in MIPS32
+and MIPS64. Thus, this section outlines what the parser does if it
+encounters errors, as well as how it surfaces information to the user,
+both in why the issue occurred and how it can be fixed.
 
 Most modern integrated development engines provide feedback to their
 users as they are writing a program. For example, if a user tries to
 change the value of an immutable variable in a modern IDE, the system
 will normally highlight this error, even before it is compiled. However,
-most MIPS emulators lack that quality of life feature and, instead, only
+most MIPS emulators lack that quality-of-life feature and instead only
 notify the user of an issue when the program is compiled and it does not
 run. Along with that, modern IDEs will highlight all of the issues that
-they find in the written code while systems that wait until compilation
-to find errors stop the compilation process once they find an error
-meaning they will only ever display the first error in the code. For our
-project, we want to surface as many instances of errors in the written
-code to the user as we can so SWIM cannot only check for errors during
-compilation. Our plan, instead, is to check for issues in the code for
-when the Monaco Code Editor provides a new version of the string
-representing the written code to the parser.
+they find in the written code, while systems that wait until compilation
+to find errors stop the compilation process once they find an error,
+meaning they will only ever display the first error in the code. In
+SWIM, the goal is to surface as many errors in the written code to the
+user as possible prior to compilation. Our plan, instead, is to check
+for issues in the code each time the Monaco code editor provides a new
+version of the string representing the written code to the parser.
 
 The next step is to figure out what the parser does when it encounters
-an error. We want to surface as many errors as we can to the user so we
-want the parser to continue looking through the remaining code when it
-finds an error. In MIPS assembly languages, users cannot put multiple
-instructions on a single line nor can they use multiple lines to write a
-single instruction. MIPS also does not have support for functions or
-variables. Thanks to these two facts, the parser can reasonably assume
-that the scope of an error will be limited to the line that invalid
-instruction is written on. So, once the parser has recognized an error,
-it can do the work to recognize the error type to provide the proper
-feedback to the user and make note of it so it will not try to assemble
-the instructions but, afterward, it can move on to the next line and
-continue parsing as before. Because of this, our parser will still be
-able to continue accurately finding errors even after the first one is
-discovered.
+an error. To surface as many errors to the user as possible, the parser
+should continue looking through the remaining code after it finds an
+error. In MIPS assembly languages, users cannot put multiple
+instructions on a single line, nor can they use multiple lines to write
+a single instruction. MIPS also does not have support for functions or
+variables. Due to these two points, the parser can reasonably assume
+that the scope of an error will be limited to the line(s) that the
+invalid instruction is written on. So, once the parser has recognized an
+error, it can do the work to recognize the error type to provide the
+proper feedback to the user and make note of it so it will not try to
+assemble the instructions but, afterward, it can move on to the next
+line and continue parsing as before. Because of this, our parser will
+still be able to continue accurately finding errors even after the first
+one is discovered.
 
 Since the parser will attempt to find as many issues as it can recognize
-and it will also be doing this every time it receives new information
-from the front end, the question then becomes what information do we
-provide to the front end to display to the user about any errors that it
-does encounter. For this, the plan is to have the parser store a couple
-of pieces of information about the line an error occurs on and then an
-array or vector of the instances of all errors in the program will be
-passed to the front end to display to the user. For our version of SWIM,
-the information about errors will be displayed into the console at the
+and this will be done each time new information is received from the
+front end, the question then becomes what information is provided to the
+front end to display to the user about any errors that it encounters.
+For this, the plan is to have the parser store a couple of pieces of
+information about the line an error occurs on and then an array or
+vector of the instances of all errors in the program will be passed to
+the front end to display to the user. For our version of SWIM, the
+information about errors will be displayed into the console at the
 bottom of the browser window. However, by packaging it that way and
 passing it to the front end to handle, future iterations of SWIM could
 easily pivot to have this information presented in a different way such
@@ -2650,8 +2639,8 @@ of the line that caused the issue.
 Below is information about the various types of errors that the parser
 will be able to recognize as well as how the system will check for
 instances of them. For most of these errors, the approach taken has been
-to parameterize things as much as possible so that the functions can
-still be used to check new instructions that are added after our initial
+to parameterize data as much as possible so that the functions can still
+be used to check new instructions that are added after our initial
 version of SWIM.
 
 \subsubsection{Invalid Instruction Name}
@@ -2672,23 +2661,22 @@ instructions and completely invalid instructions.
 \paragraph{Valid but Unsupported Instructions}
 
 This subcategory is made up of all of the instructions that are
-supported by both MIPS32 and MIPS64 but that are not supported by the
+supported by either MIPS32 or MIPS64 but that are not supported by the
 initial version of SWIM. To check if an invalid instruction fits this
 subcategory, there will be a separate match statement an invalid
 instruction is compared against after it fails to be matched to an
 instruction in the supported instruction match statement.
 
-This match statement will be housed in its own separate function that
-will be called after the supported instruction match statement ends.
-These match cases would be able to be match cases under the supported
-instruction match statement but, since a match to one of these cases
-means something entirely different than a match to a supported
+This match statement will be housed in a separate function that will be
+called after the supported instruction match statement ends. These match
+cases could combined with the supported instruction match statement, but
+since an unsupported instruction is handled differently from a supported
 instruction, structuring the code this way will help highlight the
 differences between matches in each of the statements. If a match with
 one of these is found, the parser can tell the front end that the user
 is trying to use an unsupported instruction.
 
-\paragraph{Completely Invalid Instruction}
+\paragraph{Completely Invalid Instructions}
 
 This subcategory is made up of any instance of unrecognized instructions
 that does not find a match in the match statement for valid but
@@ -2696,39 +2684,35 @@ unsupported instructions. In this instance, the parser will simply tell
 the front end that it cannot recognize the instruction that the user is
 trying to use on the given line.
 
-One of the stretch goals for the parser is that, instead of just saying
+One of the stretch goals for the parser is that instead of just saying
 that an instruction is not recognized, the parser could try to suggest
 the instruction that the invalid instruction most likely was supposed to
 be based on how similar a string is to a supported instruction. If that
 functionality is added into the project, the function call to that
-system would at this point, after the match statements for valid but
-unsupported functions. This system is described in more detail under the
-Parser Stretch Goal subsection of the Project Function section.
+system would be at this point, after the match statements for valid but
+unsupported functions. This system is described in more detail in Section \ref{subsec:parser-stretch-goals}.
 
 \subsubsection{Invalid Label Names}
+\label{subsec:invalid-label-names}
 
-While the MIPS assembly languages do not support functions, they do have
-support for instruction labels. Labels are effectively names given to
-instruction lines that can be used as operands on J-type instructions
-allowing the program counter to move to the labeled instruction. For
-error recognition of labels, when the parser is expecting a label name,
-it will compare the given string against the list of the labels that it
-has recognized throughout the program. If the given string does not
-match any of the recognized labels, the parser tells the front end that
-it does not recognize the label the user provided.
+For error recognition of labels, when the parser is expecting a label
+name, it will compare a given label against the list of the labels that
+it has recognized throughout the program. If this does not match any of
+the recognized labels, the parser tells the front end that it does not
+recognize the label the user provided.
 
 One of the stretch goals of the parser is that it will be able to
 suggest the label that was most likely to be the one that the user
 intended to write based on the differences between the strings. This
-stretch goal is explained in more detail under the Parser Stretch Goal
-subsection of the Project Function section.
+stretch goal is explained in more detail in Section
+\ref{subsec:parser-stretch-goals}.
 
 Other errors that the parser has to handle have to do with the label
 names themselves. The name of a label can be composed of any characters
 other than the space character. There can be any number of space
 characters at the beginning of the line before the name of the label and
-any number of space characters after the label name and before the colon
-or between the colon and the actual instruction but there cannot be any
+any number of space characters after the label name and before the colon,
+or between the colon and the actual instruction, but there cannot be any
 space characters in the middle of the label itself. Once the parser has
 recognized the start of a label name, it will iterate through the
 characters until a space character or a colon character are recognized.
@@ -2752,25 +2736,26 @@ label with that name, an instance of this error is recognized.
 Instructions in MIPS assembly languages all follow a set structure and
 do not have optional parameters with few exceptions. Each instance of an
 instruction will have the same number of operands separated by the same
-number of commas. So, one of the principal errors that the parser will
+number of commas. Thus, one of the principal errors that the parser will
 check for is instances of instructions that do not fit the format that
-instruction type is supposed to have.
+the corresponding instruction type is supposed to have.
 
 While every instance of most given instructions will be structured the
-same way, different instructions follow different formats so there
-cannot be one structure function that is called for all instructions run
-through the parser. Because of this, the different requirements of an
-instruction will be separated into individual functions that can be
-called in the correct order for the given instruction's structure.
+same way, different instructions follow different formats (for example
+R-type versus I-type) so there cannot be one structure function that is
+called for all instructions run through the parser. Because of this, the
+different requirements of an instruction will be separated into
+individual functions that can be called in the correct order for the
+given instruction's structure.
 
 \paragraph{Instruction Structure Grouping}
 
 Most instructions are structured in one of three different ways, often
 denoted as I-type, J-type, and R-type. Most I-type instructions take
 three operands separated by commas; the first two are registers while
-the last is an immediate value. J-type instructions are straightforward
-with the only operand J-type instructions take is the label of the
-instruction that they are connecting to. R-type instructions take three
+the last is an immediate value. J-type instructions are straightforward,
+where the only operand J-type instructions take is the label of the
+instruction that they are jumping to. R-type instructions take three
 operands separated by commas and all three are registers. Since most
 instructions follow set structures, we can implement a function that
 does the proper calls checking for operands and commas for each
@@ -2779,14 +2764,14 @@ instruction of the corresponding type is recognized.
 
 There are, however, a number of instructions that we are planning to
 support that do not adhere to these conventional structure guidelines.
-That said, many of these instructions follow similar structures so they
+With that, many of these instructions follow similar structures so they
 can be grouped into further subcategories. In the parser, once an
-instruction has been recognized to not be an instruction with the
-standard I-type, J-type, and R-type instruction, it will, instead, be
-matched against these subcategories which will each have their own
-functions to check the structure against.
+instruction has been recognized to not be one with the standard I-type,
+J-type, or R-type instruction formats, it will instead be matched
+against these subcategories which will each have their own functions to
+check the structure against.
 
-Of the instructions that we are planning to support, the first
+Of the instructions that SWIM plans to support, the first
 subcategory is made up of instructions that move data across
 co-processors. MTC1, DMTC1, MFC1, and DMFC1 all follow the same format.
 Each one of these instructions takes a general-purpose register followed
@@ -2825,6 +2810,7 @@ Same as BC1T and BC1F, the CC value can be omitted in which case the
 value defaults to zero.
 
 \paragraph{Comma and Operand Count}
+\label{subsec:comma-and-operand-count}
 
 With the exception of memory addresses and their offsets, operands in
 instructions are always separated by a comma. So, before even checking
@@ -2833,12 +2819,13 @@ step taken after recognizing an instruction is to make sure that the
 user has provided the requisite number of operands separated by the
 correct number of commas.
 
-While the operand itself will have to be a certain type so an error will
+While the operand itself will have to be a certain type (an error will
 be recognized when the user has an immediate value as an operand when a
-register is expected, this specific check does not care about the actual
-meaning of an operand. For the purposes of this check, any substring
-that is made of characters other than the space character, newline
-character, and the comma character are accepted as valid operands.
+register is expected for example), this first check does not care about
+the actual meaning of an operand. For the purposes of this check, any
+substring that is made of characters other than the space character,
+newline character, and the comma character are accepted as valid
+operands.
 
 Because of this, the way this function will work is that it will take in
 the entirety of the string of a line after the instruction name as its
@@ -2865,27 +2852,27 @@ the MIPS instruction has the correct number of operands separated by the
 proper number of comma characters. While going through this function, we
 have also been able to isolate the operands separated from any space
 characters, newline characters, or comma characters. These operands can
-then be returned to this function\textquotesingle s parent so the
-individual operands can be checked to make sure they are of the write
-type.
+then be returned to this function's parent so the individual operands
+can be checked to make sure they are of the correct type.
 
-\paragraph{Correct operand Type}
+\paragraph{Correct Operand Type}
 
-After the function detailed under Comment and operand Count is completed
-without finding any errors, the next step will be to check that the
-provided operands are actually the correct type. This will also be done
-in its own function. To do this, the operands found in the Comma and
-operand Count function will be passed in as well as their expected type.
+If the function detailed in Section \ref{subsec:comma-and-operand-count}
+is completed without finding any errors, the next step will be to check
+that the provided operands are actually the correct type. This will also
+be done in its own function. To do this, the operands found in the
+``Comma and operand Count'' function will be passed in, as well as their
+expected type.
 
 Each operand will first be checked to ensure that it can even be the
-right data type. To the system, they are all strings but if the operand
-is supposed to be an immediate value and cannot be cast to an integer,
-for example, then it is understood that it is not the correct data type
-so an error is generated because of this. Once the operand is confirmed
-to be the correct data type, it is then passed into the function that
-checks that data type to ensure there are no other issues that can occur
-with that data type. If an error is not found anywhere throughout this,
-then the parser knows the instruction does not have any errors in it.
+right data type. These operands are all considered strings to the
+parser, but if the operand is supposed to be an immediate value and
+cannot be cast to an integer for example, then it is understood that it
+is not the correct data type and an error is generated. Once the operand
+is confirmed to be the correct data type, it is then passed into the
+function that checks if there are any other issues specific to that data
+type. If an error is not found anywhere throughout this, then the parser
+knows the instruction does not have any errors in it.
 
 \subsubsection{Immediate Value Size Issue}
 
@@ -2893,13 +2880,13 @@ Some instructions within MIPS use immediate values as one of their
 operands. These instructions allocate a set amount of the bits in their
 encoding to correspond to this immediate value. This means that all
 values accepted by a given instruction have to be the same number of
-bits long. Numbers whose two's complement are shorter than this length
-can simply be sign extended by concatenating 1's onto the front of
-negative numbers and 0's onto positive numbers until they are the proper
-length. Numbers whose two's complements are greater than the requisite
-length cannot be represented within that given instruction so an error
-will be generated. Immediate values are written in MIPS languages as
-integers.
+bits long. Numbers whose two's complement representations are shorter
+than this length can simply be sign extended by concatenating 1's onto
+the front of negative numbers and 0's onto positive numbers until they
+are the proper length. Numbers whose two's complements representations
+are greater than the requisite length cannot be represented within that
+given instruction, so an error will be generated. Immediate values are
+written in MIPS languages as integers.
 
 To check if an immediate value is too large or too small for an
 instruction, when the system goes to read the integer and translate it
@@ -2913,9 +2900,8 @@ to 16 bits in length. The only exception to this is the instruction,
 ADDIUPC, that can handle immediate values up to 19 bits long. While this
 instruction is not supported by our initial implementation of MIPS, in
 an effort to make the code as easy to build upon as possible, the
-function takes the bit length as an operand that way the function can
-still be used without having to be changed if the project ever supports
-ADDIUPC.
+function takes the bit length as an operand such that the function can
+continue to be used if the project ever supports ADDIUPC.
 
 \subsubsection{Invalid Register Name}
 
@@ -3217,9 +3203,9 @@ to create conditionals for which message to send.
 \begin{figure}[H]
     \includegraphics[height=14cm]{yew-sample-code}
     \caption{Yew's sample app code to show how the lifecycle model improves readability and how certain components behave through callbacks.}
-\end{figure}  
+\end{figure}
 
-\subsubsection{The ``html!'' macro}
+\subsubsection{The ``html!'' Macro}
 \label{subsec:html-macro}
 
 Yew's ``html!'' macro, as stated before, allows writing HTML and SVG
@@ -3598,7 +3584,7 @@ how to get the most attention from users as well as being aesthetically
 pleasing. In this section, we will discuss the choices we made to make
 the site feel better to use for users of different accommodations.
 
-\paragraph{Color scheme}
+\paragraph{Color Scheme}
 
 Our color scheme choice must first consider the main color, the
 secondary color, and the accent color. In Figure \ref{fig:mars}, for example, MARS
@@ -4103,7 +4089,7 @@ what they do, so that the process of where instructions go and how the
 registers work with them are as clear as possible.
 % TODO: Discuss this with group
 
-\subsection{The Help button}
+\subsection{The Help Button}
 
 The Help button is important for anyone who uses any website, as it is
 where the user usually gets answers on how the website works in general
@@ -5298,10 +5284,9 @@ not worry or even think about operating system support. Having operating
 system support is not a requirement, but definitely would be nice to
 have in the future.
 
-\subsection{A syscall API to allow for GUI and game development}
-% TODO
+% TODO: \subsection{A syscall API to allow for GUI and game development}
 
-\subsection{Desktop application}
+\subsection{Desktop Application}
 
 Making a Desktop application of our SWIM may be a great feature to add
 at some point in the future. With our initial web app plan, users depend
@@ -5317,7 +5302,7 @@ can be nice to have all your projects installed locally. Let's say for
 example a professor wants to use SWIM in class, but the campus internet
 sucks, a desktop application would massively help.
 
-\subsection{Mobile support}
+\subsection{Mobile Support}
 
 Many students nowadays want to use their mobile devices in class. Adding
 support for mobile users could make SWIM more accessible. Adding mobile
@@ -5344,6 +5329,7 @@ can use our system to implement their final project in that class would
 be great.
 
 \subsection{Development Team Support}
+% TODO: This section should be more formal
 
 Will we keep working on the project after graduation? Realistically this
 project will probably be mostly forgotten by our team. We will probably
