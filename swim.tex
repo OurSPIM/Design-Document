@@ -926,7 +926,7 @@ General format (fixed 32-bit):
 
 \emph{R-type:}
 
-\begin{tabularx}{\textwidth}{@{}|C|C|C|C|C|C|@{}}
+\begin{tabularx}{\textwidth}{|C|C|C|C|C|C|}
     \hline
     Opcode: 6 bits & rs (source register): 5 bits & rt (source register): 5 bits & rd (destination register): 5 bits & shamt (shift amount): 5 bits & funct: 6 bits \\
     \hline
@@ -962,7 +962,7 @@ Special R-Type instructions:
 
 \emph{I-type:}
 
-\begin{tabularx}{\textwidth}{@{}|c|c|c|C|@{}}
+\begin{tabularx}{\textwidth}{|c|c|c|C|}
     \hline
     Opcode: 6 bits & rs: 5 bits & rt: 5 bits & const or address: 16 bits \\
     \hline
@@ -988,7 +988,7 @@ I-type Operations:
 
 \emph{J-type:}
 
-\begin{tabularx}{\textwidth}{@{}|c|C|@{}}
+\begin{tabularx}{\textwidth}{|c|C|}
     \hline
     Opcode: 6 bits & Target address: 26 bits \\
     \hline
@@ -1238,7 +1238,7 @@ Ideally our emulator will support all arithmetic instructions. With any
 approach we take to developing our core, arithmetic instruction should
 be done with ease.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{Arithmetic instructions:}}                   & \emph{Operation Name:}   \\ \hline
     \textbf{ADD}   & \textbf{ADDI}  & \textbf{ADDIU}  & \textbf{ADDU}   &  & Addition                 \\
     \textbf{DADD}  & \textbf{DADDI} & \textbf{DADDIU} & \textbf{DADDU}  &  & 64-bit addition          \\
@@ -1265,7 +1265,7 @@ These are the MIPS bitwise instructions. There are no separate 32 or
 supported by our project. Coding the emulation of these instructions
 should be somewhat straightforward.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{CPU Bitwise Logic Instructions:}} & \emph{Operation Name:}  \\ \hline
     \emph{\textbf{AND}} & \textbf{ANDI} &  &  &                 & And                     \\
     \emph{\textbf{OR}}  & \textbf{ORI}  &  &  &                 & Or                      \\
@@ -1280,7 +1280,7 @@ for doing shifts on the upper 32-bits off the 64-bit registers.
 Implementing these shift instructions should be straightforward in the
 codebase. The shift will likely fare well with a pipeline and datapath.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{Shifting instructions:}} & \emph{Operation Name:}         \\ \hline
     \textbf{SLL}   & \textbf{SLLV}   &  &         &    & Shift left logical             \\
     \textbf{DSLL}  & \textbf{DSLLV}  &  & DSLL32  &    & 64-bit shift left logical      \\
@@ -1296,7 +1296,7 @@ These are the branch instructions the we plan to support, or possibly
 support. The most critical of instructions to support are B, BNQ, BNE,
 and the basic jumps. These instructions are highlighted in bold.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{Branch and Jump Instructions:}}                 & \emph{Operation Name:}   \\ \hline
     \textbf{B}   & \textbf{BAL} &              &               &              & Branch                   \\
     \textbf{BEQ} &              &              &               &              & Branch on equal          \\
@@ -1318,7 +1318,7 @@ and will most likely not be supported by our emulator. After writing the
 LW, SW, LD, and SD instructions, LB, SB, LH, and SH will be the next
 highest priority instructions to write.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{CPU Memory Instructions:}}       & \emph{Operation Name:}  \\ \hline
     SB          & \emph{SBE}   &              &             &  & Store byte              \\
     LB          & \emph{LBE}   & LBU          & \emph{LBUE} &  & Load byte               \\
@@ -1346,7 +1346,7 @@ for many of the basic operations a user may want to do with our
 emulator. For example, division uses the LO and HI hidden internal
 registers for output.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{CPU Move Instructions:}} & \emph{Operation Name:}  \\ \hline
     \textbf{MFHI} & \textbf{MTHI} &  &  &              &                         \\
     \textbf{MFLO} & \textbf{MTLO} &  &  &              &                         \\
@@ -1360,7 +1360,7 @@ These are miscellaneous instructions that might be cool to implement.
 These do not fit into a nice category, and are all stretch goals that we
 may never get around to implementing.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{CPU Miscellaneous Instructions:}} & \emph{Operation Name:}  \\ \hline
     \emph{DEXT} & \emph{DEXTM} & \emph{DEXTU} &  &              & Double Extract Field    \\
     \emph{DINS} & \emph{DINSM} & \emph{DINSU} &  &              & Double Insert Field     \\
@@ -1396,7 +1396,7 @@ the course of approximately 3 months. Under the advice of Dr. Gerber,
 our project has been toned down a little. In the future, operating
 system support could possibly be added to SWIM.
 
-\begin{tabularx}{\textwidth}{@{}lllll|X@{}}
+\begin{tabularx}{\textwidth}{lllll|X}
     \multicolumn{5}{l|}{\emph{I/O and System Instructions:}} & \emph{Operation Name:}  \\ \hline
     Syscall 1         &  &  &  &                             & Print integer           \\
     Syscall 2         &  &  &  &                             & Print Float             \\
@@ -1430,7 +1430,7 @@ condition. For example, the condition could be ``eq'' for comparison on
 equals. The ``fmt'' stands for a data type specifier in the instruction
 name, for example ``s'' for 32-bit float, ``d'' for 64-bit float.
 
-\begin{tabularx}{\textwidth}{@{}lX|lX@{}}
+\begin{tabularx}{\textwidth}{lX|lX}
     \multicolumn{4}{l}{\emph{FPU Arithmetic Instructions:}} \\\hline
     \textbf{ABS.fmt}  & Absolute Value        & \emph{NEG.fmt}            & Negate \\
     \textbf{ADD.fmt}  & Add                   & \emph{NMADD.fmt}          & Negate, Multiply, Add \\
@@ -1445,7 +1445,7 @@ These are the FPU branch instructions, there are only two. Both of these
 instructions check the FP internal FPU register, depending on the value
 of FP, there may or may not be a branch.
 
-\begin{tabularx}{\textwidth}{@{}lX|lX@{}}
+\begin{tabularx}{\textwidth}{lX|lX}
     \multicolumn{4}{l}{\emph{FPU Branch Instructions:}} \\\hline
     \textbf{BC1F} & Branch if FP is False & \textbf{BC1T} & Branch if FP isTrue \\
 \end{tabularx}
@@ -1457,7 +1457,7 @@ implement. For the non bolded instructions, implementing those
 instructions with an FPU datapath may be a challenge. The FPU datapath
 might get huge.
 
-\begin{tabularx}{\textwidth}{@{}lX|lX@{}}
+\begin{tabularx}{\textwidth}{lX|lX}
     \multicolumn{4}{l}{\emph{FPU Conversion Instructions:}} \\\hline
     \textbf{CVT.S.fmt} & Convert fmt to float           & \emph{PUL.PS}      & Pair fs upper \& ft lower bits \\
     \textbf{CVT.W.fmt} & Convert fmt to word            & PUU.PS             & Pair upper bits from fs \& ft \\
@@ -1472,7 +1472,7 @@ might get huge.
 
 These are the FPU memory instructions.
 
-\begin{tabularx}{\textwidth}{@{}lX|lX@{}}
+\begin{tabularx}{\textwidth}{lX|lX}
     \multicolumn{4}{l}{\emph{FPU Memory Instructions:}} \\\hline
     \textbf{LDC1} & Load double               & \textbf{SDC1} & Store double \\
     LDXC1         & Load double indexed       & SDXC1         & Store double indexed \\
@@ -1483,7 +1483,7 @@ These are the FPU memory instructions.
 
 These are the general move instructions for the FPU.
 
-\begin{tabularx}{\textwidth}{@{}lX|lX@{}}
+\begin{tabularx}{\textwidth}{lX|lX}
     \multicolumn{4}{l}{\emph{FPU Move Instructions:}} \\\hline
     \textbf{MFC1}  & Move word form FPU        & CTC1     & Move from gpr to FPU FP \\
     \textbf{MTC1}  & Move word to FPU          & MOV.fmt  & Move from fpr to fpr \\
@@ -1784,7 +1784,7 @@ The memory and registers used in this project store data in a big-endian
 format. This means that the most significant bit of a number at the
 lowest address it is in. For example, the value 5:
 
-\begin{tabularx}{\textwidth}{@{}|l|c|c|c|c|@{}}
+\begin{tabularx}{\textwidth}{|l|c|c|c|c|}
     \hline
     \textbf{Bits:}    & 00000000 & 00000000 & 00000000 & 00000101 \\\hline
     \textbf{Address:} & 0x5000   & 0x5001   & 0x5002   & 0x5003 \\\hline
@@ -4687,6 +4687,7 @@ stylist-rs.
 
 \section{Project Milestones}
 
+{\renewcommand{\arraystretch}{1.4}
 \begin{tabularx}{\textwidth}{|l|X|}
     \hline
     \textbf{Date} & \textbf{Milestone} \\\hline
@@ -4731,7 +4732,7 @@ stylist-rs.
     3/10          & All high-priority features are completed. Polishing the GUI and front end. \\\hline
     3/15          & Demo with Dr. Gerber/Dr. Leinecker. \\\hline
     4/7           & Final Design Document due and presentations. \\\hline
-\end{tabularx}
+\end{tabularx}}
 
 
 
@@ -5156,7 +5157,7 @@ but this support means that any compatibility issues that might arise
 while we are creating the project are ones that are solvable within the
 scope of our project.
 
-\begin{tabularx}{\textwidth}{@{}|c|XXXXXX|@{}}
+\begin{tabularx}{\textwidth}{|c|cccccc|}
 \hline
 & \multicolumn{6}{|c|}{\textbf{Support for Technology By the Browser}} \\\hline
 \textbf{Technology}       & \textbf{Chrome} & \textbf{Edge} & \textbf{Safari} & \textbf{Firefox} & \textbf{Opera} & \textbf{Brave} \\\hline
