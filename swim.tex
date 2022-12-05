@@ -1237,25 +1237,25 @@ approach we take to developing our core, arithmetic instruction should
 be done with ease.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{Arithmetic instructions:}}                & \emph{Operation Name:} \\\hline
-    \textbf{ADD} & \textbf{ADDI} & \textbf{ADDIU} & \textbf{ADDU} &     & Addition \\
-    \textbf{DADD} & \textbf{DADDI} & \textbf{DADDIU} & \textbf{DADDU} & & 64-bit addition \\
-    \textbf{SUB} & \textbf{SUBI} & & &                                  & Subtraction \\
-    \textbf{DSUB} & & & \textbf{DSUBU} &                                & 64-bit subtraction \\
-    \textbf{MUL} & & & &                                                & 32-bit mult to GPR \\
-    \textbf{MULT} & & & \textbf{MULTU} &                                & 32-bit multiplication \\
-    \textbf{DMULT} & & & \textbf{DMULTU} &                              & 64-bit multiplication \\
-    \textbf{DIV} & \textbf{DIVI} & & \textbf{DIVU} &                    & 32-bit integer division \\
-    \textbf{DDIV} & & & \textbf{DDIVU} &                                & 64-bit integer division \\
-    \textbf{MADD} & & & \textbf{MADDU} &                                & Weird multiply \\
-    \textbf{MSUB} & & & \textbf{MSUBU} &                                & Weird multiply \\
-    CLO & & & &                                                         & Count leading ones \\
-    CLZ & & & &                                                         & Count leading zeros \\
-    DCLO & & & &                                                        & 64-bit version of CLO \\
-    DCLZ & & & &                                                        & 64-bit version of CLZ \\
-    SEB & & & &                                                         & 8-bit Sign extend \\
-    SEH & & & &                                                         & 16-bit Sign extend \\
-    \textbf{SLT} & \textbf{SLTI} & \textbf{SLTIU} & \textbf{SLTU} &     & Set on less than \\
+    \multicolumn{5}{l|}{\emph{Arithmetic instructions:}}                   & \emph{Operation Name:}   \\ \hline
+    \textbf{ADD}   & \textbf{ADDI}  & \textbf{ADDIU}  & \textbf{ADDU}   &  & Addition                 \\
+    \textbf{DADD}  & \textbf{DADDI} & \textbf{DADDIU} & \textbf{DADDU}  &  & 64-bit addition          \\
+    \textbf{SUB}   & \textbf{SUBI}  &                 &                 &  & Subtraction              \\
+    \textbf{DSUB}  &                &                 & \textbf{DSUBU}  &  & 64-bit subtraction       \\
+    \textbf{MUL}   &                &                 &                 &  & 32-bit mult to GPR       \\
+    \textbf{MULT}  &                &                 & \textbf{MULTU}  &  & 32-bit multiplication    \\
+    \textbf{DMULT} &                &                 & \textbf{DMULTU} &  & 64-bit multiplication    \\
+    \textbf{DIV}   & \textbf{DIVI}  &                 & \textbf{DIVU}   &  & 32-bit integer division  \\
+    \textbf{DDIV}  &                &                 & \textbf{DDIVU}  &  & 64-bit integer division  \\
+    \textbf{MADD}  &                &                 & \textbf{MADDU}  &  & Weird multiply           \\
+    \textbf{MSUB}  &                &                 & \textbf{MSUBU}  &  & Weird multiply           \\
+    CLO            &                &                 &                 &  & Count leading ones       \\
+    CLZ            &                &                 &                 &  & Count leading zeros      \\
+    DCLO           &                &                 &                 &  & 64-bit version of CLO    \\
+    DCLZ           &                &                 &                 &  & 64-bit version of CLZ    \\
+    SEB            &                &                 &                 &  & 8-bit Sign extend        \\
+    SEH            &                &                 &                 &  & 16-bit Sign extend       \\
+    \textbf{SLT}   & \textbf{SLTI}  & \textbf{SLTIU}  & \textbf{SLTU}   &  & Set on less than
 \end{tabularx}
 
 These are the MIPS bitwise instructions. There are no separate 32 or
@@ -1264,11 +1264,11 @@ supported by our project. Coding the emulation of these instructions
 should be somewhat straightforward.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{CPU Bitwise Logic Instructions:}} & \emph{Operation Name:} \\\hline
-    \emph{\textbf{AND}} & \textbf{ANDI} & & &                   & And \\
-    \emph{\textbf{OR}} & \textbf{ORI} & & &                     & Or \\
-    \emph{\textbf{XOR}} & \textbf{XORI} & & &                   & Exclusive or \\
-    \emph{\textbf{NOR}} & & & &                                 & Not or \\
+    \multicolumn{5}{l|}{\emph{CPU Bitwise Logic Instructions:}} & \emph{Operation Name:}  \\ \hline
+    \emph{\textbf{AND}} & \textbf{ANDI} &  &  &                 & And                     \\
+    \emph{\textbf{OR}}  & \textbf{ORI}  &  &  &                 & Or                      \\
+    \emph{\textbf{XOR}} & \textbf{XORI} &  &  &                 & Exclusive or            \\
+    \emph{\textbf{NOR}} &               &  &  &                 & Not or
 \end{tabularx}
 
 These are the shift instructions to support. There are 20 different
@@ -1279,15 +1279,15 @@ Implementing these shift instructions should be straightforward in the
 codebase. The shift will likely fare well with a pipeline and datapath.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{Shifting instructions:}} & \emph{Operation Name:} \\\hline
-    \textbf{SLL} & \textbf{SLLV} & & &                 & Shift left logical \\
-    \textbf{DSLL} & \textbf{DSLLV} & & DSLL32 &        & 64-bit shift left logical \\
-    \textbf{SRL} & \textbf{SRLV} & & &                 & Shift right logical \\
-    \textbf{DSRL} & \textbf{DSRLV} & & DSRL32 &        & Double Shift Right Logical \\
-    \textbf{SRA} & \textbf{SRAV} & & &                 & Shift right arithmetic \\
-    \textbf{DSRA} & \textbf{DSRAV} & & DSRA32 &        & 64-bit shift right Arithmetic \\
-    \textbf{ROTR} & \textbf{ROTRV} & & &               & Rotate right \\
-    \textbf{DROTR} & \textbf{DROTRV} & & DROTR32 &     & 64-bit rotate right \\
+    \multicolumn{5}{l|}{\emph{Shifting instructions:}} & \emph{Operation Name:}         \\ \hline
+    \textbf{SLL}   & \textbf{SLLV}   &  &         &    & Shift left logical             \\
+    \textbf{DSLL}  & \textbf{DSLLV}  &  & DSLL32  &    & 64-bit shift left logical      \\
+    \textbf{SRL}   & \textbf{SRLV}   &  &         &    & Shift right logical            \\
+    \textbf{DSRL}  & \textbf{DSRLV}  &  & DSRL32  &    & Double Shift Right Logical     \\
+    \textbf{SRA}   & \textbf{SRAV}   &  &         &    & Shift right arithmetic         \\
+    \textbf{DSRA}  & \textbf{DSRAV}  &  & DSRA32  &    & 64-bit shift right Arithmetic  \\
+    \textbf{ROTR}  & \textbf{ROTRV}  &  &         &    & Rotate right                   \\
+    \textbf{DROTR} & \textbf{DROTRV} &  & DROTR32 &    & 64-bit rotate right
 \end{tabularx}
 
 These are the branch instructions the we plan to support, or possibly
@@ -1295,15 +1295,15 @@ support. The most critical of instructions to support are B, BNQ, BNE,
 and the basic jumps. These instructions are highlighted in bold.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{Branch and Jump Instructions:}}               & \emph{Operation Name:} \\\hline
-    \textbf{B} & \textbf{BAL} & & &                                         & Branch \\
-    \textbf{BEQ} & & & &                                                    & Branch on equal \\
-    BGEZ & BGEZAL & BGETZ & &                                               & Branch on greater \\
-    BLEZ & & & &                                                            & Branch on \textgreater= \\
-    BLTZ & BLTZAL & & &                                                     & Branch on \textless{} \\
-    \textbf{BNE} & & & &                                                    & Branch on not equal \\
-    \textbf{J} & \textbf{JAL} & \emph{JAL.R} & \emph{JAL.HB} & \emph{JAL.X} & Jump \\
-    \textbf{JR} & & & \emph{JR.HB} &                                        & Jump to reg addr \\
+    \multicolumn{5}{l|}{\emph{Branch and Jump Instructions:}}                 & \emph{Operation Name:}   \\ \hline
+    \textbf{B}   & \textbf{BAL} &              &               &              & Branch                   \\
+    \textbf{BEQ} &              &              &               &              & Branch on equal          \\
+    BGEZ         & BGEZAL       & BGETZ        &               &              & Branch on greater        \\
+    BLEZ         &              &              &               &              & Branch on \textgreater=  \\
+    BLTZ         & BLTZAL       &              &               &              & Branch on \textless{}    \\
+    \textbf{BNE} &              &              &               &              & Branch on not equal      \\
+    \textbf{J}   & \textbf{JAL} & \emph{JAL.R} & \emph{JAL.HB} & \emph{JAL.X} & Jump                     \\
+    \textbf{JR}  &              &              & \emph{JR.HB}  &              & Jump to reg addr
 \end{tabularx}
 
 For our emulator we will be supporting most of the load and store
@@ -1317,21 +1317,21 @@ LW, SW, LD, and SD instructions, LB, SB, LH, and SH will be the next
 highest priority instructions to write.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{CPU Memory Instructions:}} & \emph{Operation Name:} \\\hline
-    SB & \emph{SBE} & & &                                & Store byte \\
-    LB & \emph{LBE} & LBU & \emph{LBUE} &                & Load byte \\
-    SH & \emph{SHE} & & &                                & Store halfword \\
-    LH & \emph{LHE} & LHU & \emph{LHUE} &                & Lord halfword \\
-    \textbf{SW} & \emph{SWE} & & &                       & Store word \\
-    SWL & \emph{SWLE} & & &                              & Store word left \\
-    SWR & \emph{SWRE} & & &                              & Store word right \\
-    \textbf{LW} & \emph{LWE} & \textbf{LWU} & &          & Load word \\
-    LWL & \emph{LWLE} & & &                              & Load word left \\
-    LWR & \emph{LWRE} & & &                              & Load word right \\
-    LL & \emph{LLE} & & &                                & Load linked word \\
-    \textbf{SD} & \textbf{SDL} & \textbf{SDR} & &        & Store doubleword \\
-    \textbf{LD} & \textbf{LDL} & \textbf{LDR} & &        & Load double word \\
-    LLD & & & &                                          & Load linked double \\
+    \multicolumn{5}{l|}{\emph{CPU Memory Instructions:}}       & \emph{Operation Name:}  \\ \hline
+    SB          & \emph{SBE}   &              &             &  & Store byte              \\
+    LB          & \emph{LBE}   & LBU          & \emph{LBUE} &  & Load byte               \\
+    SH          & \emph{SHE}   &              &             &  & Store halfword          \\
+    LH          & \emph{LHE}   & LHU          & \emph{LHUE} &  & Lord halfword           \\
+    \textbf{SW} & \emph{SWE}   &              &             &  & Store word              \\
+    SWL         & \emph{SWLE}  &              &             &  & Store word left         \\
+    SWR         & \emph{SWRE}  &              &             &  & Store word right        \\
+    \textbf{LW} & \emph{LWE}   & \textbf{LWU} &             &  & Load word               \\
+    LWL         & \emph{LWLE}  &              &             &  & Load word left          \\
+    LWR         & \emph{LWRE}  &              &             &  & Load word right         \\
+    LL          & \emph{LLE}   &              &             &  & Load linked word        \\
+    \textbf{SD} & \textbf{SDL} & \textbf{SDR} &             &  & Store doubleword        \\
+    \textbf{LD} & \textbf{LDL} & \textbf{LDR} &             &  & Load double word        \\
+    LLD         &              &              &             &  & Load linked double
 \end{tabularx}
 
 These move instructions are for moving data to and from hidden internal
@@ -1345,13 +1345,13 @@ emulator. For example, division uses the LO and HI hidden internal
 registers for output.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{CPU Move Instructions:}} & \emph{Operation Name:} \\\hline
-    \textbf{MFHI} & \textbf{MTHI} & & &                & \\
-    \textbf{MFLO} & \textbf{MTLO} & & &                & \\
-    \textbf{MOVF} & & & &                              & Move on float false \\
-    \textbf{MOVN} & & & &                              & Move on not zero \\
-    \textbf{MOVT} & & & &                              & Move on float true \\
-    \textbf{MOVZ} & & & &                              & Move on zero \\
+    \multicolumn{5}{l|}{\emph{CPU Move Instructions:}} & \emph{Operation Name:}  \\ \hline
+    \textbf{MFHI} & \textbf{MTHI} &  &  &              &                         \\
+    \textbf{MFLO} & \textbf{MTLO} &  &  &              &                         \\
+    \textbf{MOVF} &               &  &  &              & Move on float false     \\
+    \textbf{MOVN} &               &  &  &              & Move on not zero        \\
+    \textbf{MOVT} &               &  &  &              & Move on float true      \\
+    \textbf{MOVZ} &               &  &  &              & Move on zero
 \end{tabularx}
 
 These are miscellaneous instructions that might be cool to implement.
@@ -1359,11 +1359,11 @@ These do not fit into a nice category, and are all stretch goals that we
 may never get around to implementing.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{CPU Miscellaneous Instructions:}} & \emph{Operation Name:} \\\hline
-    \emph{DEXT} & \emph{DEXTM} & \emph{DEXTU} & &               & Double Extract Field \\
-    \emph{DINS} & \emph{DINSM} & \emph{DINSU} & &               & Double Insert Field \\
-    \emph{DSBH} & & & &                                         & Swap B's in HW \\
-    \emph{DSHD} & & & &                                         & Swap H's in DW \\
+    \multicolumn{5}{l|}{\emph{CPU Miscellaneous Instructions:}} & \emph{Operation Name:}  \\ \hline
+    \emph{DEXT} & \emph{DEXTM} & \emph{DEXTU} &  &              & Double Extract Field    \\
+    \emph{DINS} & \emph{DINSM} & \emph{DINSU} &  &              & Double Insert Field     \\
+    \emph{DSBH} &              &              &  &              & Swap B's in HW          \\
+    \emph{DSHD} &              &              &  &              & Swap H's in DW
 \end{tabularx}
 
 These are the system call instructions that our emulator must support \cite{spim-system-calls}.
@@ -1395,17 +1395,17 @@ our project has been toned down a little. In the future, operating
 system support could possibly be added to SWIM.
 
 \begin{tabularx}{\textwidth}{@{}lllll|X@{}}
-    \multicolumn{5}{l|}{\emph{I/O and System Instructions:}} & \emph{Operation Name:} \\\hline
-    Syscall 1 & & & &                                        & Print integer \\
-    Syscall 2 & & & &                                        & Print Float \\
-    \emph{Syscall 3} & & & &                                 & Print Double \\
-    \emph{Syscall 4} & & & &                                 & Print String \\
-    \emph{Syscall 5} & & & &                                 & Read Int \\
-    \emph{Syscall 6} & & & &                                 & Read float \\
-    \emph{Syscall 7} & & & &                                 & Read double \\
-    \emph{Syscall 8} & & & &                                 & Read string \\
-    \emph{Syscall 9} & & & &                                 & Sbrk \\
-    \emph{Syscall 10} & & & &                                & Exit \\
+    \multicolumn{5}{l|}{\emph{I/O and System Instructions:}} & \emph{Operation Name:}  \\ \hline
+    Syscall 1         &  &  &  &                             & Print integer           \\
+    Syscall 2         &  &  &  &                             & Print Float             \\
+    \emph{Syscall 3}  &  &  &  &                             & Print Double            \\
+    \emph{Syscall 4}  &  &  &  &                             & Print String            \\
+    \emph{Syscall 5}  &  &  &  &                             & Read Int                \\
+    \emph{Syscall 6}  &  &  &  &                             & Read float              \\
+    \emph{Syscall 7}  &  &  &  &                             & Read double             \\
+    \emph{Syscall 8}  &  &  &  &                             & Read string             \\
+    \emph{Syscall 9}  &  &  &  &                             & Sbrk                    \\
+    \emph{Syscall 10} &  &  &  &                             & Exit
 \end{tabularx}
 
 \subsubsection{The FPU Instructions}
