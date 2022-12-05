@@ -5088,100 +5088,77 @@ fn access_bad_register_by_string() {
 \section{Browser Support}
 
 The central idea of SWIM is to make working with MIPS32 and MIPS64 as
-easy as possible. To that end, SWIM is a browser-based emulator meaning
-all of the work is done in a web browser since this eliminates the need
-for the user to download any software to use our project and means. It
-also means that we do not have to work to ensure that SWIM is functional
-on various different operating systems. However, our project working in
-one web browser does not guarantee that it will also work in others. An
-important task for us has been to figure out which browsers we want to
-ensure our project will be supported to run on and then check to make
-sure that all of the various pieces of technology we are planning on
-using in our project are compatible with all of those browsers with a
-focus on ensuring compatibility with the most frequently used web
-browsers.
+easy as possible. To that end, SWIM is a browser-based emulator,
+eliminating the need for the user to download any software to use our
+project. From a design perspective, this decision also eliminates
+considering operating system support. However, our project working in
+one web browser does not guarantee support in others. An important task
+is to determine which browsers should be supported, and consequently
+that all technologies in the project are compatible with all of those
+browsers. Our group focused on ensuring compatibility with the most
+frequently used web browsers.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{browser-global-stats}
     \caption{Desktop Browser Market Share according to \protect\cite{statcounter}. Used with
-    Permission.}
+    permission.}
 \end{figure}
 
-According to \cite{statcounter}, the most commonly used browser on desktops
-worldwide as of September of 2022 was Google Chrome with over two-thirds
-of the market share. The top four most used web browsers on desktop,
-Google Chrome, Microsoft Edge, Safari by Apple, and Mozilla Firefox
-account for over 94 percent of the global web browser market share on
-desktop. Because of this, we want to guarantee that our project is fully
-functional on these four browsers at a minimum. Google Chrome and
-Microsoft Edge as well as the fifth largest browser, Opera, and the
-browser, Brave, are all browsers based on the open-source project,
-Chromium, and compatibility in one generally means compatibility in the
-others. This should hopefully mean a slightly reduced workload when
-testing and, although we are not planning to specifically ensure that
-SWIM works on Brave or Opera, if we are able to support those browsers
-thanks to their similarities to the ones we do support, that would be a
-nice extra benefit. However, our testing will only focus on the four
-largest market share holders and we will not be having any formal
-testing done on those other browsers to guarantee parity in user
-experience or functionality compared to the officially supported
-browsers.
+% TODO SD2: Update from "ideally" once work has been done to test browser support
+According to \cite{statcounter}, the most commonly used browser on
+desktops worldwide as of September of 2022 was Google Chrome with over
+two-thirds of the market share. The top four most-used web browsers on
+desktop -- Google Chrome, Microsoft Edge, Safari by Apple, and Mozilla
+Firefox -- account for over 94 percent of the global web browser market
+share on desktop. Because of this, we want to guarantee that our project
+is fully functional on these four browsers at a minimum. Google Chrome,
+Microsoft Edge, Opera (the fifth most-used browser), and Brave, are all
+based on the open-source project Chromium, and compatibility for one
+generally implies compatibility for the others. This should ideally
+result in a slightly reduced workload when testing and, although we are
+not planning to specifically ensure that SWIM works on Brave or Opera,
+these may be supported without any additional effort.
 
-For the four browsers, our first goal has been to make sure that the
-various pieces of technology that we are planning on using are all fully
-supported. The first technology we checked on for this was the main
-programming language we are going to be building our project in, Rust.
-Rust is capable of compiling to WebAssembly, a binary-code format that
-allows languages not traditionally designed to run through a browser
-such as C or Rust to run on a browser while still maintaining the high
-levels of performance those languages are known for. Through
-WebAssembly, we are able to have browser support for Rust. WebAssembly
-has support for Chrome, Edge, Safari, and Firefox on desktops and
-laptops according to Mozilla's website \cite{mdn-webassembly}, one of the main developers of
-WebAssembly. On that compatibility list, Opera is listed as having full
-support, too.
+For the four browsers, our first goal has been to ensure that the
+various technologies used for the project are all fully supported. The
+first technology we checked on for this was the main programming
+language we are going to be building our project in, Rust, or by
+extension, the language it compiles to, WebAssembly. WebAssembly has
+support for Chrome, Edge, Safari, and Firefox on desktops and laptops
+according to \cite{mdn-webassembly}, one of the main developers of
+WebAssembly, and with this compatibility list, Opera is listed as having
+full support, too.
 
+% TODO SD2: Update tense from "planning"
 Another major technology we need to make sure is fully compatible with
-all of the browsers we want to support is Monaco \cite{monaco}, the code editor we are
-planning to have our users use to write their MIPS32 and MIPS64
-programs. According to information on the website for Monaco by its
-developer, Microsoft, the Monaco Editor has support for Chrome, Edge,
-Safari, and Firefox. It also mentions it supports the Opera browser, as
-well.
+all of the browsers we want to support is Monaco \cite{monaco}, the code
+editor library we are planning to have our users use to write their
+MIPS32 and MIPS64 programs. According to its developer, Microsoft, the
+Monaco Editor has support for Chrome, Edge, Safari, and Firefox. It also
+mentions support for the Opera browser.
 
-Another thing to note about the Monaco code editor is that it does not
-support mobile browsers. Although we were not ever planning on having
-explicit support for any of the mobile versions of our supported
-browsers, having our project supported on those platforms would have
-been a nice bonus. The small screen that most devices with mobile
-browsers usually support would not make for a great development
-environment however, it would have been nice to have that in case
-somebody does not have access to a device with a desktop web browser or
-if they just wanted to take a look at a project on their phone really
-quickly. Since Monaco does not support mobile browsers though, that
-possibility is off the table.
+Of note about the Monaco code editor is that it does not support mobile
+browsers. While mobile support is not a goal of SWIM, having room to
+expand to other browsers may be of interest in future iterations.
+Despite this, Monaco does not support mobile browsers, so this will not
+be a future possibility. In this case, an alternative code editor
+library would be necessary in such a future iteration.
 
+% TODO SD2: Rewrite "entirely possible" based on development
 While we are hoping to write as much of the project as we can in Rust,
 it is entirely possible that some of the front-end interface of the
-project has to be written in another language more commonly supported by
-browsers. For any instances of that, we would use JavaScript to
-accomplish those tasks. JavaScript is one of the main technologies that
-the internet is built upon meaning all major browsers have a JavaScript
-engine incorporated into them. There should not be any issues with
-compatibility for JavaScript on any of the web browsers we are
-targeting. Instead, the practically guaranteed support for JavaScript on
-almost all web browsers should allow us to try to fix any other
-compatibility issues that may arise by using JavaScript to patch the
-source of these issues.
+project has to be written JavaScript to accomplish some tasks.
+JavaScript is one of the core technologies used in web development,
+meaning all major browsers have a JavaScript engine incorporated into
+them. There should not be any issues with compatibility for JavaScript
+on any of the web browsers we are targeting. Instead, the practically
+guaranteed support for JavaScript on almost all web browsers should
+allow SWIM to patch any other compatibility issues.
 
 All of the browsers we are planning on supporting are compatible with
 the aforementioned technologies we are planning on using. This means
-that our project should not run into any compatibility issues and will
-be able to be fully functional on all four of these browsers. We will
-still be testing on all of the browsers as part of our testing process
-but this support means that any compatibility issues that might arise
-while we are creating the project are ones that are solvable within the
-scope of our project.
+that our project should not run into any compatibility issues, or will
+be possible to mitigate.
 
 \begin{tabularx}{\textwidth}{|c|cccccc|}
 \hline
