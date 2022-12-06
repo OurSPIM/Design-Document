@@ -5364,7 +5364,25 @@ system of editors, selecting between the one that is loaded within the
 emulation core.
 
 
-% TODO: Summary and Conclusion
+\section{Summary and Conclusion}
+
+In broad strokes, the goal of our project is to create a user-friendly emulator for MIPS64 with a focus on usability in learning computer architecture. 
+Computer architecture can be such a difficult subject already, the central goal of ours became making the toolset as accessible and easy to use as possible while
+also emulating MIPS64 as accurately as possible.
+
+SWIM will be  an online emulator to make it as accessible as possible. Users do not have to dedicate any hard drive space or wait through download time to use SWIM; everything
+is handled through the browser. The website itself will be written with the Rust programming language and the tools that allow it to run on the web like WebAssembly, yew, and gloo.
+Thanks to WebAssembly, we are able to use a powerful language like Rust to build our website meaning we do not have to sacrifice low-level power in exchange for the portability provided by 
+commonly used web development languages like JavaScript. Embedded into the front end will be a Monaco code editor, providing our users with a familiar yet powerful tool to work with.
+
+Code written in the editor will be passed into a custom-built parser and assembler that will provide meaningful information about each line of code back to the front end to display to the user
+and then provide the binaries of each line of code to a custom-built emulation core where it is run. This emulation core will be built to emulate MIPS64 as accurately as possible complete with 
+a fully-realized datapath. 
+
+Now at the end of Senior Design I and looking forward towards the next semester, the workload ahead of us is large. Building an emulator from scratch is not a small feat nor is hosting it on the 
+web using tools still in their infancy like WebAssembly and Yew. However, neither was this first semester. Two major storms helped make an already tight timeline even tighter. And it is a project that 
+all five of us on the team believe in passionately. In spite of the limited tools we had to learn MIPS64 ourselves, we all came out of it eager to work with it more. Our hope is that SWIM will help 
+facilitate that in others learning computer architecture, as well.
 
 \printbibliography
 
