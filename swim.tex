@@ -103,6 +103,8 @@ Subsequent sections of this document outline and organize the design process for
 \section{Overview}
 
 \subsection{Project Description}
+\label{subsec:project-description}
+
 When studying Computer Science or a related field, students must learn about computer architecture and design, which includes assembly languages and instruction set architectures. In many universities, including the University of Central Florida, the chosen instruction set architecture is MIPS32. If students proceed to take more advanced courses centered on computer architecture, they inevitably encounter MIPS64 in that process, as well.
 
 While there are already a number of emulators and tools available for students and instructors to learn and teach MIPS, there can be a number of issues surrounding them that make them difficult or even impossible to use in some cases. Current options for MIPS emulation software are overly-complex or use out-of-date frameworks. Our project aims to be a new, alternative MIPS emulation tool that is easier to digest compared to existing options. The current go-to option for educational MIPS simulation is SPIM \cite{spim}. While it has a rich feature-set, SPIM is no longer actively maintained, is aging since its original release in 1990, and is not user-friendly by modern standards.
@@ -126,14 +128,57 @@ GitHub Pages is used to host the website, additionally allowing users access to 
 \end{figure}
 
 \subsection{Project Motivation}
-% TODO: Proofread this section
-The motivations for this project come from many different directions. We wanted to do something amazing; something that we felt was realistic and useful. Most of the initial project proposals for senior design were just turns offs for us. Much of our team is made up of low level enthusiasts. AI and front-end replacement projects did not fit our cup of tea. We want to introduce more people to the low level reality of computation. Along the way, we also want to improve our own understanding of computation and reality of what a computer actually does. There is major room for improvement in the educational MIPS emulation scene. Number one, there are no real options for those who want to learn MIPS64. All the options for MIPS32 educational emulation are arguably not the most welcoming to new users. These are some clear holes in the education emulation world waiting for someone to fill. Writing a MIPS emulator seems like a fun thing to do, and best of all, has clear direction. We know roughly what to expect tackling such an endeavor. The job prospects for emulation are also significant. We want to get jobs that we can be proud of through doing this project. So our project motivation comes from many different directions. Our motivations are mainly inspiration, personal educational benefits, teaching others, clear direction, and jobs. There is just something gripping about writing an emulator. It is like magic to see software run in a simulation.
 
-There is a need for improving the computer architecture education scene. Many people learning computer architecture dread having to learn and use MIPS. There is just not the same kind of assistance out there that many students have come accustomed to expect. If a student wants to learn Python, there are so many resources to help them along the way. They have great IDE's, online resources for running Python, and so on. For learning MIPS, things are more to the contrary. Many of the people on our team were directly affected by this. The current emulation software could be vastly improved upon. The needs to be a highly accessible emulator out there better tailored to students learning MIPS, or any computer architecture for that matter.
+The motivation behind SWIM, at its root, is at the major flaws in the
+currently-available resources in the educational MIPS emulation scene.
+As mentioned in Section \ref{subsec:project-description}, there are no
+real options for those who want to learn MIPS64. In addition, most if
+not all existing options for MIPS32 emulation arguably have an
+unnecessary learning curve to being used. Many students in computer
+architecture courses dread learning and using MIPS, as there is simply
+not the same level of assistance available that many students have
+become accustomed to expect. For example, if a student wants to learn
+Python, there is a plenitude of resources to help them along the way.
+There are countless Python IDEs, online resources for running Python,
+and so forth. For learning MIPS, most of the information found will be
+from a textbook or course lectures, and many members of the project team
+have been directly affected by this environment.
 
-One of the big issues with many of the projects proposed for senior design is that many had unclear direction. Many of the projects proposed were by people who had no technical experience, many seemed to believe in magic. They had no real idea on time and difficulty. Many of the projects could be summarized into two categories, “We have this problem, please fix it with the magic of AI”, and “Bla bla bla, VR, and AI”. Nobody on our team wanted to end up on a project that could be impossible to complete. After all, not completing a project could mean having graduation held back by a year. It can be very hard to gauge the difficulty and time needed for a project without clear direction, and especially one depending on the magic of AI. We all want to graduate, we do not want to gamble on a project to get lost on. This MIPS project felt like a great balance between direction and difficulty.
+In addition, a major motivation of any software development project is
+to accomplish something amazing; something that we felt was realistic
+and useful. Much of the team is comprised of low-level programming
+enthusiasts, making the mission of the project even more plausible and
+usable in real-world scenarios than the perspective of a traditional
+programmer. Along the way, we want to improve our own understanding of
+computation and computer architecture by building a core component of a
+computer processor. Writing a MIPS emulator an interesting project, and
+best of all, has clear direction. From the initial project pitch, it is
+understood how the project will generally work and what it can do.
 
-Currently there is a solid demand out there in the cyber industry for custom emulation. To become a professional emulator developer, small steps of learning are required. By writing this emulator our team will be taking a small step, we should all leave with a better understanding of the world of emulation development. In the cyber world hacking has been becoming harder and harder. Everyone is trying to automate. In part with AI, in part with special algorithms and software. For much of the automation there's a need for scale and state access. The ability to know everything, ram, flash, register states, and so on, is very important. With real hardware your access to know exactly what the system is doing is limited. Real hardware can also be very costly, on the order of millions per unit. Sometimes real hardware can be inaccessible by normal means, for example weapon systems. Security researchers want to be able to make as many virtual environments as possible with minimal cost. They want to be able to understand anything that a system is doing.
+Many of the initial project proposals in Senior Design seemed to have no
+real-world use or clear direction, coming from individuals with little
+technical experience. The time and difficulty for some projects were
+underestimated from a technical perspective, and some only generically
+indicate what problem it solves or what purpose it has. Artificial
+intelligence and virtual/augmented reality have been cited as catch-all
+solutions to many problems, which is contrary to the beliefs of the
+project team. While it can be very hard to gauge the difficulty and time
+needed for a project without clear direction, we do not have the time or
+luxury to gamble on a project to get lost on. This MIPS emulation
+project felt like a great balance between direction and difficulty.
+
+% TODO: Source of demand
+Currently there is a significant demand in industry for custom
+emulation. To become a professional emulator developer, small steps of
+learning are required. By writing this emulator, our team will be taking
+a small step in this direction and should leave with a better
+understanding emulator development. The ability to understand all parts
+of a computing system -- RAM, flash memory, register states, and so on
+-- are crucial to working with emulation. Additionally, physical
+hardware can be limited based its interfaces, may be costly to develop
+on, or in some cases inaccessible altogether. Security researchers want
+to be able to create as many virtual environments as possible with
+minimal cost to understand everything a system does.
 
 \subsection{Individual Motivations}
 \subsubsection{Kevin Cahalan}
