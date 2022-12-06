@@ -1728,26 +1728,36 @@ any of the details of emulation core implementation.
 
 
 \section{Implementation Overview}
-% TODO
+
+SWIM uses a collection of three components to complete the full
+functionality of the project: an emulation core, a parser, and an
+interface / front end. Each of these components are each explained in
+more detail in Sections \ref{sec:emulation-core}, \ref{sec:parser}, and
+\ref{sec:front-end}, respectively. In a pictorial representation,
+Figures \ref{fig:use-case-diagram} and \ref{fig:block-diagram} show the
+layout and usage of these components.
 
 \subsection{Use Case Diagrams}
 
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{use-case-diagram}
-    \caption{Preliminary Use Case Diagram of SWIM.}
-    \end{figure}
+    \includegraphics[width=\textwidth]{use-case-diagram}
+    \caption{Use case diagram of SWIM.}
+    \label{fig:use-case-diagram}
+\end{figure}
 
 
 \subsection{Block Diagrams}
 
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{block-diagram}
-\caption{Basic Block Diagram of SWIM.}
+    \includegraphics[width=\textwidth]{block-diagram}
+    \caption{Block diagram of SWIM.}
+    \label{fig:block-diagram}
 \end{figure}
 
 
 
 \section{Pseudo-Single-Cycle Datapath Implementation}
+\label{sec:emulation-core}
 
 Our implementation of a MIPS single-cycle datapath allows for simplicity
 in understanding it. The implementation will fit with how the emulation
@@ -2824,6 +2834,7 @@ powerful amount of functionality for development.
 
 
 \section{Parser and Assembler}
+\label{sec:parser}
 
 In the process of using SWIM, once a user has written a program in the
 code editor, the inputted text is then passed to the parser and
@@ -3573,6 +3584,7 @@ error occurs if it is outside of those.
 
 
 \section{The Front End}
+\label{sec:front-end}
 
 The main four components that constitute the front end are the Monaco
 editor, the register view, the console for input and output, and the buttons.
