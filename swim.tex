@@ -5155,11 +5155,13 @@ on any of the web browsers we are targeting. Instead, the practically
 guaranteed support for JavaScript on almost all web browsers should
 allow SWIM to patch any other compatibility issues.
 
-All of the browsers we are planning on supporting are compatible with
-the aforementioned technologies we are planning on using. This means
-that our project should not run into any compatibility issues, or will
-be possible to mitigate.
+Based on Figure \ref{fig:browser-technology-support}, all of the
+browsers we are planning on supporting are compatible with the
+aforementioned technologies. This means that our project should not run
+into any compatibility issues, or will be possible to mitigate.
 
+\begin{figure}[H]
+{\renewcommand{\arraystretch}{1.4}
 \begin{tabularx}{\textwidth}{|c|cccccc|}
 \hline
 & \multicolumn{6}{|c|}{\textbf{Support for Technology By the Browser}} \\\hline
@@ -5167,11 +5169,17 @@ be possible to mitigate.
 Rust through WebAssembly  & \checkmark      & \checkmark    & \checkmark      & \checkmark       & \checkmark     & ? \\\hline
 Monaco Code Editor        & \checkmark      & \checkmark    & \checkmark      & \checkmark       & \checkmark     & ? \\\hline
 JavaScript                & \checkmark      & \checkmark    & \checkmark      & \checkmark       & \checkmark     & \checkmark \\\hline
-\end{tabularx}
+\end{tabularx}}
+
+\vspace{\baselineskip}
 
 \checkmark : Has support\\
 $\oslash$ : Does not have support\\
 ? : Support is not specified
+
+\caption{Support for browser technologies.}
+\label{fig:browser-technology-support}
+\end{figure}
 
 
 
