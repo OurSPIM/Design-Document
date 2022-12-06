@@ -36,8 +36,9 @@
 % Define a blockquote
 \AtBeginEnvironment{quote}{\par\singlespacing\small}
 
-% Add resizable centered table columns
+% Add resizable centered and left-aligned table columns
 \newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
 % From setspace package
 \setstretch{1.2}
@@ -1840,7 +1841,6 @@ the instruction decode phase of execution.
 \subsection{Supported Instructions}
 \label{subsec:supported-instructions}
 
-% TODO: Re-clarify supported instructions.
 The following table is an all-inclusive list of the assembly
 instructions supported in SWIM.
 
@@ -1848,278 +1848,36 @@ instructions supported in SWIM.
 Normal-styled instructions are final project functionality.\\
 \emph{Italic-styled instructions} are stretch goals.
 
-The first table, the CPU instructions table, is organized to categorize
-instructions by row. Instructions sharing a row will be similar
-variations of each other. For the FPU instruction that table is
-organized a little differently. There are two columns of FPU
-instructions. There's a little less in the way of organization. The
-selection of FPU instructions varies a lot. If the FPU instructions were
-organized in a table similar to how the CPU were organized, the table
-may take around 5 pages of mostly blank space.
-
-\subsubsection{The CPU Instructions}
-
-These are the possible arithmetic instructions to support \cite[p.~39]{mips-specification-5}. Arithmetic
-instructions are the core to a processor, they are incredibly important.
-Ideally our emulator will support all arithmetic instructions. With any
-approach we take to developing our core, arithmetic instruction should
-be done with ease.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{Arithmetic instructions:}}                   & \emph{Operation Name:}   \\ \hline
-    \textbf{ADD}   & \textbf{ADDI}  & \textbf{ADDIU}  & \textbf{ADDU}   &  & Addition                 \\
-    \textbf{DADD}  & \textbf{DADDI} & \textbf{DADDIU} & \textbf{DADDU}  &  & 64-bit addition          \\
-    \textbf{SUB}   & \textbf{SUBI}  &                 &                 &  & Subtraction              \\
-    \textbf{DSUB}  &                &                 & \textbf{DSUBU}  &  & 64-bit subtraction       \\
-    \textbf{MUL}   &                &                 &                 &  & 32-bit mult to GPR       \\
-    \textbf{MULT}  &                &                 & \textbf{MULTU}  &  & 32-bit multiplication    \\
-    \textbf{DMULT} &                &                 & \textbf{DMULTU} &  & 64-bit multiplication    \\
-    \textbf{DIV}   & \textbf{DIVI}  &                 & \textbf{DIVU}   &  & 32-bit integer division  \\
-    \textbf{DDIV}  &                &                 & \textbf{DDIVU}  &  & 64-bit integer division  \\
-    \textbf{MADD}  &                &                 & \textbf{MADDU}  &  & Weird multiply           \\
-    \textbf{MSUB}  &                &                 & \textbf{MSUBU}  &  & Weird multiply           \\
-    CLO            &                &                 &                 &  & Count leading ones       \\
-    CLZ            &                &                 &                 &  & Count leading zeros      \\
-    DCLO           &                &                 &                 &  & 64-bit version of CLO    \\
-    DCLZ           &                &                 &                 &  & 64-bit version of CLZ    \\
-    SEB            &                &                 &                 &  & 8-bit Sign extend        \\
-    SEH            &                &                 &                 &  & 16-bit Sign extend       \\
-    \textbf{SLT}   & \textbf{SLTI}  & \textbf{SLTIU}  & \textbf{SLTU}   &  & Set on less than
-\end{tabularx}
-
-These are the MIPS bitwise instructions. There are no separate 32 or
-64-bit versions. All of these instructions are important and will be
-supported by our project. Coding the emulation of these instructions
-should be somewhat straightforward.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{CPU Bitwise Logic Instructions:}} & \emph{Operation Name:}  \\ \hline
-    \emph{\textbf{AND}} & \textbf{ANDI} &  &  &                 & And                     \\
-    \emph{\textbf{OR}}  & \textbf{ORI}  &  &  &                 & Or                      \\
-    \emph{\textbf{XOR}} & \textbf{XORI} &  &  &                 & Exclusive or            \\
-    \emph{\textbf{NOR}} &               &  &  &                 & Not or
-\end{tabularx}
-
-These are the shift instructions to support. There are 20 different
-shifts, with both 32 and 64-bit versions of all the basic shifts.
-For the 64-bit shifts the instructions in the format ``\_\_\_\_32'' are
-for doing shifts on the upper 32-bits off the 64-bit registers.
-Implementing these shift instructions should be straightforward in the
-codebase. The shift will likely fare well with a pipeline and datapath.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{Shifting instructions:}} & \emph{Operation Name:}         \\ \hline
-    \textbf{SLL}   & \textbf{SLLV}   &  &         &    & Shift left logical             \\
-    \textbf{DSLL}  & \textbf{DSLLV}  &  & DSLL32  &    & 64-bit shift left logical      \\
-    \textbf{SRL}   & \textbf{SRLV}   &  &         &    & Shift right logical            \\
-    \textbf{DSRL}  & \textbf{DSRLV}  &  & DSRL32  &    & Double Shift Right Logical     \\
-    \textbf{SRA}   & \textbf{SRAV}   &  &         &    & Shift right arithmetic         \\
-    \textbf{DSRA}  & \textbf{DSRAV}  &  & DSRA32  &    & 64-bit shift right Arithmetic  \\
-    \textbf{ROTR}  & \textbf{ROTRV}  &  &         &    & Rotate right                   \\
-    \textbf{DROTR} & \textbf{DROTRV} &  & DROTR32 &    & 64-bit rotate right
-\end{tabularx}
-
-These are the branch instructions the we plan to support, or possibly
-support. The most critical of instructions to support are B, BNQ, BNE,
-and the basic jumps. These instructions are highlighted in bold.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{Branch and Jump Instructions:}}                 & \emph{Operation Name:}   \\ \hline
-    \textbf{B}   & \textbf{BAL} &              &               &              & Branch                   \\
-    \textbf{BEQ} &              &              &               &              & Branch on equal          \\
-    BGEZ         & BGEZAL       & BGETZ        &               &              & Branch on greater        \\
-    BLEZ         &              &              &               &              & Branch on \textgreater=  \\
-    BLTZ         & BLTZAL       &              &               &              & Branch on \textless{}    \\
-    \textbf{BNE} &              &              &               &              & Branch on not equal      \\
-    \textbf{J}   & \textbf{JAL} & \emph{JAL.R} & \emph{JAL.HB} & \emph{JAL.X} & Jump                     \\
-    \textbf{JR}  &              &              & \emph{JR.HB}  &              & Jump to reg addr
-\end{tabularx}
-
-For our emulator we will be supporting most of the load and store
-instructions. The most popular and important instructions are the
-instructions that are labeled in bold, lw, sw, and their 64-bit
-variants. The store and load instructions that end with the letter ``E''
-are instructions that store or load to or from user space while
-executing in the kernel. These instructions are an extreme stretch goal
-and will most likely not be supported by our emulator. After writing the
-LW, SW, LD, and SD instructions, LB, SB, LH, and SH will be the next
-highest priority instructions to write.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{CPU Memory Instructions:}}       & \emph{Operation Name:}  \\ \hline
-    SB          & \emph{SBE}   &              &             &  & Store byte              \\
-    LB          & \emph{LBE}   & LBU          & \emph{LBUE} &  & Load byte               \\
-    SH          & \emph{SHE}   &              &             &  & Store halfword          \\
-    LH          & \emph{LHE}   & LHU          & \emph{LHUE} &  & Lord halfword           \\
-    \textbf{SW} & \emph{SWE}   &              &             &  & Store word              \\
-    SWL         & \emph{SWLE}  &              &             &  & Store word left         \\
-    SWR         & \emph{SWRE}  &              &             &  & Store word right        \\
-    \textbf{LW} & \emph{LWE}   & \textbf{LWU} &             &  & Load word               \\
-    LWL         & \emph{LWLE}  &              &             &  & Load word left          \\
-    LWR         & \emph{LWRE}  &              &             &  & Load word right         \\
-    LL          & \emph{LLE}   &              &             &  & Load linked word        \\
-    \textbf{SD} & \textbf{SDL} & \textbf{SDR} &             &  & Store doubleword        \\
-    \textbf{LD} & \textbf{LDL} & \textbf{LDR} &             &  & Load double word        \\
-    LLD         &              &              &             &  & Load linked double
-\end{tabularx}
-
-These move instructions are for moving data to and from hidden internal
-CPU registers to the general purpose registers. These are effectively
-getter and setter CPU instructions. Implementing these instructions
-should be straightforward. We definitely should implement all 8 of the
-instructions. The most important of these move instructions are the
-MFHI, MTHI, MFLO, and MTLO instruction. These instructions are important
-for many of the basic operations a user may want to do with our
-emulator. For example, division uses the LO and HI hidden internal
-registers for output.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{CPU Move Instructions:}} & \emph{Operation Name:}  \\ \hline
-    \textbf{MFHI} & \textbf{MTHI} &  &  &              &                         \\
-    \textbf{MFLO} & \textbf{MTLO} &  &  &              &                         \\
-    \textbf{MOVF} &               &  &  &              & Move on float false     \\
-    \textbf{MOVN} &               &  &  &              & Move on not zero        \\
-    \textbf{MOVT} &               &  &  &              & Move on float true      \\
-    \textbf{MOVZ} &               &  &  &              & Move on zero
-\end{tabularx}
-
-These are miscellaneous instructions that might be cool to implement.
-These do not fit into a nice category, and are all stretch goals that we
-may never get around to implementing.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{CPU Miscellaneous Instructions:}} & \emph{Operation Name:}  \\ \hline
-    \emph{DEXT} & \emph{DEXTM} & \emph{DEXTU} &  &              & Double Extract Field    \\
-    \emph{DINS} & \emph{DINSM} & \emph{DINSU} &  &              & Double Insert Field     \\
-    \emph{DSBH} &              &              &  &              & Swap B's in HW          \\
-    \emph{DSHD} &              &              &  &              & Swap H's in DW
-\end{tabularx}
-
-These are the system call instructions that our emulator must support \cite{spim-system-calls}.
-Since our emulator is meant to partially be a 64-bit version of SPIM,
-these are the same basic system calls from SPIM. For the most part the
-system calls do as one may expect, the integer print system call prints
-an integer, and so on. The sbrk system call, system call 9, is an
-interesting one. It is effectively a memory allocation system call.
-
-To implement these system calls we will be effectively emulating an
-operating system along with a CPU. In the real world, an operating
-system will have a spot in memory that it sits at. That spot in memory
-will likely have some kind of memory protection to keep the operating
-system safe from being overwritten or attacked by user programs. When a
-user program does a system call, the CPU will jump to the operating
-system to process the system call. After the operating system has
-finished processing a system call, depending on the nature of the system
-call, control will likely then be given back to the user program.
-
-To implement these system calls, our emulator will probably have a
-special operating system class. The emulation core will fire off the
-operating system as needed. In the far future, after our group is done
-with SWIM for senior design, real operating system support may be added
-to SWIM. Real operating system support will require the implementation
-of all sorts of memory permission and management instructions. Our
-project can only be so big before it gets unrealistic to complete over
-the course of approximately 3 months. Under the advice of Dr. Gerber,
-our project has been toned down a little. In the future, operating
-system support could possibly be added to SWIM.
-
-\begin{tabularx}{\textwidth}{lllll|X}
-    \multicolumn{5}{l|}{\emph{I/O and System Instructions:}} & \emph{Operation Name:}  \\ \hline
-    Syscall 1         &  &  &  &                             & Print integer           \\
-    Syscall 2         &  &  &  &                             & Print Float             \\
-    \emph{Syscall 3}  &  &  &  &                             & Print Double            \\
-    \emph{Syscall 4}  &  &  &  &                             & Print String            \\
-    \emph{Syscall 5}  &  &  &  &                             & Read Int                \\
-    \emph{Syscall 6}  &  &  &  &                             & Read float              \\
-    \emph{Syscall 7}  &  &  &  &                             & Read double             \\
-    \emph{Syscall 8}  &  &  &  &                             & Read string             \\
-    \emph{Syscall 9}  &  &  &  &                             & Sbrk                    \\
-    \emph{Syscall 10} &  &  &  &                             & Exit
-\end{tabularx}
-
-\subsubsection{The FPU Instructions}
-
-The FPU is the part of the processor that does floating pointer
-operations. In the initial days with the introduction of FPU's, an FPU
-would be logically separate from the CPU, sometimes even on a physically
-separate chip. With the history of the introduction to FPU's in mind,
-the MIPS FPU instructions are distinctly separate from the MIPS general
-CPU instructions \cite[p.~39]{mips-specification-5}. The FPU instructions have different encodings and a
-different style. There are special instructions for taking data from one
-processing unit to the other.
-
-To help reduce the size of the FPU supported instructions table, many of
-the instructions have generic placeholders for distinguishing variants.
-A great example for this generic placeholder use would be with the
-c.{[}cond{]}.fmt comparison instruction. For this instruction, the part
-of the instruction name ``{[}cond{]}'' is a placeholder for a comparison
-condition. For example, the condition could be ``eq'' for comparison on
-equals. The ``fmt'' stands for a data type specifier in the instruction
-name, for example ``s'' for 32-bit float, ``d'' for 64-bit float.
-
-\begin{tabularx}{\textwidth}{lX|lX}
-    \multicolumn{4}{l}{\emph{FPU Arithmetic Instructions:}} \\\hline
-    \textbf{ABS.fmt}  & Absolute Value        & \emph{NEG.fmt}            & Negate \\
-    \textbf{ADD.fmt}  & Add                   & \emph{NMADD.fmt}          & Negate, Multiply, Add \\
-    \textbf{DIV.fmt}  & Multiply              & \emph{NMSUB.fmt}          & Negate, Multiply Subtract \\
-    \textbf{MADD.fmt} & Multiply and Add      & \emph{RECIP.fmt}          & Reciprocal \\
-    \textbf{MSUB.fmt} & Multiply and Subtract & \emph{RSQRT.fmt}          & Reciprocal Root \\
-    \textbf{MUL.fmt}  & Multiply              & \emph{SQRT.fmt}           & Root \\
-    \textbf{SUB.fmt}  & Subtract              & \textbf{C.{[}cond{]}.fmt} & GenericComparison \\
-\end{tabularx}
-
-These are the FPU branch instructions, there are only two. Both of these
-instructions check the FP internal FPU register, depending on the value
-of FP, there may or may not be a branch.
-
-\begin{tabularx}{\textwidth}{lX|lX}
-    \multicolumn{4}{l}{\emph{FPU Branch Instructions:}} \\\hline
-    \textbf{BC1F} & Branch if FP is False & \textbf{BC1T} & Branch if FP isTrue \\
-\end{tabularx}
-
-For data conversion these are the FPU instructions that SWIM may
-implement. The 4 bolded instructions are the most important and basic.
-All the other instructions should not be too much of a pain to
-implement. For the non bolded instructions, implementing those
-instructions with an FPU datapath may be a challenge. The FPU datapath
-might get huge.
-
-\begin{tabularx}{\textwidth}{lX|lX}
-    \multicolumn{4}{l}{\emph{FPU Conversion Instructions:}} \\\hline
-    \textbf{CVT.S.fmt} & Convert fmt to float           & \emph{PUL.PS}      & Pair fs upper \& ft lower bits \\
-    \textbf{CVT.W.fmt} & Convert fmt to word            & PUU.PS             & Pair upper bits from fs \& ft \\
-    \textbf{CVT.D.fmt} & Convert dmt to double          & FLOOR.L.fmt        & Floor fmt to long \\
-    \textbf{CVT.L.fmt} & Convert fmt to long            & FLOOR.W.fmt        & Floor fmt to word \\
-    CVT.PS.S           & Put two float together in reg  & \emph{ROUND.L.fmt} & Round fmt to long \\
-    CVT.S.PL           & Take lower 32-bits, put in reg & \emph{ROUND.W.fmt} & Round fmt to word \\
-    CVT.S.PU           & Take upper 32-bits, put in reg & \emph{TRUNC.L.fmt} & Truncate fmt to long \\
-    \emph{PLL.PS}      & Pair lower bits from ft \& fs  & \emph{TRUNC.W.fmt} & Truncate fmt to word \\
-    \emph{PLU.PS}      & Pair fs lower \& ft upper bits &                    & \\
-\end{tabularx}
-
-These are the FPU memory instructions.
-
-\begin{tabularx}{\textwidth}{lX|lX}
-    \multicolumn{4}{l}{\emph{FPU Memory Instructions:}} \\\hline
-    \textbf{LDC1} & Load double               & \textbf{SDC1} & Store double \\
-    LDXC1         & Load double indexed       & SDXC1         & Store double indexed \\
-    LUXC1         & Load DW unaligned indexed & SUXC1         & Store DW unaligned indexed \\
-    LWC1          & Load word                 & SWC1          & Store float \\
-    LWXC1         & Load float indexed        & SWXC1         & Store float indexed \\
-\end{tabularx}
-
-These are the general move instructions for the FPU.
-
-\begin{tabularx}{\textwidth}{lX|lX}
-    \multicolumn{4}{l}{\emph{FPU Move Instructions:}} \\\hline
-    \textbf{MFC1}  & Move word form FPU        & CTC1     & Move from gpr to FPU FP \\
-    \textbf{MTC1}  & Move word to FPU          & MOV.fmt  & Move from fpr to fpr \\
-    \textbf{DMFC1} & 64-bit move from FPU      & MOVF.fmt & Move fpr on FP False \\
-    \textbf{DMTC1} & 64-bit move to FPU        & MOVN.fmt & Move fpr on FP \& gpr != 0 \\
-    \textbf{MFHC1} & 32-bit high move from FPU & MOVT.fmt & Move fpr on FP True \\
-    \textbf{MTHC1} & 32-bit low move to FPU    & MOVZ.fmt & Move fpr on FP \& fpr == 0 \\
-    CFC1           & Move FP from FPU to gpr   &          & \\
-\end{tabularx}
+{\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{|L|L|L|L|L|L|}
+    \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Arithmetic and Immediate Instructions:}}}                                                                                                                                                                                           \\ \hline
+    \textbf{add}                                     & \textbf{sub}        & \textbf{mul}                & \textbf{div}                                & or                                                    & and                                                   \\ \hline
+    addi                                             & subi                & muli                        & divi                                        & \textbf{ori} (or immediate)                           & andi                                                  \\ \hline
+    seq (set equal)                                  & sne (≠)             & slt (\textless)             & sle (\textless=)                            & sgt (\textgreater)                                    & sge (\textgreater=)                                   \\ \hline
+                                                     &                     & sltu                        & sleu                                        & sgtu                                                  & sgeu                                                  \\ \hline
+    \textbf{lui} (load upper immediate)              &                     &                             &                                             &                                                       &                                                       \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Arithmetic and Immediate Instructions (MIPS64):}}}                                                                                                                                                                                  \\ \hline
+    dadd (add 64-bit integers)                       & dsub                & dmul                        & ddiv                                        & dahi (double-word add high immediate)                 & dati (double-word add top immediate)                  \\ \hline
+    daddi                                            & dsubi               & dmuli                       & ddivi                                       &                                                       &                                                       \\ \hline
+    daddiu                                           & dsubiu              & dmuliu                      & ddiviu                                      &                                                       &                                                       \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Floating-Point Instructions (MIPS64):}}}                                                                                                                                                                                            \\ \hline
+    mtc1 (move to coprocessor 1)                     & dmtc1 (double move) & mfc1                        & dmfc1                                       &                                                       &                                                       \\ \hline
+    add.s                                            & sub.s               & mul.s                       & div.s                                       &                                                       &                                                       \\ \hline
+    add.d                                            & sub.d               & mul.d                       & div.d                                       &                                                       &                                                       \\ \hline
+    c.eq.s (compare if equal single-precision float) & c.lt.s (\textless)  & c.le.s (\textless=)         & c.ngt.s (! \textgreater) (not greater than) & c.nge.s (! \textgreater=) (not greater than or equal) &                                                       \\ \hline
+    c.eq.d                                           & c.lt.d              & c.le.d                      & c.ngt.d                                     & c.nge.d                                               &                                                       \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Branch Instructions:}}}                                                                                                                                                                                                             \\ \hline
+    j                                                & jal                 & \emph{jalr}                 & beq                                         & bne                                                   & \emph{bc1t} (branch if coprocessor 1 condition true)  \\ \hline
+                                                     &                     &                             &                                             &                                                       & \emph{bc1f}                                           \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Pseudo-Instructions:}}}                                                                                                                                                                                                             \\ \hline
+    \textbf{li}                                      &                     &                             &                                             &                                                       &                                                       \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Memory Instructions:}}}                                                                                                                                                                                                             \\ \hline
+    \textbf{lw}                                      & \textbf{sw}         & \emph{ld }(load doubleword) & \emph{sd}                                   &                                                       &                                                       \\ \hline
+    \textbf{lwc1} (load word to coprocessor 1)       & \textbf{swc1}       & \emph{ldc1}                 & \emph{sdc1}                                 &                                                       &                                                       \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{I/O and System Instructions:}}}                                                                                                                                                                                                     \\ \hline
+    \emph{syscall}                                   &                     &                             &                                             &                                                       &                                                       \\ \hline
+\end{tabularx}}
 
 \subsection{Full Datapath}
 
