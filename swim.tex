@@ -351,7 +351,7 @@ While the goal is to use a free hosting and deployment solution, paid alternativ
 
 \subsubsection{Stretch Goals}
 \begin{itemize}
-    \item Account system: Users should be able to create and manage their own accounts, which would allow them to synchronize programs created in the application across clients.
+    \item The interface should be able to switch between using all supported instructions and running in a subset mode where only MIPS32 functionality is exposed.
 \end{itemize}
 
 
@@ -457,7 +457,6 @@ The emulation core acts as the project component performing simulation of a proc
 
     Reverse execution is the capability to step backwards in execution. In other words, the emulator should record its past states so that it can go back to them later. This could allow students to thoroughly understand how a program works, or undo previous parts of execution to replace with other instructions.
     \item The interface should be able to support a light and dark theme.
-    % TODO: Is toggling between MIPS32 and MIPS64 a stretch goal?
 \end{itemize}
 
 \subsection{Parser}
@@ -2807,7 +2806,6 @@ learn MIPS64. At UCF, computer science students learn about MIPS32 in
 the required class, CDA3103, Computer Logic and Organization, and learn
 about MIPS64 in the optional class, EEL4768, Computer Architecture
 \cite{ucf-cs-electives}. Since students should be able to SWIM
-% TODO: Is this a stretch goal?
 as an educational tool, a stretch goal is to make the user aware of
 which instructions are in MIPS32 versus only in MIPS64.
 
