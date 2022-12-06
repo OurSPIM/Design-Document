@@ -5086,6 +5086,7 @@ fn access_bad_register_by_string() {
 
 
 \section{Browser Support}
+\label{sec:browser-support}
 
 The central idea of SWIM is to make working with MIPS32 and MIPS64 as
 easy as possible. To that end, SWIM is a browser-based emulator,
@@ -5238,128 +5239,85 @@ considerations, no best name was found during the time of development.
 
 
 \section{The Future of the Project}
-% TODO: Proofread
 
-In the future hopefully this project will live on and continue. The
-project will very likely be hosted for years to come. Hosting is cheap,
-and we want to be able to link this project on our resumes. With a solid
-front end, and nice user front-end experience, so much can be expended
-on. There will be a lot of general improvement to be done to this
-project. Many of the stretch goals and dreams of this project are simply
-unlikely to be met. Only so much can be done over the course of four
-months. There will also always be more features to add, improvements to
-be done. Maybe in the future, another senior design team may expand upon
-this project.
+The following subsections outline some of the future considerations for
+project functionality not outlined otherwise. It is our goal to leave
+SWIM as a long-standing project that other developers could contribute
+to, should there be interest. This may involve a future Senior Design
+team or the open-source community at large.
 
 \subsection{RISC-V Support}
 
-MIPS is an old computer architecture. It came out back in the 80s as a
-Stanford research project. Over the years many different devices ended
-up using the architecture. This includes many routers, and Famously, the
-Original PlayStation. There was an important computer architecture book
-written around the MIPS ISA, \emph{Computer Architecture} by John L.
-Hennessy and David A. Patterson \cite{hennessy-patterson}. MIPS became the standard of computer
-architecture education. In the modern day, things are changing, the MIPS
-ISA came to an end in 2021. The team working on MIPS moved to RISC-V.
-The MIPS website has become an advertisement for RISC-V. The main
-popular textbook for Computer architecture moved to RISC-V. There is
-also an ARM edition of the textbook. MIPS is falling out of favor, we
-are writing our emulator at what looks like the death of MIPS.
+% TODO: MIPS team moving to RISC-V needs source
+While MIPS has previously been used in landmark devices such as the
+original Sony PlayStation and has become the de facto instruction set
+architecture for studying computer logic and design, it is aging in
+comparison to modern architectures. Both the team working on MIPS and
+the 6th edition of Hennessy and Patterson's textbook have moved to
+discussing RISC-V rather than MIPS. MIPS could be considered by this to
+be falling out of favor, and so to continue to maintain relevance in
+education, should support RISC-V. There is a great chance that the
+majority of students learning computer architecture in a decade will have
+introduced to RISC-V, or even another ISA altogether.
 
-For our emulator to survive and make it in education, it likely needs to
-support RISC-V. In the future, RISC-V support is definitely something to
-consider for this emulator project. There's a great chance that the
-majority of students learning computer architecture in a decade will be
-introduced to RISC-V. Like MIPS, RISC-V is another research project for
-an important University. It came out of UC Berkeley in 2012 as a new
-open source RISC ISA. RISC-V seems to have taken strong influence from
-MIPS. While looking at the latest Computer Architecture textbook, many
-of our team members did not initially notice that the textbook had been
-converted from MIPS to RISC-V. The instructions formats and so on felt
-similar to MIPS, obviously different, but similar. Most of the diagrams
-in the textbook did change.
+It should be noted that RISC-V appears to, in some regard, bear strong
+resemblance to MIPS, as they are both RISC architectures. The emulation
+core is written in a way that another ISA could be supported easily, and
+there may be similar portions of code that can translate to other
+architectures. Additionally, the parser would not need to change
+drastically, since the assembly formats of MIPS and RISC-V share
+strong similarities.
 
 \subsection{Operating System Development Support}
 
-With the initial plan of how the emulator is going to be developed and
-designed, operating system development will simply not be supported.
-There are many important instructions and features that are needed to
-support an operating system. Memory permissions, CPU state stuff, and
-stuff we have simply not researched or do not understand. We would have
-to implement our own bios and bootloader. Under the advice of Dr Gerber,
-the project was toned down a little. Our emulator emulates both an
-operating system, and a MIPS CPU. When the user does a system call
-instruction, our emulator will intercept that instruction and pretend to
-be an operating system.
-
-Supporting a custom operating system would greatly improve the diversity
-of use for SWIM. Having operating system support will allow for students
-processors in operating system courses to suggest our emulator to their
-students. To be a full replacement for the MIPS simulator SPIM, our
-project will need operating system support. Most students using SPIM do
-not worry or even think about operating system support. Having operating
-system support is not a requirement, but definitely would be nice to
-have in the future.
+With the initial plan of SWIM, operating system development will simply
+not be supported. Memory permissions, CPU state, BIOS, and other topics
+beyond the scope of the project are not considered for the sake of
+development simplicity. Should any system calls be supported at the
+current architecture, an operating system would likely be ``faked'' with
+Rust and JavaScript. Supporting a custom operating system would greatly
+improve the diversity of use for SWIM, and allow for professors of
+operating system courses to suggest SWIM to their students.
 
 % TODO: \subsection{A syscall API to allow for GUI and game development}
 
 \subsection{Desktop Application}
 
-Making a Desktop application of our SWIM may be a great feature to add
-at some point in the future. With our initial web app plan, users depend
-on an internet connection to use SWIM. In many cases every time a user
-wants to use the app, they would have to effectively re-download SWIM.
-If for some reason we stop hosting the server for SWIM, the SWIM
-application will be gone. With a desktop application, people could pass
-around an executable to run.
-
-Many people are used to using desktop applications. These people want to
-install their programs and start them from their application menu. It
-can be nice to have all your projects installed locally. Let's say for
-example a professor wants to use SWIM in class, but the campus internet
-sucks, a desktop application would massively help.
+Making a desktop application of SWIM may be a great feature to add, as a
+web application depends on a constant internet connection. In addition,
+for SWIM to exist as a web application, it must be continuously
+available on a server, which may prove difficult in the long-term
+without proper funding. A desktop application may be of interest for
+future developers for the sake of accessibility. In implementation, it
+may be possible to convert the web application to a local desktop
+application relatively quickly using Electron.
 
 \subsection{Mobile Support}
 
-Many students nowadays want to use their mobile devices in class. Adding
-support for mobile users could make SWIM more accessible. Adding mobile
-support would be a large endeavor to figure out. With the nature of how
-we designed our front end, it would just not be usable on mobile. There
-would need to be massive changes to the front end, maybe features may
-need to be dropped. If we took the path off native app support, mobile
-support could definitely be a challenge.
+With the globally-increasing use of mobile devices between students, it
+may be of interest to add support for this in SWIM in a future release.
+To implement this, the current limitations of the Monaco editor
+(mentioned in Section \ref{sec:browser-support}) must be considered by
+either using a different editing library or adapting Monaco to be
+compatible with mobile browsers. This, with other user interface
+altercations, may be all that is necessary to support mobile devices. In
+a future iteration, porting to a native mobile application could then be
+seen as feasible with maturation of Rust support for mobile devices.
 
 \subsection{Multiple File Support}
 
-The initial version of SWIM only supports working with a single MIPS
-file at a time. Having support for programs that are built off of
-multiple files working in tandem is not something that we are able to
-implement with the initial version of MIPS but it is something that we
-think the project would greatly benefit from. If work on the project
-continues after our first version of SWIM, this is one of the features
-that we most hope to be able to support. In the UCF class CDA3103,
-computer logic and organization, the culmination of the semester is
-building a large project in MIPS32 which essentially necessitates having
-multiple files working together. Since SWIM is supposed to work as an
-educational tool, having support for multiple files that way students
-can use our system to implement their final project in that class would
-be great.
+The initial version of SWIM only supports working with a single assembly
+file at a time. Having support for programs that are built using
+multiple files may be beneficial to test larger assembly programs. This
+functionality has not been researched, but it could be seen as valuable
+if SWIM grows in functionality and scope.
 
-\subsection{Development Team Support}
-% TODO: This section should be more formal
+Alternatively, ``multiple file support'' may be interpreted as allowing
+multiple assembly programs to be open in in the interface
+simultaneously. In this case, this may involve the addition of a tabbed
+system of editors, selecting between the one that is loaded within the
+emulation core.
 
-Will we keep working on the project after graduation? Realistically this
-project will probably be mostly forgotten by our team. We will probably
-have a lot to worry about in our lives. Many of us may be doing graduate
-school, the rest of us will probably be tied down with full time jobs.
-Hopefully everyone on our team will have a social life after graduation.
-There will likely be little changes to SWIM as time goes on. Maybe
-someone on the team might feel like randomly adding features some time
-in the future. If another senior design group picks SWIM, our team will
-likely be more than happy to help that new group take over. There is no
-predicting the future, maybe there will be big improvements to SWIM
-after graduation. Much of the team has expressed some level of interest
-in working on SWIM after graduation.
 
 % TODO: Summary and Conclusion
 
