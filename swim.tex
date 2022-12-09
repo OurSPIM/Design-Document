@@ -1868,7 +1868,7 @@ in a different category for organization.
     \hline
     \multicolumn{6}{|l|}{\emph{\ul{Arithmetic and Immediate Instructions:}}}                                                                                                                                                                                                     \\ \hline
     \textbf{add}                                      & \textbf{sub}               & \textbf{mul}                & \textbf{div}                                 & or                                                     & and                                                   \\ \hline
-    addi                                              & subi\textsuperscript{+}    & muli\textsuperscript{+}     & divi\textsuperscript{+}                      & \textbf{ori} (or immediate)                            & andi                                                  \\ \hline
+    addi*                                             & subi\textsuperscript{+}    & muli\textsuperscript{+}     & divi\textsuperscript{+}                      & \textbf{ori} (or immediate)                            & andi                                                  \\ \hline
     seq\textsuperscript{+} (set equal)                & sne\textsuperscript{+} (≠) & slt (\textless)             & sle\textsuperscript{+} (\textless=)          & sgt\textsuperscript{+} (\textgreater)                  & sge\textsuperscript{+} (\textgreater=)                \\ \hline
                                                       &                            & sltu                        & sleu\textsuperscript{+}                      & sgtu\textsuperscript{+}                                & sgeu\textsuperscript{+}                               \\ \hline
     \textbf{lui} (load upper immediate)               &                            &                             &                                              &                                                        &                                                       \\ \hline
@@ -1893,6 +1893,20 @@ in a different category for organization.
     \multicolumn{6}{|l|}{\emph{\ul{I/O and System Instructions:}}}                                                                                                                                                                                                               \\ \hline
     \emph{syscall}                                    &                            &                             &                                              &                                                        &                                                       \\ \hline
 \end{tabularx}}
+
+For the simplicity of usage, some instructions have been brought from
+the MIPS Release 5 specification, causing some conflicts with
+instructions in the MIPS Release 6 specification. While none of the
+supported instructions are affected by this mix of specification, it
+should be noted that the following MIPS Release 6 instructions are
+directly incompatible with the supported instruction list:
+
+\begin{itemize}
+    \tightlist
+    \item From \texttt{addi}: \texttt{beqzalc}, \texttt{bnezalc},
+\texttt{beqc}, and \texttt{bovc}
+    \item From \texttt{c.cond.fmt}: \texttt{cmp.condn.fmt}
+\end{itemize}
 
 \subsection{Full Datapath}
 
