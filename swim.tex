@@ -2224,14 +2224,16 @@ courses.
             operation using words (32-bits). If this bit is 1, it indicates an
             operation using doublewords (64-bits). This leading bit is
             determined by the RegWidth control signal.
-        \item \_ 000 (0) - Perform an addition. (Also used in cases where the ALU result does not matter.)
-        \item \_ 001 (1) - Perform a subtraction.
-        \item \_ 010 (2) - Perform a ``set on less than'' operation.
-        \item \_ 011 (3) - Perform a ``set on less than unsigned'' operation.
-        \item \_ 100 (4) - Perform an ``AND'' operation.
-        \item \_ 101 (5) - Perform an ``OR'' operation.
-        \item \_ 110 (6) - Shift left the sign-extended immediate value 16 bits.
-        \item \_ 111 (7) - Perform a bitwise ``NOT'' operation.
+        \item \_ 0000 (0) - Perform an addition. (Also used in cases where the ALU result does not matter.)
+        \item \_ 0001 (1) - Perform a subtraction.
+        \item \_ 0010 (2) - Perform a ``set on less than'' operation.
+        \item \_ 0011 (3) - Perform a ``set on less than unsigned'' operation.
+        \item \_ 0100 (4) - Perform an ``AND'' operation.
+        \item \_ 0101 (5) - Perform an ``OR'' operation.
+        \item \_ 0110 (6) - Shift left the sign-extended immediate value 16 bits.
+        \item \_ 0111 (7) - Perform a bitwise ``NOT'' operation.
+        \item \_ 1000 (8) - Perform a multiplication.
+        \item \_ 1001 (9) - Perform integer division. (Returns the integer quotient.)
     \end{itemize}
 
     \item ALUOp
@@ -2247,8 +2249,13 @@ courses.
         \item 100 (4) - Perform an ``AND'' operation.
         \item 101 (5) - Perform an ``OR'' operation.
         \item 110 (6) - Shift left the sign-extended immediate value 16 bits.
-        \item 111 (7) - This is an R-type instruction and should instead refer to
-            the ``funct'' field in the instruction for the operation of the ALU.
+        \item 111 (7) - This is an R-type instruction and should instead
+            refer to the ``funct'' field in the instruction for the
+            operation of the ALU. (Note: For the \texttt{mul} and
+            \texttt{div} instructions, the operation of the ALU may
+            additionally be determined by bits 10-6 of the instruction, as
+            the ``funct'' field alone does not provide the full description
+            of those instructions.)
     \end{itemize}
 
     \item ALUSrc
@@ -2433,29 +2440,31 @@ counterparts, but are completely original to this project and datapath.
         \item Floating-point ALU:
         \begin{itemize}
             \tightlist
-            \item The fourth bit of the control signal represents either a
+            \item The fifth bit of the control signal represents either a
             single-precision floating-point operation (0), or a
-            double-precision floating-point operation (1). This fourth bit is
+            double-precision floating-point operation (1). This fifth bit is
             determined by FpuRegWidth.
-            \item \_ 000 (0) - Perform an addition.
-            \item \_ 001 (1) - Perform a subtraction.
-            \item \_ 010 (2) - Perform a multiplication.
-            \item \_ 011 (3) - Perform a division.
-            \item \_ 100 (4) - Perform an ``AND'' operation.
-            \item \_ 101 (5) - Perform an ``OR'' operation.
+            \item \_ 0000 (0) - Perform an addition.
+            \item \_ 0001 (1) - Perform a subtraction.
+            \item \_ 0010 (2) - Perform a multiplication.
+            \item \_ 0011 (3) - Perform a division.
+            \item \_ 0100 (4) - Perform an ``AND'' operation.
+            \item \_ 0101 (5) - Perform an ``OR'' operation.
+            \item \_ 1000 (8) - Perform a multiplication.
+            \item \_ 1001 (9) - Perform a division.
         \end{itemize}
         \item Floating-point comparator:
         \begin{itemize}
             \tightlist
-            \item The fourth bit of the control signal represents either a
+            \item The fifth bit of the control signal represents either a
             single-precision floating-point operation (0), or a
-            double-precision floating-point operation (1). This fourth bit is
+            double-precision floating-point operation (1). This fifth bit is
             determined by FpuRegWidth.
-            \item \_ 000 (0) - Set if equal.
-            \item \_ 010 (2) - Set if less than.
-            \item \_ 011 (3) - Set if less than or equal.
-            \item \_ 110 (6) - Set if not greater than.
-            \item \_ 111 (7) - Set if not greater than or equal.
+            \item \_ 0000 (0) - Set if equal.
+            \item \_ 0010 (2) - Set if less than.
+            \item \_ 0011 (3) - Set if less than or equal.
+            \item \_ 0110 (6) - Set if not greater than.
+            \item \_ 0111 (7) - Set if not greater than or equal.
         \end{itemize}
     \end{itemize}
 
