@@ -1980,65 +1980,41 @@ functionality of the datapath by Henessy and Patterson.
 
 Most CPU instructions revolve around the use of arithmetic operations.
 Everything from simple register manipulation, to loading and storing,
-would all end up needing some kind of arithmetic or logic operation. An
-ALU is a general arithmetic logic unit. ALU's can do adding,
-subtracting, bitwise logic, and several kinds of checks. ALU's are
+would all end up needing some kind of arithmetic or logic operation. ALU
+stands for ``arithmetic logic unit,'' and can perform addition,
+subtraction, bitwise logic, and several kinds of checks. ALUs are
 dynamic, having at runtime their operations specified with some kind of
-operation code. There is no standard for how many bits these opcodes
-are, exactly what, and how many operations an ALU can do.
+operation code. There is no standard for operation codes in practice.
 
-% TODO: This must be clarified. The ALU's functionality should be certain.
-The ALU generally taught for MIPS education is a general eight operation
-unit. It takes in a three bit operation specification code. Most
-diagrams you would see for MIPS use this ALU. The standard eight
-operation ALU is limited. There are many operations that our emulator
-would need that simply will not all be able to be squished into a single
-eight ALU operations. The standard eight-operation-ALU shown in MIPS
-education can \emph{add}, \emph{subtract}, \emph{unsigned compare},
-\emph{signed compare}, \emph{and}, \emph{or}, \emph{left shift 16}, and
-\emph{not}. Operations such as \emph{xor}, \emph{flip}, and so on, are
-missing. For this project, we may want to have several different ALU
-units. An eight operation ALU like seen in MIPS datapath diagrams is a
-must. This eight operation ALU may be implemented using a 16 or 32
-operation general ALU function/class. We want to stay in maximal sync
-with the MIPS datapath diagrams, on the other hand, we are also making a
-real emulator.
+The simple ALU generally used in MIPS education (when discussing
+specifically its implementation) supports eight operations, taking a
+3-bit operation code. However, this is limited in ability, as many
+instructions that SWIM requires cannot be supported with only eight ALU
+operations. The eight-operation ALU can perform the following
+operations: \emph{add}, \emph{subtract}, \emph{unsigned compare},
+\emph{signed compare}, \emph{bitwise and}, \emph{bitwise or}, \emph{left
+shift 16}, and \emph{bitwise not}. Operations such as \emph{multiply},
+\emph{xor}, and so on, are missing. For this project, as outlined by the
+control signals in Section \ref{subsec:control-signals}, we use an
+extended version of the simple eight-operation ALU, where the operation
+code has been expanded to four bits, allowing for 16 total operations.
+The original eight are preserved, as those are commonly used in
+education, and additional operations follow after.
 
-In the past, most of our team has done a miniature MIPS emulator for an
-assignment. That emulator was basic, it only had a single eight
-operation ALU. That ALU was called as a function given pointers to data
-to modify. The design worked fairly well and the whole project fit
-together nicely. That initial project only supported 15 MIPS
-instructions, the project was simple.
-
-For our current project we definitely have more of a challenge in terms
-of setting up our ALU's. We really want our emulation core to fit nicely
-with a custom single cycle datapath. We also want a five stage pipeline
-that ties nicely in with the core and datapath. This endeavor can be
-surprisingly painful or easy. Depending on how big and complicated our
-datapath gets, we could end up writing several ALU's. There likely would
-need to be a way to record which ALU's were used, and in which stages
-were they used. One possible approach is to hand around identification
-numbers. ALU use could be recorded with identification. This
-identification could then be handed to the graphical front end to
-identify which ALU's the highlight as used.
+% TODO SD2: Update with past-tense language
+For the sake of this project, only one ALU is required in the primary unit,
+and an additional floating-point ALU is required in the floating-point
+unit. We do not foresee the need for a more complex ALU or multiple
+units given the planned supported instructions.
 
 \subsubsection{ALU Control Unit}
 
-An ALU control unit is the piece of a processor that picks the
-operations for an ALU. It plays a role in the whole instruction decoding
-process. In the standard single cycle MIPS datapath, there is a single
-ALU control unit that effectively maps R-type function bits to ALU
-operation codes. With our emulator things may need to be a little more
-complicated. Many I-Type instructions still need some ALU operations. We
-may need several different ALU Control Units, for several different
-ALU's.
-
-One issue to worry about is with the ALU opcodes, there is no standard
-on encodings. Our best course of action is likely to try to follow the
-textbook \emph{Computer Architecture} by John L. Hennessy and David A.
-Patterson \cite{hennessy-patterson}. Most students using our emulator would be using that
-textbook.
+An ALU control unit is the component of a processor that selects the
+operations for an ALU, playing a role in the instruction decoding stage.
+In the standard single-cycle MIPS datapath, there is a single ALU
+control unit that effectively maps R-type function bits to ALU operation
+codes. See Section \ref{subsec:control-signals} for details on the
+implementation of ALU control unit signals.
 
 \subsection{Register File}
 
@@ -2205,6 +2181,7 @@ lowest address it is in. For example, the value 5:
 \end{tabularx}
 
 \subsection{Control Signals}
+\label{subsec:control-signals}
 
 The following control signals are used in the standard integer portion
 of the datapath, and described are their roles and possible values.
