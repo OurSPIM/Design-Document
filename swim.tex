@@ -77,8 +77,6 @@
     Jimmie Smith
 }
 
-% TODO: All instances of code within text should use \texttt
-
 \begin{document}
 
 \sloppy
@@ -1158,20 +1156,19 @@ and computation techniques.
 
 For example, to add 1 to the value at memory address 400, a RISC
 architecture (such as MIPS) may use the following three instructions to
-accomplish this: \textbf{lw t0, 400(0); addi t0, t0, 1; sw t0, 400(0)}.
+accomplish this: \texttt{lw t0, 400(0); addi t0, t0, 1; sw t0, 400(0)}.
 While this does require multiple instructions (whereas a CISC
-architecture would only require one instruction -- \textbf{add
-{[}400{]}, 1}), RISC instructions can generally be processed in a
-shorter amount of time, are easier to pipeline, and in the case of
-multi-cycle datapaths, have a lower ``cycles per instruction'' (CPI)
-count.
+architecture would only require one instruction -- \texttt{add [400],
+    1}), RISC instructions can generally be processed in a shorter amount of
+time, are easier to pipeline, and in the case of multi-cycle datapaths,
+have a lower ``cycles per instruction'' (CPI) count.
 
 \subsection{Load-Store ISA}
 
 MIPS is a RISC that is also considered a load-store ISA. A Load-Store
 Instruction Set Architecture, as the name suggests, uses load and store
 instructions to access the memory. Other instructions use the register
-operands (like ADD for instance) within the ALU, and only those
+operands (like \texttt{add} for instance) within the ALU, and only those
 operations are in the register. This way, not every instruction can
 access the memory, only the dedicated loading and storing commands.
 
@@ -1241,10 +1238,10 @@ General format (fixed 32-bit):
 \end{tabularx}
 
 All R-Type instructions have an opcode of 0, which is 000000 in 6 bits.
-The shift amount is only used in shift operations. The funct field
-specifies which R-type function is being used, although the slot itself
-is not used much. This format has exceptions that lie within multiplying
-and division including modulus.
+The shift amount is only used in shift operations. The \texttt{funct}
+field specifies which R-type function is being used, although the slot
+itself is not used much. This format has exceptions that lie within
+multiplying and division including modulus.
 
 R-Type Operations: (\$s0 is rd, \$s1 is rs, \$s2 is rt)
 
@@ -1309,9 +1306,10 @@ I-type Operations:
 J-type instructions are basically jump commands. J-type instructions
 have opcode of 2 (000010) and 3 (000011):
 
-j is an unconditional jump that does not need registers and modifies the
-Program Counter as it executes. For example j Label means go to Label.
-Another J-Type instruction is jal, which means Jump And Link.
+\texttt{j} is an unconditional jump that does not need registers and
+modifies the Program Counter as it executes. For example \texttt{j
+    Label} means go to Label. Another J-Type instruction is \texttt{jal},
+which means Jump And Link.
 
 \subsection{MIPS64}
 \label{sec:mips64}
@@ -1354,11 +1352,12 @@ activated by CP0, or else it will return an exception.
 
 \subsubsection{Additional Instructions}
 
-Additional instructions are available to the processor, including add.s
-(add single-precision floating-point), mtc1 (``move to coprocessor 1''),
-and c.eq.d (``compare if equal, double-precision floating-point'').
-These instructions intended for the coprocessor use an alternative
-instruction format to those formats previously listed.
+Additional instructions are available to the processor, including
+\texttt{add.s} (add single-precision floating-point), \texttt{mtc1}
+(``move to coprocessor 1''), and \texttt{c.eq.d} (``compare if equal,
+double-precision floating-point''). These instructions intended for the
+coprocessor use an alternative instruction format to those formats
+previously listed.
 
 \begin{figure}[H]
     \includegraphics[height=8cm]{fpu-instruction-formats}
@@ -1371,7 +1370,7 @@ Of note is that for instructions indicating ``COP1'' in the traditional
 
 For floating-point instructions that utilize the \emph{fmt} field, this
 represents the format of the data being handled. For example, the
-difference between add.s, add.d, add.ps.
+difference between \texttt{add.s}, \texttt{add.d}, \texttt{add.ps}.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{fpu-fmt-encoding}
@@ -1384,8 +1383,9 @@ considered for a different instruction.
 
 For floating-point instructions that utilize the \emph{cond} field, this
 represents the type of comparison being made by a floating-point unit.
-For example, the difference between c.eq.s, c.ne.s, and c.gt.s. See the
-following table for the possible values for this field.
+For example, the difference between \texttt{c.eq.s}, \texttt{c.ne.s},
+and \texttt{c.gt.s}. See Figure \ref{fig:fpu-cond-encoding} for the
+possible values for this field.
 
 \begin{figure}[H]
     \begin{minipage}{\textwidth}
@@ -1395,12 +1395,13 @@ following table for the possible values for this field.
         \end{center}
     \end{minipage}
     \caption{Floating-point unit comparison field encoding, from \protect\cite{mips-specification}.}
+    \label{fig:fpu-cond-encoding}
 \end{figure}
 
 Notice that conditions are paired. To find if the first item in the pair
-is true, use the ``bc1t'' (branch on coprocessor 1 true) instruction. To
-find if the second item in the pair is true, use the ``bc1f'' (branch on
-coprocessor 1 false) instruction.
+is true, use the \texttt{bc1t} (branch on coprocessor 1 true)
+instruction. To find if the second item in the pair is true, use the
+\texttt{bc1f} (branch on coprocessor 1 false) instruction.
 
 The following describes the instruction format used in the ``Floating
 Point Compare'' instruction.
@@ -1426,16 +1427,16 @@ Point Compare'' instruction.
 
 The following are the \emph{cond} codes applicable for this
 implementation. Keywords to the right do not exist as real instructions,
-but instead are mnemonics. To use those, the ``bc1f'' instruction should
-be used with the corresponding real instruction.
+but instead are mnemonics. To use those, the \texttt{bc1f} instruction
+should be used with the corresponding real instruction.
 
 \begin{itemize}
     \tightlist
     \item 0010 - \textbf{eq (equal)} // use bc1f for \textbf{neq (not equal)}
-    \item 1100 - \textbf{lt (less than)} // {[}nlt - not less than{]}
-    \item 1101 - {[}nge - not greater than or equal{]} // use bc1f for \textbf{ge (greater than or equal)}
-    \item 1110 - \textbf{le (less than or equal)} // {[}nle - not less than or equal{]}
-    \item 1111 - {[}ngt - not greater than{]} // use bc1f for \textbf{gt (greater than)}
+    \item 1100 - \textbf{lt (less than)} // [nlt - not less than]
+    \item 1101 - [nge - not greater than or equal] // use bc1f for \textbf{ge (greater than or equal)}
+    \item 1110 - \textbf{le (less than or equal)} // [nle - not less than or equal]
+    \item 1111 - [ngt - not greater than] // use bc1f for \textbf{gt (greater than)}
 \end{itemize}
 
 \section{Research - Web Development in Rust}
@@ -1530,29 +1531,29 @@ In order for Rust and WebAssembly to work
 the most recent version of Rust's toolchain (rustup, rustc, and cargo),
 wasm-pack, cargo-generate, and npm. wasm-bindgen is required as a
 dependency in the project's .toml file, then you can use wasm-pack to
-build your project. By typing in ``wasm-pack build'' in the main
+build your project. By typing in \texttt{wasm-pack build} in the main
 directory of your project, WebAssembly will generate a .wasm, .js,
 .json, and .ts file in the package directory. Within the package
 directory, you run the following npm commands:
 
 \begin{enumerate}
     \tightlist
-    \item init wasm-app \textless new subdirectory\textgreater, to produce the
+    \item \texttt{init wasm-app} \textless new subdirectory\textgreater, to produce the
           appropriate .json, .config.js, .html, and .js in the new subdirectory.
-    \item install, to ensure the local development server and its dependencies are
+    \item \texttt{install}, to ensure the local development server and its dependencies are
           installed.
-    \item run start, to run the web application locally. If you want to see any
-          changes made through the web application, run ``wasm-pack build'' in the
+    \item \texttt{run start}, to run the web application locally. If you want to see any
+          changes made through the web application, run \texttt{wasm-pack build} in the
           main directory then refresh the page.
 \end{enumerate}
 
-\subsubsection{Using ``wasm-pack'' \& ``wasm-bindgen''}
+\subsubsection{Using \texttt{wasm-pack} \& \texttt{wasm-bindgen}}
 
-With ``wasm-pack'' \cite{wasm-pack} being used for building, Rust
+With \texttt{wasm-pack} \cite{wasm-pack} being used for building, Rust
 WebAssembly packages could be published to the npm registry or allow it
 to be used alongside any JavaScript packages already well-established.
 This interoperability is integral to incorporating a new framework such
-as Rust with existing JavaScript projects. ``wasm-bindgen''
+as Rust with existing JavaScript projects. \texttt{wasm-bindgen}
 \cite{wasm-bindgen} is a Rust library and CLI tool that facilitates
 high-level interactions between wasm modules and JavaScript. There are
 two additional crates that helps with WebAssembly binding JS's API
@@ -1560,10 +1561,10 @@ libraries, and they are packaged with wasm-bindgen:
 
 \begin{enumerate}
     \tightlist
-    \item ``js-sys'' \cite{js-sys} provides raw bindings to all the global APIs guaranteed to
+    \item \texttt{js-sys} \cite{js-sys} provides raw bindings to all the global APIs guaranteed to
           exist in every JavaScript environment by the ECMAScript standard. With
           it, we can work with JS types without writing the imports by hand.
-    \item ``web-sys'' \cite{web-sys} provides raw wasm-bindgen imports for all of the Web's
+    \item \texttt{web-sys} \cite{web-sys} provides raw wasm-bindgen imports for all of the Web's
           APIs, so the required APIs for our project like DOM, Console, UI
           Events, Canvas/WebGL, and Web Animations are supported here.
 \end{enumerate}
@@ -1642,17 +1643,17 @@ Yew's Documentation \cite{yew-lifecycle}, is as follows:
           and stores them within itself. This initializes its state and creates a
           link that can be used for callbacks or sending messages.
     \item View -- This describes how the component should be rendered to the DOM.
-          Yew has an ``html!'' macro for declaring HTML and SVG nodes, and
+          Yew has an \texttt{html!} macro for declaring HTML and SVG nodes, and
           attributes and event listeners can be attached to them. The macro is
           similar in function to React's JSX, but allows shorthand syntax for
           readability.
-    \item Rendered -- Once the ``view'' method is called, this method will render
-          the results from the component's view method to the DOM, but before the
-          browser refreshes the page. This is useful when you want to perform
-          actions that can only be completed after the component has rendered
-          elements. A few situations where this is applied to SWIM are getting the
-          values from the core and displaying them in their respective areas and
-          displaying error messages from the parser.
+    \item Rendered -- Once the \texttt{view} method is called, this method will
+          render the results from the component's view method to the DOM, but
+          before the browser refreshes the page. This is useful when you want to
+          perform actions that can only be completed after the component has
+          rendered elements. A few situations where this is applied to SWIM are
+          getting the values from the core and displaying them in their respective
+          areas and displaying error messages from the parser.
     \item Update -- This is where the communication between components occurs and
           a component may update and re-render itself based on received messages.
           These messages can be sent by event listeners, child components, Agents,
@@ -1661,7 +1662,7 @@ Yew's Documentation \cite{yew-lifecycle}, is as follows:
           events, geolocation changes, output from an external JavaScript library,
           and WebSocket messages. Futures are Rust's representation of an
           asynchronous operation's success (or failure) and its value; this is a
-          concept borrowed from JavaScript's ``Promise'' objects.
+          concept borrowed from JavaScript's \texttt{Promise} objects.
     \item Changed -- This eases the parent-to-child node communication by only
           changing the values of a property.
     \item Destroy -- This is for general clean-up of the component's prior
@@ -1671,14 +1672,14 @@ Yew's Documentation \cite{yew-lifecycle}, is as follows:
 
 It is possible to implement infinite loops by updating the component
 after every render when the update also requests the component to be
-rendered. This is done by setting the ``update'' method to {\em true} to
-always request to re-render on any message from the ``rendered'' method.
-This lifecycle could make the implementation process easier for the back
-end of this project. A good example is implementing a live debugger in
-SWIM, and this can easily be done by running the parser in an infinite
-loop so it can catch whenever the user mistyped an instruction or try to
-access memory that would cause the virtual machine to crash upon
-execution.
+rendered. This is done by setting the \texttt{update} method to {\em
+        true} to always request to re-render on any message from the
+\texttt{rendered} method. This lifecycle could make the implementation
+process easier for the back end of this project. A good example is
+implementing a live debugger in SWIM, and this can easily be done by
+running the parser in an infinite loop so it can catch whenever the user
+mistyped an instruction or try to access memory that would cause the
+virtual machine to crash upon execution.
 
 The components only have two associated types: Message and Properties.
 The Message type is used for a component to send messages after an event
@@ -1695,31 +1696,31 @@ is wise to keep them in the corresponding component's module and stay
 encapsulated there.
 
 Callbacks are the primary method of communication, and they are usually
-located in the ``view'' function within a component with the actions to
-initiate the communication stored inside the ``html!'' macro. The
-handler function passed to ``callback'' must always take a parameter,
-which is usually a type of a UI Event. An example of this is shown in
-Yew's sample code with the ``onclick'' handler, being rendered as a
-button, requires a ``callback'' to the ``AddOne'' message to tell the
-component to add one to ``value'' upon the button being clicked on. With
-that in mind, the handler can determine what kind of message to be sent
-to the component then the message is scheduled for the next update loop
-regardless. In order for the callback to not cause any updates,
-``batch\_callback'' can be used to create conditionals for which message
-to send.
+located in the \texttt{view} function within a component with the
+actions to initiate the communication stored inside the \texttt{html!}
+macro. The handler function passed to \texttt{callback} must always take
+a parameter, which is usually a type of a UI Event. An example of this
+is shown in Yew's sample code with the \texttt{onclick} handler, being
+rendered as a button, requires a \texttt{callback} to the
+\texttt{AddOne} message to tell the component to add one to
+\texttt{value} upon the button being clicked on. With that in mind, the
+handler can determine what kind of message to be sent to the component
+then the message is scheduled for the next update loop regardless. In
+order for the callback to not cause any updates,
+\texttt{batch\_callback} can be used to create conditionals for which
+message to send.
 
 \begin{figure}[H]
     \includegraphics[height=14cm]{yew-sample-code}
     \caption{Yew's sample app code to show how the lifecycle model improves readability and how certain components behave through callbacks.}
 \end{figure}
 
-\subsubsection{The ``html!'' Macro}
-\label{subsec:html-macro}
+\subsubsection{The \texttt{html!} Macro} \label{subsec:html-macro}
 
-Yew's ``html!'' macro, as stated before, allows writing HTML and SVG
-code directly into Rust, and the rules for using valid HTML tags still
-apply here. The macro helps explicitly specify what will be rendered on
-the webpage through the DOM API.
+Yew's \texttt{html!} macro, as stated before, allows writing HTML and
+SVG code directly into Rust, and the rules for using valid HTML tags
+still apply here. The macro helps explicitly specify what will be
+rendered on the webpage through the DOM API.
 % Sometimes we do not want to directly
 % change the DOM but want to send instructions to Yew's virtual DOM, which is a lightweight JavaScript representation of the DOM.
 % TODO: Virtual DOM and "ref" unexplained
@@ -1729,16 +1730,16 @@ the webpage through the DOM API.
 % TODO: Restating what
 % ``component'' can be used in this macro.
 
-There are a few caveats with ``html!'' compared to normal html. For
-example, consider an html button \textless button onclick =
-\{onclick\_list\}\textgreater Show\textless/button\textgreater. This
-syntax is valid in html, but it will throw an error in ``html!''. The
-correct ``html!'' format is \textless button onclick =
-\{onclick\_list\}\textgreater\{"Show"\}\textless/button\textgreater. As
-seen in this example, the syntax between html and html! can be
-different. While the compiler will show how html can be changed to
-``html!'' for specific syntax errors, the macro can be a little jarring
-to use for novice HTML developers.
+There are a few caveats with \texttt{html!} compared to normal HTML. For
+example, consider an html button\texttt{ \textless button onclick =
+    \{onclick\_list\}\textgreater Show\textless/button\textgreater}. This
+syntax is valid in html, but it will throw an error in \texttt{html!}.
+The correct \texttt{html!} format is \texttt{\textless button onclick =
+    \{onclick\_list\}\textgreater\{"Show"\}\textless/button\textgreater}. As
+seen in this example, the syntax between HTML and \texttt{html!} can be
+different. While the compiler will show how HTML can be changed to
+\texttt{html!} for specific syntax errors, the macro can be a little
+jarring to use for novice HTML developers.
 
 \subsubsection{Yew Routers}
 
@@ -1750,19 +1751,19 @@ route in the Yew application and the content for that location would be
 rendered without reloading the entire page. In implementation, this
 would be extremely useful for implementing the datapath window to show
 how code is processed. In order to use routers, we would need yew-router
-crate must be added as a dependency, then imported using ``use
-yew\_router::prelude::*;''. ``Route'' is an enum type, so match
+crate must be added as a dependency, then imported using \texttt{use
+    yew\_router::prelude::*;}. \texttt{Route} is an enum type, so match
 statements can be used to render each page neatly, and each page can be
 encapsulated in their own method. If a given URL is not found, the
 router would direct to a page with the ``not found'' attribute, which
 could be used as the default case. From there, you would have a switch
 function that would match the current Route based on its type. Within
-the main function to run the app, we would have to use ``BrowserRouter''
-inside ``html!'' to insert the switch function and render the current
-page. The advantage to this is that we could separate how the pages
-would render in their own function, which improves readability and
-finding rendering bugs due to the page functions being isolated compared
-to having them stored in one function.
+the main function to run the app, we would have to use
+\texttt{BrowserRouter} inside \texttt{html!} to insert the switch
+function and render the current page. The advantage to this is that we
+could separate how the pages would render in their own function, which
+improves readability and finding rendering bugs due to the page
+functions being isolated compared to having them stored in one function.
 
 \subsubsection{Thoughts on Yew}
 
@@ -1794,28 +1795,28 @@ interacting with the emulation core and front end.
 Yew uses Trunk \cite{trunk}, a WebAssembly web application bundler for
 Rust, which streamlines the development process, as Trunk can be used to
 detect changes on the filesystem and automatically trigger new builds by
-enabling the ``watch'' parameter. It runs `cargo build` on the project
-targeting the wasm32 instruction set, runs `wasm-bindgen` on the
-assembled .wasm, and spawns asset build pipelines for any assets defined
-in the target ``index.html.'' Trunk's specialty is using a source HTML
-to drive all asset building and bundling, which makes the project look
-cleaner at the top-most level.
+enabling the \texttt{watch} parameter. It runs \texttt{cargo build} on
+the project targeting the wasm32 instruction set, runs
+\texttt{wasm-bindgen} on the assembled .wasm, and spawns asset build
+pipelines for any assets defined in the target \texttt{index.html}.
+Trunk's specialty is using a source HTML to drive all asset building and
+bundling, which makes the project look cleaner at the top-most level.
 
 \subsubsection{Using Gloo}
 
 Gloo \cite{gloo} is a toolkit to abstract JavaScript API calls to simple
 functions. It works by providing a collection of crates that can be
 added based on the specific API calls needed. While the calls are
-``simplistic,'' they are wrappers to ``web-sys'' calls. This implies
-that during development, one may need to read both the documentation for
-the specific Gloo crate and the JavaScript API documentation to gather a
-complete understanding of its implementation. It may come into question
-at this point the number of layers of abstraction needed for SWIM's
-development, especially since the majority of the calls are housed in
-the ``gloo-utils'' crate which would be used for calls to the DOM API.
-However, the advantage of more readable code from an outsider's
-perspective is preferred since the function calls are labeled
-idiomatically.
+``simplistic,'' they are wrappers to \texttt{web-sys} calls. This
+implies that during development, one may need to read both the
+documentation for the specific Gloo crate and the JavaScript API
+documentation to gather a complete understanding of its implementation.
+It may come into question at this point the number of layers of
+abstraction needed for SWIM's development, especially since the majority
+of the calls are housed in the \texttt{gloo-utils} crate which would be
+used for calls to the DOM API. However, the advantage of more readable
+code from an outsider's perspective is preferred since the function
+calls are labeled idiomatically.
 
 The following describe the crates provided by Gloo as of the time of
 writing:
@@ -1948,14 +1949,14 @@ following section describes how Monaco can be interfaced with.
 
 \subsubsection{rust-monaco}
 
-``rust-monaco'' \cite{rust-monaco} is a crate that provides bindings
-between Monaco Editor and Rust via ``wasm-bindgen.'' In order to fully
-understand its API calls for development, Monaco's documentation must be
-referred to in addition to the documentation for the Rust bindings
-\cite{rust-monaco-docs}, as documentation is currently only 78 percent
-complete at the time of writing. rust-monaco does allow developers to
-implement new options and features that may not yet be explicitly bound
-with this crate.
+\texttt{rust-monaco} \cite{rust-monaco} is a crate that provides
+bindings between Monaco Editor and Rust via \texttt{wasm-bindgen}. In
+order to fully understand its API calls for development, Monaco's
+documentation must be referred to in addition to the documentation for
+the Rust bindings \cite{rust-monaco-docs}, as documentation is currently
+only 78 percent complete at the time of writing. rust-monaco does allow
+developers to implement new options and features that may not yet be
+explicitly bound with this crate.
 
 The following outline the currently available modules for the
 rust-monaco crate:
@@ -1964,8 +1965,8 @@ rust-monaco crate:
     \tightlist
     \item api -- This is where all the wrappers for the JavaScript code for
           Monaco's settings are in. The main struct to create the window is called
-          ``CodeEditorOptions'' and the translation between Rust and JavaScript is
-          quite simple with the comparison shown below.
+          \texttt{CodeEditorOptions} and the translation between Rust and
+          JavaScript is quite simple with the comparison shown below.
 
           \begin{figure}[H]
               \includegraphics[width=\textwidth]{monaco-initialize}
@@ -2114,26 +2115,27 @@ unnecessary. Each instruction is broken up into a vector of tokens
 delimited by the space character. Then, the first element is run through
 a match statement to determine what instruction type it is. To keep
 things simple for the mini project, the only instructions supported were
-ADD, SUB, and ADDI but the system also was built to ignore blank lines
-and comment lines and it also made note of when an unrecognized
-instruction was read.
+\texttt{add}, \texttt{sub}, and \texttt{addi} but the system also was
+built to ignore blank lines and comment lines and it also made note of
+when an unrecognized instruction was read.
 
 Inside each match case, the binary instruction is built. The first six
 bits of the instruction correspond to the instruction type so that
 starts the instruction string. Afterward, the destination register is
 passed into a function that removes the comma and any extra spaces in
 the string and the value is compared in a match statement which returns
-the binary value of the register number, between 0 and 31. For ADD and
-SUB, this is done twice more to get the other two vectors in the
-instruction. The SHAMT on both is zero and then the remaining part of
-the instruction corresponds to what type of arithmetic is being done so
-that completes the full instruction which is then passed back to the
-main function to be printed out. For ADDI, the next step is to read the
-source register similar to ADD and SUB but the remaining bits of the
-binary instruction are made of the binary for the immediate value being
-added. To do this, the String representation of the immediate value is
-typecast to being an int and is then translated into binary. However,
-there are only 16 bits on the ADDI function for the immediate value so
+the binary value of the register number, between 0 and 31. For
+\texttt{add} and \texttt{sub}, this is done twice more to get the other
+two vectors in the instruction. The \texttt{shamt} on both is zero and
+then the remaining part of the instruction corresponds to what type of
+arithmetic is being done so that completes the full instruction which is
+then passed back to the main function to be printed out. For
+\texttt{addi}, the next step is to read the source register similar to
+\texttt{add} and \texttt{sub} but the remaining bits of the binary
+instruction are made of the binary for the immediate value being added.
+To do this, the String representation of the immediate value is typecast
+to being an int and is then translated into binary. However, there are
+only 16 bits on the \texttt{addi} function for the immediate value so
 the function checks to make sure the value is within the range for a 2's
 complement 16 bit integer and notates if it is not. The function also
 sign extends positive numbers to be 16 bits long and culls negative
@@ -2210,29 +2212,29 @@ mini-project goes better and helps the bigger main project.
 \subsubsection{Monaco Window - Jimmie Smith}
 
 My mini-project for the project was to get some understanding of how
-``rust-monaco'' works. Already, I noticed how different it is to use
-Rust as a language to render a webpage compared to JavaScript and it has
-been a year since I did anything JavaScript related. I have done a lot
-of research on WebAssembly and Yew in order to get an idea of how Rust
-is used for front-end development. There is still a lot of ground to
-cover since I have to account for documentation for ``web-sys,''
-``yew,'' ``gloo,'' ``rust-monaco'' for the implementation in Rust with
-the addition of ``monaco-editor'' and JS APIs as reference. What I did
-was looked into the examples provided by Microsoft to see how the
-configurations are set up, and they were not too difficult to understand
-with the built-in options or configuring how the code would look with
-formatting. The difficulty I had with the features is figuring out what
-needs to be implemented since this is supposed to be an educational
-tool. While I keep on exploring the Monaco Editor's features and code, I
-keep a list of features from the team on me to look into. Implementing
-Intellisense as a toggle would be challenging since it would undermine
-the concepts of the instructions and what they do, so having the ability
-to mouse over the instructions the user types and provide them
-information on them would be a nice compromise. Monaco Editor does
-support MIPS syntax, so it was a matter of toggling it although the team
-wanted full support of MIPS32 and MIPS64 which needs further
-examination. Monaco Editor has a built-in diff editor, but its usage for
-a project like this seems useless for educational purposes.
+\texttt{rust-monaco} works. Already, I noticed how different it is to
+use Rust as a language to render a webpage compared to JavaScript and it
+has been a year since I did anything JavaScript related. I have done a
+lot of research on WebAssembly and Yew in order to get an idea of how
+Rust is used for front-end development. There is still a lot of ground
+to cover since I have to account for documentation for \texttt{web-sys},
+Yew, gloo, and \texttt{rust-monaco} for the implementation in Rust with
+the addition of \texttt{monaco-editor} and JavaScript APIs as reference.
+What I did was looked into the examples provided by Microsoft to see how
+the configurations are set up, and they were not too difficult to
+understand with the built-in options or configuring how the code would
+look with formatting. The difficulty I had with the features is figuring
+out what needs to be implemented since this is supposed to be an
+educational tool. While I keep on exploring the Monaco Editor's features
+and code, I keep a list of features from the team on me to look into.
+Implementing Intellisense as a toggle would be challenging since it
+would undermine the concepts of the instructions and what they do, so
+having the ability to mouse over the instructions the user types and
+provide them information on them would be a nice compromise. Monaco
+Editor does support MIPS syntax, so it was a matter of toggling it
+although the team wanted full support of MIPS32 and MIPS64 which needs
+further examination. Monaco Editor has a built-in diff editor, but its
+usage for a project like this seems useless for educational purposes.
 
 The best way for me to get an understanding of Monaco and Rust was
 through the example code provided with the repository. The first thing
@@ -2245,7 +2247,7 @@ documentation was not complete which resorted to us looking through the
 source code. For example, the documentation does not state that it
 supports automatic layout which would let the window scale based on the
 current size of the browser window. The hilarity of this is that when we
-brought in ``gloo-utils,'' it clicked to me why the crate is called
+brought in \texttt{gloo-utils}, it clicked to me why the crate is called
 ``gloo.'' It is literally taking the idiomatic rust code and converting
 it to a web-sys binding which would finally result in JavaScript code to
 make the API call. It made me reconsider the whole ecosystem since it is
@@ -2337,12 +2339,12 @@ have to add in the future. For now this processor structure is good
 enough to move on.
 
 My general emulation core is all under some structure called
-``Emulator''. So far this struct just holds the memory array and
+\texttt{Emulator}. So far this struct just holds the memory array and
 processor struct. Glued to the Emulator struct are some basic methods
 for emulation and access to the emulation core. To interact with the
 emulation core, the front end will call a set of public methods that the
 emulation core implements. Currently the only public method that I have
-made is called ``run\_instruction()''. This method will exactly as
+made is called \texttt{run\_instruction()}. This method will exactly as
 stated, step forward running one instruction. Underneath the protection
 of the emu module are the private methods for actually doing the hard
 work of emulation. I am going with the heavy encapsulation on this
@@ -2652,15 +2654,15 @@ since they are directly accessed in both the front end and the emulation
 core.
 
 First, it should be noted that a notable (but reasonable) departure has
-been made from the standard MIPS64 specification surrounding the ``cc''
-or ``condition code'' register that resides on the floating-point unit.
-Within the specification, an instruction may include multiple bits to
-indicate a selection of multiple condition code registers. However, for
-all intents and purposes in this project, this specific aspect of the
-datapath reflects MIPS Release 5, not the latest Release 6 as of the
-time of writing. Any other condition code registers are not considered
-in any of the supported instructions for this implementation of the
-datapath.
+been made from the standard MIPS64 specification surrounding the
+\texttt{cc} or ``condition code'' register that resides on the
+floating-point unit. Within the specification, an instruction may
+include multiple bits to indicate a selection of multiple condition code
+registers. However, for all intents and purposes in this project, this
+specific aspect of the datapath reflects MIPS Release 5, not the latest
+Release 6 as of the time of writing. Any other condition code registers
+are not considered in any of the supported instructions for this
+implementation of the datapath.
 
 Notice that all registers are stored as unsigned 64-bit integers. While
 the types of data stored in these registers can vary, and the condition
@@ -2673,8 +2675,8 @@ and floating-point values, are handled by some form of casting within
 Rust. In implementation, integers can easily be cast between 32-bit and
 64-bit variations. For the case of converting to or from floating-point
 values, they do not correlate in binary, so a function from Rust's
-standard library instead handles this. (f64::to\_bits() and
-f64::from\_bits(), for example.)
+standard library instead handles this. (\texttt{f64::to\_bits()} and
+\texttt{f64::from\_bits()}, for example.)
 
 In order to make development with registers simple but flexible, there
 are three ways to access individual registers, with these variations
@@ -2682,7 +2684,7 @@ becoming useful based on the multiple contexts in which registers are
 used. The first (and most straight-forward) method of accessing
 registers is to simply access individual members within the Registers
 struct. For example, to access the \$zero register, one may use
-`datapath.registers.gpr{[}0{]}`. This method is built into the Rust
+\texttt{datapath.registers.gpr[0]}. This method is built into the Rust
 language and is ideal for situations that involve work internally within
 the datapath. To illustrate, extracted register fields from an R-type
 instruction can easily be passed into the index of an array of
@@ -2693,26 +2695,26 @@ default panic, should an invalid index be used, which is as intended.
 The second and third methods of accessing registers involve indexing the
 struct as a whole, rather than out of elements of an array. This is
 possible due to the Index and IndexMut traits available in Rust. For
-example, a programmer could write `datapath.registers{[}\textless
-register\textgreater{]}`, with a specification of the register within
-the square brackets. This method of indexing was created out of a desire
-to keep the API between elements of the datapath and the interface as
+example, a programmer could write \texttt{datapath.registers[\textless
+            register\textgreater]}, with a specification of the register within the
+square brackets. This method of indexing was created out of a desire to
+keep the API between elements of the datapath and the interface as
 simple as possible. While the interface does still have access to
 individual members of the struct, it can consider the Register struct as
 a whole more generally. The sole difference between the Index and
 IndexMut traits is that the Index trait handles cases where non-mutable
 instances are requested, and the IndexMut trait handles cases where
 mutable instances are requested. For example, consider the difference
-between the assignments `x = datapath.registers{[}r{]}` versus
-`datapath.registers{[}r{]} = x`. Only one of these scenarios requires a
-mutable reference.
+between the assignments \texttt{x = datapath.registers[r]} versus
+\texttt{datapath.registers[r] = x}. Only one of these scenarios requires
+a mutable reference.
 
 In terms of how the Index and IndexMut traits are used, the first method
 is to index by a newly-created RegisterType enum. The RegisterType enum
 simply lists all the valid registers implemented for this datapath. This
 mandates that a valid register is accessed. For example, register \$t1
 (the tenth general-purpose register) can be accessed by
-`datapath.registers{[}RegisterType::T1{]}`. While more verbose, this
+\texttt{datapath.registers[RegisterType::T1]}. While more verbose, this
 makes visibility and understanding within code for development easier.
 The purpose of this indexing method is mainly for creating tests, as
 registers become easily identifiable, while also safe within Rust's
@@ -2721,12 +2723,12 @@ static code checking.
 The third method of indexing (and the second method taking advantage of
 the Index and IndexMut traits) is by string. For example, register \$sp
 (the thirtieth general-purpose register) can be accessed by
-`datapath.registers{[}``sp''{]}`. This is by far the most simplistic in
-terms of its readability, and is intended for use within the front end.
-For the case where the user desires to access a register by providing
-its name manually, this is easily possible using this method. While it
-is possible to give an invalid register name, it is simple to use from a
-programming perspective.
+\texttt{datapath.registers[``sp'']}. This is by far the most simplistic
+in terms of its readability, and is intended for use within the front
+end. For the case where the user desires to access a register by
+providing its name manually, this is easily possible using this method.
+While it is possible to give an invalid register name, it is simple to
+use from a programming perspective.
 
 One data type not implemented with the Index and IndexMut class is any
 form of integer (e.g. u32, i32, usize). It was decided that this would
@@ -2772,10 +2774,11 @@ properties, compared to simply a standalone vector. Memory is
 byte-addressable if needed, but it will be more common to request data
 from memory by word or by double word. Functions have been built into
 the Memory struct to translate between contiguous bytes within a vector
-and 32-bit and 64-bit values. Internal functions such as `load\_word()`
-and `store\_double\_word()` make this process simple for interfacing in
-a wide range of data types. We have decided to use 4 KB of storage for
-this memory at this time, but could easily be increased if needed.
+and 32-bit and 64-bit values. Internal functions such as
+\texttt{load\_word()} and \texttt{store\_double\_word()} make this
+process simple for interfacing in a wide range of data types. We have
+decided to use 4 KB of storage for this memory at this time, but could
+easily be increased if needed.
 
 % TODO: Explain memory resizing
 
@@ -3328,8 +3331,8 @@ to, it would not know the address of the labeled instruction to use to
 complete building the binary for the J-type instruction with.
 
 Grammatically, the way the user is able to specify an instruction as a
-labeled instruction is by writing the label name followed by a colon,
-``:'', and then the actual instruction as shown in the example below:
+labeled instruction is by writing the label name followed by a colon
+(:), and then the actual instruction as shown in the example below:
 
 \begin{verbatim}
 addFive: addi $t1, $t1, 5
@@ -3337,9 +3340,9 @@ j addFive
 \end{verbatim}
 
 In the brief example above, the first line is the labeled with
-``addFive.'' The second line is a jump instruction that moves the
+\texttt{addFive}. The second line is a jump instruction that moves the
 program counter back to the address of the instruction labeled
-``addFive.'' Since all labeled instructions start with a label name
+\texttt{addFive}. Since all labeled instructions start with a label name
 rather than an instruction, if the line were to go through the parser
 as-is, the label would have to be matched against every possible
 instruction name before it is recognized to not be an instruction and
@@ -3446,20 +3449,20 @@ translating the pseudo-instruction into one or multiple instructions
 that are supported by the MIPS hardware that collectively perform the
 task of the pseudo-instruction \cite{koehn-pseudoinstructions}.
 
-For example, a commonly used pseudo-instruction is ``li'' (load
+For example, a commonly used pseudo-instruction is \texttt{li} (load
 immediate), which loads an integer value into a given register. This
 instruction is not written in the MIPS specification, so it is
 considered a pseudo-instruction. While MIPS cannot directly load an
 integer into a register, it instead uses a hardware-supported
 instruction that can accomplish an equivalent task. In this case, it
-uses the ``ori'' (or immediate) instruction to perform the task. The
-``or immediate'' instruction performs a bitwise or between an immediate
-value and a specified register and writes the end result into a
-register. The assembler takes advantage of the register \$zero, defined
-in the MIPS specification, which states it can only contain the binary
-representation of zero. The result of the bitwise or between any value
-and \$zero will be that value, so this effectifely accomplishes the same
-function of ``li.''
+uses the \texttt{ori} (or immediate) instruction to perform the task.
+The ``or immediate'' instruction performs a bitwise or between an
+immediate value and a specified register and writes the end result into
+a register. The assembler takes advantage of the register \$zero,
+defined in the MIPS specification, which states it can only contain the
+binary representation of zero. The result of the bitwise or between any
+value and \$zero will be that value, so this effectively accomplishes
+the same function of \texttt{li}.
 
 In the case where there is no single hardware-recognized instruction
 that can perform an equivalent task for a pseudo-instruction, the
@@ -3503,7 +3506,7 @@ There are two downsides to this, though. One of them is that the
 emulation core will have to be notified of when to run multiple
 instructions together during step-through debugging so the system knows
 when instructions are part of a pseudo-instruction versus just matching
-up to it. The other downside is that this would be misrepresentative of
+up to it. The other downside is that this would be unrepresentative of
 the MIPS hardware to the user. The goal of the project is MIPS education
 and having the work of multiple instructions come across as a single
 instruction during step-through debugging might hinder that.
@@ -3787,42 +3790,47 @@ against these subcategories which will each have their own functions to
 check the structure against.
 
 Of the instructions that SWIM plans to support, the first subcategory is
-made up of instructions that move data across co-processors. MTC1,
-DMTC1, MFC1, and DMFC1 all follow the same format. Each one of these
-instructions takes a general-purpose register followed by a comma and
-then a floating-point register as their operands.
+made up of instructions that move data across co-processors.
+\texttt{mtc1}, \texttt{dmtc1}, \texttt{mfc1}, and \texttt{dmfc1} all
+follow the same format. Each one of these instructions takes a
+general-purpose register followed by a comma and then a floating-point
+register as their operands.
 
 The second large grouping of instructions is made up of instructions
-that handle loading and storing information into memory. LW, SW, LD, SD,
-LWC1, SWC1, LDC1, and SDC1 all take a general purpose register as their
-first operand followed by a comma, then an immediate value, and a base
-memory location value in parentheses. The immediate value and base
+that handle loading and storing information into memory. \texttt{lw},
+\texttt{sw}, \texttt{ld}, \texttt{sd}, \texttt{lwc1}, \texttt{swc1},
+\texttt{ldc1}, and \texttt{sdc1} all take a general purpose register as
+their first operand followed by a comma, then an immediate value, and a
+base memory location value in parentheses. The immediate value and base
 memory are not separated by a comma and are, instead, right up against
 each other with only the opening parenthesis symbol separating them.
 
-The branch sub-grouping is a small group made up of only the BEQ and BNE
-instructions. Both instructions have two comma separated registers
-followed by an offset value.
+The branch sub-grouping is a small group made up of only the
+\texttt{beq} and \texttt{bne} instructions. Both instructions have two
+comma separated registers followed by an offset value.
 
 The remaining instructions notably have optional operands that can be
 included or omitted by the user. If the operand is omitted, there is a
 default value associated with that operand that is used, instead. The
-first of these is JALR. JALR takes two registers as its operands with a
-comma between them. Alternatively, the user can only write a single
-register as their operands. In this case, the first register in the full
-version of the instruction defaults to register 31, the return address
-register, and the written register is taken as the second operand.
+first of these is \texttt{jalr}. \texttt{jalr} takes two registers as
+its operands with a comma between them. Alternatively, the user can only
+write a single register as their operands. In this case, the first
+register in the full version of the instruction defaults to register 31,
+the return address register, and the written register is taken as the
+second operand.
 
-The second group of instructions that have optional operands are BC1T
-and BC1F. The full versions of both of these take a value as CC followed
-by a comma and then an offset value. The CC value can be omitted in
-which case the CC defaults to the value zero.
+The second group of instructions that have optional operands are
+\texttt{bc1t} and \texttt{bc1f}. The full versions of both of these take
+a value as \texttt{cc} followed by a comma and then an offset value. The
+\texttt{cc} value can be omitted in which case the \texttt{cc} defaults
+to the value zero.
 
-The final group of instructions are the C.COND instructions. C.COND.S,
-C.COND.D, and C.COND.PS all take a CC value followed by a comma and then
-two comma-separated floating-point registers in their full versions.
-Same as BC1T and BC1F, the CC value can be omitted in which case the
-value defaults to zero.
+The final group of instructions are the \texttt{c.cond} instructions.
+\texttt{c.cond.s}, \texttt{c.cond.d}, and \texttt{c.cond.ps} all take a
+\texttt{cc} value followed by a comma and then two comma-separated
+floating-point registers in their full versions. Same as \texttt{bc1t}
+and \texttt{bc1f}, the \texttt{cc} value can be omitted in which case
+the value defaults to zero.
 
 \paragraph{Comma and Operand Count}
 \label{subsec:comma-and-operand-count}
@@ -3912,11 +3920,11 @@ complement numbers representable with the given number of bits and
 checks if the given immediate is within those bounds. Notably, almost
 every instruction in both MIPS32 and MIPS64 accepts immediate values up
 to 16 bits in length. The only exception to this is the instruction,
-ADDIUPC, that can handle immediate values up to 19 bits long. While this
-instruction is not supported by our initial implementation of MIPS, in
-an effort to make the code as easy to build upon as possible, the
-function takes the bit length as an operand such that the function can
-continue to be used if the project ever supports ADDIUPC.
+\texttt{addiupc}, that can handle immediate values up to 19 bits long.
+While this instruction is not supported by our initial implementation of
+MIPS, in an effort to make the code as easy to build upon as possible,
+the function takes the bit length as an operand such that the function
+can continue to be used if the project ever supports \texttt{addiupc}.
 
 \subsubsection{Invalid Register Name}
 
@@ -3965,7 +3973,7 @@ error occurs if it is outside of those.
 
 The main four components that constitute the front end are the Monaco
 editor, the register view, the console for input and output, and the
-buttons. Most of them are implemented using HTML with the ``html!''
+buttons. Most of them are implemented using HTML with the \texttt{html!}
 macro discussed in Section \ref{subsec:html-macro}. For the Monaco
 Editor library's details, see Section \ref{subsec:monaco}, but overall,
 the Monaco Code Editor is going to be one of the main components the
@@ -4185,17 +4193,17 @@ invalid data cases (i.e. transforming a .exe to a .txt with UTF-8
 encoding) will not compile and start SWIM.
 % TODO: May have to test this
 We should take advantage of this if we want to safely load a file by
-having the application only accept certain file types via the ``accept''
-attribute from a \textbf{file \textless input\textgreater{} element},
-which will be explained later in this section. However, if a user has a
-text file that lacks any MIPS syntax then the parser will be able to
-notify the user that the file will not compile but should allow the user
-to ``work'' on it as if SWIM is a regular text editor like Notepad. When
-SWIM starts up, it will provide a template file for the user to store
-their variables and strings, and how to structure their code(main block,
-labels, etc.). The template file can also be an empty text file or
-formatted file for the user to be able to structure code if they do not
-have anything else to work with.
+having the application only accept certain file types via the
+\texttt{accept} attribute from a \texttt{file \textless
+    input\textgreater{} element}, which will be explained later in this
+section. However, if a user has a text file that lacks any MIPS syntax
+then the parser will be able to notify the user that the file will not
+compile but should allow the user to ``work'' on it as if SWIM is a
+regular text editor like Notepad. When SWIM starts up, it will provide a
+template file for the user to store their variables and strings, and how
+to structure their code(main block, labels, etc.). The template file can
+also be an empty text file or formatted file for the user to be able to
+structure code if they do not have anything else to work with.
 
 Since we want users to be able to customize how SWIM looks, we would
 have to account for .json files that could be loaded onto the site to
@@ -4211,19 +4219,19 @@ Access APIs to save them on a user's desktop.
 
 The File API \cite{mdn-file-api} allows the web applications to access
 files and their contents. The user can let the application access them
-by using a file \textless input\textgreater{} element or ``\textbf{drag
-    and drop}''. The former would prompt the user to select a file from
-their computer and the UI will based on which operating system is
-currently running, but the latter will allow the user to drag their file
-onto SWIM and load it from there. ``Drag and drop'' is more involved
-using the `files' property of DataTransfer
-(\textbf{DataTransfer.files}), but it is safe since this property can
-only be accessed from within the \textbf{drop} event and all the other
-events will have the files property emptied. This does introduce a
-problem if the user wants to drop multiple files onto SWIM, but this
-could be remedied by only opening the first file in that list. For the
-philosophy behind only being able to load in one file at any given time,
-please read Section \ref{subsec:lack-of-project-tabs}.
+by using a file \textless input\textgreater{} element or ``drag and
+drop''. The former would prompt the user to select a file from their
+computer and the UI will based on which operating system is currently
+running, but the latter will allow the user to drag their file onto SWIM
+and load it from there. ``Drag and drop'' is more involved using the
+\texttt{files} property of DataTransfer (\texttt{DataTransfer.files}),
+but it is safe since this property can only be accessed from within the
+\texttt{drop} event and all the other events will have the files
+property emptied. This does introduce a problem if the user wants to
+drop multiple files onto SWIM, but this could be remedied by only
+opening the first file in that list. For the philosophy behind only
+being able to load in one file at any given time, please read Section
+\ref{subsec:lack-of-project-tabs}.
 
 While loading files is simple, it is the process of saving a file that
 is a bit more tricky. While Chromium and Edge utilize the File System
@@ -4236,17 +4244,17 @@ API which should cover the browsers that support WebAssembly. The File
 System Access API lets us read files, load and save files, and give
 access to directory structures. The interaction with files and
 directories are done through handles with the parent class,
-`FileSystemHandle', helps define two child classes:
-`FileSystemFileHandle' and `FileSystemDirectoryHandle' respectively for
-file and directory handling within a user's system. From there, we could
-utilize methods to call the user's file or directory picker via
-\textbf{window.showOpenFilePicker} and
-\textbf{window.showDirectoryPicker}. When they are called, a window will
+\texttt{FileSystemHandle}, helps define two child classes:
+\texttt{FileSystemFileHandle} and \texttt{FileSystemDirectoryHandle}
+respectively for file and directory handling within a user's system.
+From there, we could utilize methods to call the user's file or
+directory picker via \texttt{window.showOpenFilePicker} and
+\texttt{window.showDirectoryPicker}. When they are called, a window will
 open that would allow the user to select a file or directory and once it
 is selected then a handle is returned. Another method to access file
-handles is through \textbf{DataTransferItem.getAsFileSystemHandle()}
+handles is through \texttt{DataTransferItem.getAsFileSystemHandle()}
 method of HTML Drag and Drop API. This API has ``save'' functionality
-using the \textbf{FileSystemWritableFileStream} interface, which will
+using the \texttt{FileSystemWritableFileStream} interface, which will
 save the data stream as a Blob, String object, string literal, or
 buffer. This can be done on a new or existing file. The subset API, File
 and Directory Entries API \cite{mdn-file-and-directory-entries-api},
@@ -4273,13 +4281,13 @@ current time the file was saved to make it distinctive to the user. The
 caveat with this system is that Apple Safari does not have direct
 support for the Downloads API, however it does have its own method of
 fetching files from the web \cite{apple-downloading}. How it works is
-that we have to create a \textbf{URLSessionDownloadTask} from a
-\textbf{URLSession}. The documentation from Apple recommends for simple
+that we have to create a \texttt{URLSessionDownloadTask} from a
+\texttt{URLSession}. The documentation from Apple recommends for simple
 downloads, downloads that lack progress updates, to use a completion
 handler. This will be called when the download ends, either as a
 successful or a failed process. It may receive a client-side error,
 indicating a local problem (i.e. unable to connect to the network). If
-there is none, then we will receive a \textbf{URLResponse}, which should
+there is none, then we will receive a \texttt{URLResponse}, which should
 be inspected to ensure it indicates a successful response from the
 server. If the download was successful, then the completion handler
 receives a URL indicating the location of the downloaded file on the
@@ -4299,7 +4307,7 @@ device's functionalities. Safari denied support for APIs like Web
 Bluetooth, Web NFC API, User Idle Detection, and more since they would
 make digital tracking easier for advertisers \cite{cimpanu2020}. In
 order to stay in line with the moral guidelines of the project, we would
-have to take the Downloads API/URLSessionDownloadTask approach.
+have to take the Downloads API/\texttt{URLSessionDownloadTask} approach.
 
 \subsubsection{Code Execution}
 
@@ -4368,14 +4376,15 @@ advertisers, but all facets of SWIM will not have any method of
 collecting user activity with the exceptions of clipboard and Monaco's
 history function.
 % TODO: Need to figure out more uses for user activity for SWIM
-The cookie is created by the server sending `Set-Cookie' headers to the
-user's browser, then when the browser makes requests to the server it
-will send `Cookie' headers. The `Set-Cookie' header has attributes we
-can set, provided by the Mozilla's MDN web docs:
+The cookie is created by the server sending \texttt{Set-Cookie} headers
+to the user's browser, then when the browser makes requests to the
+server it will send \texttt{Cookie} headers. The \texttt{Set-Cookie}
+header has attributes we can set, provided by the Mozilla's MDN web
+docs:
 
 \begin{itemize}
     \tightlist
-    \item \textbf{\textless cookie-name\textgreater=\textless cookie-value\textgreater{}}
+    \item \texttt{\textless cookie-name\textgreater=\textless cookie-value\textgreater{}}
           is where we would define the cookie and what it will store. It is
           important to note that the cookie name cannot use separator
           characters, space, a control character, or a tab. We can use US-ASCII
@@ -4383,7 +4392,7 @@ can set, provided by the Mozilla's MDN web docs:
           attribute that is required to create a cookie, everything that follows
           after is optional.
 
-    \item \textbf{Expires=\textless date\textgreater{}} is to indicate the
+    \item \texttt{Expires=\textless date\textgreater{}} is to indicate the
           maximum lifetime of the cookie as an HTTP-date timestamp. The
           timestamp format is as follows:
           \begin{itemize}
@@ -4401,24 +4410,24 @@ can set, provided by the Mozilla's MDN web docs:
           is relative to the \emph{client} the cookie is being set on, not the
           server.
 
-    \item \textbf{Max-Age=\textless number\textgreater{}} is similar to Expires,
+    \item \texttt{Max-Age=\textless number\textgreater{}} is similar to \texttt{Expires},
           but it indicates the number of seconds the cookie has until it
           expires. If a negative number or zero is set in this attribute, then
-          the cookie immediately expires. If both Expires and Max-Age are set,
-          Max-Age has precedence.
+          the cookie immediately expires. If both \texttt{Expires} and \texttt{Max-Age} are set,
+          \texttt{Max-Age} has precedence.
 
-    \item \textbf{Domain=\textless domain-value\textgreater{}} is used to define
+    \item \texttt{Domain=\textless domain-value\textgreater{}} is used to define
           the host to which the cookie will be sent, and if it was omitted then
           it will default to the host of the current document URL, not including
           subdomains. Leading dots in domain names are ignored, i.e.
           ``.example.com''. Multiple host/domain values are not allowed, however
           if a domain is specified then the subdomains are always included.
 
-    \item \textbf{Path=\textless path-value\textgreater{}} indicates the path
-          that \emph{must }exist in the requested URL for the browser to send
-          the `Cookie' header. The forward slash (`/') character is interpreted
+    \item \texttt{Path=\textless path-value\textgreater{}} indicates the path
+          that \emph{must} exist in the requested URL for the browser to send
+          the \texttt{Cookie} header. The forward slash (`/') character is interpreted
           as a directory separator, and subdirectories are matched as well. For
-          example, for `Path=/docs',
+          example, for \texttt{Path=/docs},
           \begin{itemize}
               \tightlist
               \item the request paths `/docs', `/docs', `/docs/Web/', and `/docs/Web/HTTP'
@@ -4426,26 +4435,26 @@ can set, provided by the Mozilla's MDN web docs:
               \item the request paths `/', `/docsets', `/fr/docs/' will not match.
           \end{itemize}
 
-    \item \textbf{Secure} indicates that the cookie sent to the server only when
-          a request is made with `Https:' scheme (except on localhost), and
+    \item \texttt{Secure} indicates that the cookie sent to the server only when
+          a request is made with HTTPS scheme (except on localhost), and
           therefore, is more resistant to man-in-the-middle attacks. It is
           important to note that this field \textbf{does not} prevent all access
           to sensitive information in cookies. These types of cookies can still
           be read/modified either with access to the client's hard disk or from
-          JavaScript if the `HttpOnly' cookie attribute is not set. These types
-          of cookies will have the `\_\_Secure-' prefix for the
+          JavaScript if the \texttt{HttpOnly} cookie attribute is not set. These types
+          of cookies will have the \texttt{\_\_Secure-} prefix for the
           \textless cookie-name\textgreater's field.
 
-    \item \textbf{HttpOnly} forbids JavaScript from accessing the cookie through
-          the `Document.cookie' property, as an example. Note that a cookie that
-          has been created with `HttpOnly' will still be sent with a
-          JavaScript-initiated requests, i.e. `XMLHttpRequest.send()' or
-          `fetch()'. This mitigates attacks against cross-site scripting (XSS),
+    \item \texttt{HttpOnly} forbids JavaScript from accessing the cookie through
+          the \texttt{Document.cookie} property, as an example. Note that a cookie that
+          has been created with \texttt{HttpOnly} will still be sent with a
+          JavaScript-initiated requests, i.e. \texttt{XMLHttpRequest.send()} or
+          \texttt{fetch()}. This mitigates attacks against cross-site scripting (XSS),
           which is when the ``attacker uses a web application to send malicious
           code, generally in the form of a browser side script, to a different
           end user'' \cite{owasp-xss}.
 
-    \item \textbf{SameSite=\textless samesite-value\textgreater{}} controls
+    \item \texttt{SameSite=\textless samesite-value\textgreater{}} controls
           whether or not a cookie is sent with cross-site requests, providing
           some protection against cross-site request forgery attacks (CSRF),
           which is ``an attack that tricks the victim into submitting a
@@ -4453,30 +4462,30 @@ can set, provided by the Mozilla's MDN web docs:
           victim to perform an undesired function on the victim's
           behalf'' \cite{owasp-csrf}. The possible attribute values are:
           \begin{itemize}
-              \item \textbf{Strict}, this means that the browser sends the cookie only
+              \item \texttt{Strict}, this means that the browser sends the cookie only
                     for same-site requests, that is, requests originating from the same
                     site that set the cookie. If a request originates from a different
                     domain or scheme (even with the same domain), no cookies with the
-                    `SameSite=Strict' attribute are sent.
-              \item \textbf{Lax}, this means that the cookie is not sent on cross-site
+                    \texttt{SameSite=Strict} attribute are sent.
+              \item \texttt{Lax}, this means that the cookie is not sent on cross-site
                     requests, such as on requests to load images or frames, but is sent
                     when a user is navigating to the origin site from an external site
                     (for example, when following a link). This is the behavior if the
-                    `SameSite' attribute is not specified.
-              \item \textbf{None}, this means that the browser sends the cookie with
-                    both cross-site and same-site requests. The `Secure' attribute must
-                    also be set when setting this value, like so `SameSite=None;
-                    Secure'.
+                    \texttt{SameSite} attribute is not specified.
+              \item \texttt{None}, this means that the browser sends the cookie with
+                    both cross-site and same-site requests. The \texttt{Secure} attribute must
+                    also be set when setting this value, like so \texttt{SameSite=None;
+                        Secure}.
           \end{itemize}
 \end{itemize}
 
-The `Cookie' http request header contains the stored cookies associated
-with the server. The header is optional and may be omitted if, for
-example, the browser's privacy settings block cookies. This is compiled
-into a simple list of name-value pairs(\textless
+The \texttt{Cookie} HTTP request header contains the stored cookies
+associated with the server. The header is optional and may be omitted
+if, for example, the browser's privacy settings block cookies. This is
+compiled into a simple list of name-value pairs(\textless
 cookie-name\textgreater=\textless cookie-value\textgreater) which are
 separated by a semicolon and a space(`; '). All of this culminates in
-the \textbf{Document.cookie} property, which allows us to create certain
+the \texttt{Document.cookie} property, which allows us to create certain
 cookies within a session of SWIM to save data for the user to come back
 to with the attributes previously mentioned and the key-pairs naming
 convention.
@@ -4501,24 +4510,24 @@ data. The mechanisms within this API are:
 
 \begin{enumerate}
     \tightlist
-    \item \textbf{sessionStorage} maintains a separate storage area for each
+    \item \texttt{sessionStorage} maintains a separate storage area for each
           given origin that's available for the duration of the page session. It
           stores data only for a session, meaning that the data is stored until
           the browser (or tab) is closed. The data is never transferred to the
           server, and the storage limit is larger than a cookie (at most 5 MB).
-    \item \textbf{localStorage} is similar to sessionStorage, but persists even
+    \item \texttt{localStorage} is similar to \texttt{sessionStorage}, but persists even
           when the browser is closed and reopened. The data has no expiration
           date, and gets cleared only through JavaScript or clearing the Browser
           cache/Locally Stored Data. The storage limit is the maximum amongst
           the two.
 \end{enumerate}
 
-These are available via \textbf{Window.sessionStorage} and
-\textbf{Window}.\textbf{localStorage} properties and invoking one of
-these creates an instance of the `Storage' object, through which data
-items can be set, retrieved, and removed. A different Storage object is
-used for the `sessionStorage' and `localStorage' for each origin, they
-function and are controlled separately.
+These are available via \texttt{Window.sessionStorage} and
+\texttt{Window.localStorage} properties and invoking one of these
+creates an instance of the \texttt{Storage} object, through which data
+items can be set, retrieved, and removed. A different \texttt{Storage}
+object is used for the \texttt{sessionStorage} and \texttt{localStorage}
+for each origin, they function and are controlled separately.
 
 Most modern browsers support an incognito/private browsing mode which
 does not store data like history or cookies, this is meant for the user
@@ -4931,16 +4940,17 @@ candidates for SWIM:
           \textbf{stylist-rs} -- This is the most active repository for
           implementing CSS into Rust, and there are multiple ways to implement
           the CSS which makes it really flexible. To keep it brief, we are
-          only going to go into the \textbf{macros} and \textbf{yew} modules
-          in the crate since the \textbf{ast} and \textbf{manager} modules are
+          only going to go into the \texttt{macros} and \texttt{yew} modules
+          in the crate since the \texttt{ast} and \texttt{manager} modules are
           not stable or too advanced for the project.
 
           The macros module \cite{stylist-macros} is what makes CSS possible in
-          Rust, ``css!'' is similar to the ``format!'' macro which we could write
-          in the styling rules as a string literal followed by an argument list.
-          The macro will replace ``\$\{arg\}'' with the argument in the argument
-          list when creating the AST. If we do need to print a ``\$\{'' sequence,
-          then we may use ``\$\$\{'' to escape to a ``\$\{''
+          Rust, \texttt{css!} is similar to the \texttt{format!} macro which we
+          could write in the styling rules as a string literal followed by an
+          argument list. The macro will replace \texttt{\$\{arg\}} with the
+          argument in the argument list when creating the AST. If we do need to
+          print a ``\$\{'' sequence, then we may use ``\$\$\{'' to escape to a
+          ``\$\{''.
 
           \begin{figure}[H]
               \includegraphics[height=16cm]{stylist-rust-example}
@@ -4948,18 +4958,18 @@ candidates for SWIM:
           \end{figure}
 
           There are limitations to the format due to rustc's tokenizer. For
-          example, ``4em''would be tokenized as a floating point literal with a
+          example, ``4em'' would be tokenized as a floating point literal with a
           missing exponent and a suffix of ``m''. To workaround this, we could use
-          interpolation as in ``\$\{``4em''\}'' and this could be applied to some
-          color hash-tokens like ``\#44444e'' to ``\$\{``\#44444e''\}''. There are
-          more intricacies with the tokenizer and how it interprets CSS syntax,
-          but Rust is still trying to sort these edge cases of parsing out so
-          workarounds had to be implemented.
+          interpolation as in \texttt{\$\{``4em''\}} and this could be applied to
+          some color hash-tokens like ``\#44444e'' to \texttt{\$\{``\#44444e''\}}.
+          There are more intricacies with the tokenizer and how it interprets CSS
+          syntax, but Rust is still trying to sort these edge cases of parsing out
+          so workarounds had to be implemented.
 
           The yew module lets us insert CSS directly onto functional components
-          via ``styled components'', this time it uses the ``use\_style!'' macro
-          to parse literal strings or an inline stylesheet to be used within
-          ``html!'' macros to create auto updating styles.
+          via ``styled components'', this time it uses the \texttt{use\_style!}
+          macro to parse literal strings or an inline stylesheet to be used within
+          \texttt{html!} macros to create auto updating styles.
 
           \begin{figure}[H]
               \includegraphics[width=0.85\textwidth]{stylist-rust-component}
@@ -4984,12 +4994,12 @@ styled!(pub RedDiv : Div {
 });
     \end{verbatim}
 
-          With ``styled!'' being the macro to write in CSS rules for the
+          With \texttt{styled!} being the macro to write in CSS rules for the
           application and the component being visible for the code to use with the
           familiar structure we have to give a certain area of the page color,
-          font-weight, etc. You can then use them inside the ``html!'' macros like
-          we would inside a html file. This has not been worked on in over two
-          years and lacks documentation and real-world examples.
+          font-weight, etc. You can then use them inside the \texttt{html!} macros
+          like we would inside a html file. This has not been worked on in over
+          two years and lacks documentation and real-world examples.
 
     \item
           \textbf{yew\_styles} -- This is a styling framework that does not
@@ -5027,16 +5037,16 @@ styled!(pub RedDiv : Div {
           customization options. It is favorable enough to have three methods
           to implement it into a Yew project. The first one
           \cite{dev-to-tailwind-css} is to require JavaScript to build
-          Tailwind CLI which would output a css file for us, then we insert it
+          Tailwind CLI which would output a .css file for us, then we insert it
           into the index.html file. From there, we insert the appropriate CSS
-          classes within the ``html!'' macro then ``trunk serve'' for
+          classes within the \texttt{html!} macro then \texttt{trunk serve} for
           deployment. The initial output file will be large, but can be
           trimmed down with a config.js file down to the classes that were
           used. The alternative \cite{tailwind-yew-builder} to this does not
-          use JavaScript(npm) and instead Docker to build Tailwind CSS, but
-          the build process is the same with ``trunk serve''. The last one
+          use JavaScript (npm) and instead Docker to build Tailwind CSS, but
+          the build process is the same with \texttt{trunk serve}. The last one
           \cite{tailwindcss-yew-template} is a starter template which requires
-          Tailwind and ``tools'' installed with npm used to run and install
+          Tailwind and \texttt{tools} installed with npm used to run and install
           the app, while the workflow has not been worked on for some time it
           is an option. With Tailwind's documentation and how the
           implementation of the first two methods has us write CSS in a
@@ -5048,8 +5058,8 @@ styled!(pub RedDiv : Div {
           framework. This one does not aim to encapsulate Bulma types to Rust
           types since it would be too complex and limiting for the developer.
           The format to implement the styles is much nicer and in-line to what
-          you would see inside most CSS files, and linking to the css file to a
-          html file is simple likewise with sass files for customization
+          you would see inside most CSS files, and linking to the .css file to a
+          .html file is simple likewise with sass files for customization
           support. It has Trunk support for developing and the codebase is
           structured in a way that you can easily correlate the categories to
           Bulma's documentation.
@@ -5302,9 +5312,9 @@ method chosen to perform server-side checks.
 The ideal, as previously stated, is that all code passes all checks and
 tests before it is added to the main branch. To enforce this, all team
 members are denied to push any changes directly to the main branch and
-if this is attempted, the ``git push'' command will result in an error.
-Instead, all changes must be first pushed to a branch, which can then be
-added through a pull request on GitHub. This pull request can be
+if this is attempted, the \texttt{git push} command will result in an
+error. Instead, all changes must be first pushed to a branch, which can
+then be added through a pull request on GitHub. This pull request can be
 enforced to have certain checks pass before being merged into the main
 branch. Checks are run remotely using GitHub Actions, which
 automatically executes a series of commands on enabled triggers.
@@ -5371,8 +5381,8 @@ with GitHub Actions to allow it to operate properly. The existing GitHub
 Actions workflow responsible for checking the code for errors should
 ideally be utilized and passed before proceeding ahead to deployment. By
 default, workflows cannot be triggered by other workflows, so we had to
-add the ``workflow\_call'' trigger to the existing check action, which
-then allows a deployment workflow to call this first.
+add the \texttt{workflow\_call} trigger to the existing check action,
+which then allows a deployment workflow to call this first.
 
 Additionally, specific to Yew and trunk, GitHub Pages did not initially
 work properly in deployment. Since GitHub Pages formats the URL of the
@@ -5380,11 +5390,11 @@ page to be ``\textless repository owner\textgreater.github.io/\textless
 repository name\textgreater,'' the fact that the page is not located at
 a base domain name causes issues with Yew and its routing
 \cite{stackoverflow-yew-github-actions}. To resolve this, we pass the
-repository name into the ``-\/-public-url'' option of `trunk serve`
-within the GitHub Actions deployment workflow. To make this change
-generalized to any repository, it was set to pull the name of the
-repository and use this automatically for the --public-url option
-\cite{stackoverflow-github-actions-folder-name}. GitHub Pages is
+repository name into the \texttt{-\/-public-url} option of \texttt{trunk
+    serve} within the GitHub Actions deployment workflow. To make this
+change generalized to any repository, it was set to pull the name of the
+repository and use this automatically for the \texttt{-\/-public-url}
+option \cite{stackoverflow-github-actions-folder-name}. GitHub Pages is
 configured predictably to the same URL structure in practice.
 Admittedly, this does cause issues with repositories with the name
 ``\textless owner\textgreater.github.io'', as this creates an exception
@@ -5402,18 +5412,18 @@ project with Yew can easily take over 15 minutes for an initial build,
 making revision and collaboration slower. A number of changes were made
 to compensate for this machine configuration.
 
-First, instead of installing clippy (for testing) from `cargo install
-clippy` each time the workflow is run, this is instead brought from a
-built-in GitHub Action \cite{ga-rust-toolchain} that installs a
+First, instead of installing clippy (for testing) from \texttt{cargo
+    install clippy} each time the workflow is run, this is instead brought
+from a built-in GitHub Action \cite{ga-rust-toolchain} that installs a
 pre-configured Rust toolchain, that includes clippy, rustfmt, and cargo.
-For installing `trunk`, this is provided with a separate workflow
+For installing \texttt{trunk}, this is provided with a separate workflow
 \cite{ga-trunk} that provides a pre-compiled binary instead of compiling
 it each time. While these are great improvements to the time it takes to
 test and deploy, these steps do not affect the build time of the project
 itself. To accommodate this, we first optimized the testing process to
-use the -\/-no-deps options in clippy. This avoids running tests for
-dependencies of the project, which is desired, since these dependencies
-are abstracted out of context for the sake of this project.
+use the \texttt{-\/-no-deps} options in clippy. This avoids running
+tests for dependencies of the project, which is desired, since these
+dependencies are abstracted out of context for the sake of this project.
 
 Additionally, a final pre-made workflow \cite{ga-rust-cache} was added
 that implements caching for builds on GitHub Actions. While this can be
@@ -5500,22 +5510,24 @@ emulation core registers.
 
 \begin{figure}[H]
     \begin{Verbatim}[frame=single, framesep=2mm, label=src/tests/emulation\_core/registers.rs]
-        use crate::emulation_core::mips::registers::{RegisterType, Registers};
+use crate::emulation_core::mips::registers::{RegisterType, Registers};
 
-        #[test]
-        fn access_valid_register_by_enum() {
-                let mut registers = Registers::default();
+#[test]
+fn access_valid_register_by_enum() {
+        let mut registers = Registers::default();
 
-                registers[RegisterType::T2] = 4;
+        registers[RegisterType::T2] = 4;
 
-                assert_eq!(registers.gpr[10], 4); }
+        assert_eq!(registers.gpr[10], 4);
+}
 
-        #[test]
-        #[should_panic]
-        fn access_bad_register_by_string() {
-                let mut registers = Registers::default();
+#[test]
+#[should_panic]
+fn access_bad_register_by_string() {
+        let mut registers = Registers::default();
 
-                registers["not_a_real_register"] = 7; }
+        registers["not_a_real_register"] = 7;
+}
     \end{Verbatim}
     \caption{Example of testing in Rust.}
     \label{fig:testing-registers-example}
