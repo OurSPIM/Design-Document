@@ -1506,8 +1506,7 @@ Microsoft Edge, Mozilla Firefox, and Apple Safari, limiting legacy
 browser users from using SWIM. It is important to note that Chrome and
 Firefox have FOSS forks that could run WebAssembly, but support for
 these forks varies, since WebAssembly is only supported by the more
-recent versions of the four aforementioned browsers.
-% TODO: Source for this sentence?
+recent versions of the four aforementioned browsers \cite{mdn-webassembly}.
 Additionally, WebAssembly was never meant to replace JavaScript, as it
 is synonymous with web development, but they can be used together to
 improve the user's experience on the web with WebAssembly's speed and
@@ -1931,17 +1930,16 @@ SWIM.
 
 The API for Monaco, while extensive, can be difficult to read or parse
 through. Due to the common naming conventions used by Microsoft, unlike
-in other languages, names can be overly-descriptive and complex. is
-documented on the Microsoft website.
-% TODO: This sentence could use a source
-There are so many features to the editor it is crazy. Despite this,
-Monaco has become an extremely popular library, and many developers
-build projects with it. With this popularity comes more experience and
-help from other developers via online forums, and any problem that may
-arise through the use of Monaco has likely already been seen before.
-There are many different tutorials
-% TODO: Add sources of tutorials
-on using Monaco from developers as well.
+in other languages, names can be overly-descriptive and complex, as
+documented on the Microsoft website \cite{monaco-api}. There are so
+many features to the editor it is crazy.
+% TODO: Formality
+Despite this, Monaco has become an extremely popular library, and many
+developers build projects with it. With this popularity comes more
+experience and help from other developers via online forums, and any
+problem that may arise through the use of Monaco has likely already been
+seen before. There are many different tutorials
+on using Monaco from developers as well \cite{mishka-monaco, sahoo2018}.
 
 The Monaco editor is written in TypeScript and its API is written in
 JavaScript. While Rust will be the primary language used in SWIM, the
@@ -5701,17 +5699,17 @@ team or the open-source community at large.
 
 \subsection{RISC-V Support}
 
-% TODO: MIPS team moving to RISC-V needs source
 While MIPS has previously been used in landmark devices such as the
 original Sony PlayStation and has become the de facto instruction set
 architecture for studying computer logic and design, it is aging in
 comparison to modern architectures. Both the team working on MIPS and
 the 6th edition of Hennessy and Patterson's textbook have moved to
-discussing RISC-V rather than MIPS. MIPS could be considered by this to
-be falling out of favor, and so to continue to maintain relevance in
-education, should support RISC-V. There is a great chance that the
-majority of students learning computer architecture in a decade will
-have introduced to RISC-V, or even another ISA altogether.
+discussing RISC-V rather than MIPS \cites[p.~xviii]
+    {hennessy-patterson-6}{mips-to-risc-v}. MIPS could be considered by
+this to be falling out of favor, and so to continue to maintain
+relevance in education, should support RISC-V. There is a great chance
+that the majority of students learning computer architecture in a decade
+will have introduced to RISC-V, or even another ISA altogether.
 
 It should be noted that RISC-V appears to, in some regard, bear strong
 resemblance to MIPS, as they are both RISC architectures. The emulation
