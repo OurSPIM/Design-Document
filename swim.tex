@@ -934,12 +934,13 @@ of a processor.
           their cursor over code they want to understand. For example, if they
           want to know what the C printf() function does, they could hover their
           mouse over the printf() function in their code. In Visual Studio Code,
-          and similarly for other IDEs, the functionality may look like the
-          following:
+          and similarly for other IDEs, the functionality may look like Figure
+          \ref{fig:vs-code-hover-variable}.
 
           \begin{figure}[H]
               \includegraphics[height=2cm]{vs-code-hover-variable}
               \caption{Mouse hover function and variables assistance.}
+              \label{fig:vs-code-hover-variable}
           \end{figure}
 
     \item The information provided in the hover dialog should include the effect
@@ -1964,11 +1965,13 @@ rust-monaco crate:
     \item api -- This is where all the wrappers for the JavaScript code for
           Monaco's settings are in. The main struct to create the window is called
           \texttt{CodeEditorOptions} and the translation between Rust and
-          JavaScript is quite simple with the comparison shown below.
+          JavaScript is quite simple with the comparison shown in Figure
+          \ref{fig:monaco-initialize}.
 
           \begin{figure}[H]
               \includegraphics[width=\textwidth]{monaco-initialize}
               \caption{Comparison of initializing the Monaco Editor on Rust(left, rust-monaco) vs. JavaScript(right, Monaco Editor).}
+              \label{fig:monaco-initialize}
           \end{figure}
 
     \item sys -- This is where the bindings for monaco's namespace are located,
@@ -2178,13 +2181,14 @@ selected.
 \begin{figure}[H]
     \includegraphics[height=17cm]{huy-register-view-project}
     \caption{main.rs of this register view project. This current code only shows the conversion between hex and decimal values.}
+    \label{fig:huy-register-view-project}
 \end{figure}
 
-As seen in the above figure, this project uses dependencies like gloo,
-wasm-bindgen, HTML websys to be able to use HTML in Rust and most
-importantly, Yew. There can be more dependencies used as the project
-goes forward, and documentation will become necessary for those, as
-well.
+As seen in Figure \ref{fig:huy-register-view-project}, this project uses
+dependencies like gloo, wasm-bindgen, HTML websys to be able to use HTML
+in Rust and most importantly, Yew. There can be more dependencies used
+as the project goes forward, and documentation will become necessary for
+those, as well.
 
 There are more challenges to getting this mini-project working than I
 expected, with the first being my unfamiliarity with Rust and Yew. Yew
@@ -4052,11 +4056,12 @@ engineer how it looks. We want the central focus to be how the code will
 process through the datapath with graphs and animations. The current
 methodology is to combine the registers window and some features from
 the execute window to present a visual-rich representation of a MIPS64
-Processor processing each line or provide the classic view like the
-image above. The ultimate challenge is fitting this all under one
-browser tab, so it would be the matter of providing enough information
-to the user on how the simulator works while providing a free
-environment for them to do any MIPS project regardless of its scale.
+Processor processing each line or provide the classic view like in
+Figure \ref{fig:mars}. The ultimate challenge is fitting this all under
+one browser tab, so it would be the matter of providing enough
+information to the user on how the simulator works while providing a
+free environment for them to do any MIPS project regardless of its
+scale.
 
 \subsubsection{Accessibility Features}
 \label{subsec:accessibility-features}
