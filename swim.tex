@@ -5516,19 +5516,19 @@ use crate::emulation_core::mips::registers::{RegisterType, Registers};
 
 #[test]
 fn access_valid_register_by_enum() {
-        let mut registers = Registers::default();
+    let mut registers = Registers::default();
 
-        registers[RegisterType::T2] = 4;
+    registers[RegisterType::T2] = 4;
 
-        assert_eq!(registers.gpr[10], 4);
+    assert_eq!(registers.gpr[10], 4);
 }
 
 #[test]
 #[should_panic]
 fn access_bad_register_by_string() {
-        let mut registers = Registers::default();
+    let mut registers = Registers::default();
 
-        registers["not_a_real_register"] = 7;
+    registers["not_a_real_register"] = 7;
 }
     \end{Verbatim}
     \caption{Example of testing in Rust.}
