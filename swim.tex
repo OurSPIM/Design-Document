@@ -1512,22 +1512,23 @@ Microsoft Edge, Mozilla Firefox, and Apple Safari, limiting legacy
 browser users from using SWIM. It is important to note that Chrome and
 Firefox have FOSS forks that could run WebAssembly, but support for
 these forks varies, since WebAssembly is only supported by the more
-recent versions of the four aforementioned browsers \cite{mdn-webassembly}.
-Additionally, WebAssembly was never meant to replace JavaScript, as it
-is synonymous with web development, but they can be used together to
-improve the user's experience on the web with WebAssembly's speed and
-JavaScript's libraries and tools. As an example, Figma, the tool we used
-to design our UI, was developed using C++ and Enscripten to export to
-asm.js, and later switched to WebAssembly to take advantage of its speed
-for loading in documents \cite{figma-webassembly,
-    madewithwebassembly-figma}. However, the implementation resulted in the
-app being unusable exclusively for Google Chrome users. The two bugs
-were failing to cache the translated WebAssembly code, also it would
-crash due to the app accessing WebAssembly's memory limit. The first
-would force Chrome to reload the translated code resulting in slower
-performance and the second made the app unusable in inconsistent
-intervals \cite{chromium-webassembly-bug1, chromium-webassembly-bug2}.
-Fortunately, both of those bugs are fixed within months.
+recent versions of the four aforementioned browsers
+\cite{mdn-webassembly}. Additionally, WebAssembly was never meant to
+replace JavaScript, as it is synonymous with web development, but they
+can be used together to improve the user's experience on the web with
+WebAssembly's speed and JavaScript's libraries and tools. As an example,
+Figma, the tool we used to design our UI, was developed using C++ and
+Enscripten to export to asm.js, and later switched to WebAssembly to
+take advantage of its speed for loading in documents
+\cite{figma-webassembly, madewithwebassembly-figma}. However, the
+implementation resulted in the app being unusable exclusively for Google
+Chrome users. The two bugs were failing to cache the translated
+WebAssembly code, also it would crash due to the app accessing
+WebAssembly's memory limit. The first would force Chrome to reload the
+translated code resulting in slower performance and the second made the
+app unusable in inconsistent intervals \cite{chromium-webassembly-bug1,
+    chromium-webassembly-bug2}. Fortunately, both of those bugs are fixed
+within months.
 
 % TODO: More steps will be added in the future
 
@@ -1935,15 +1936,15 @@ SWIM.
 The API for Monaco, while extensive, can be difficult to read or parse
 through. Due to the common naming conventions used by Microsoft, unlike
 in other languages, names can be overly-descriptive and complex, as
-documented on the Microsoft website \cite{monaco-api}. There are so
-many features to the editor it is crazy.
+documented on the Microsoft website \cite{monaco-api}. There are so many
+features to the editor it is crazy.
 % TODO: Formality
 Despite this, Monaco has become an extremely popular library, and many
 developers build projects with it. With this popularity comes more
 experience and help from other developers via online forums, and any
 problem that may arise through the use of Monaco has likely already been
-seen before. There are many different tutorials
-on using Monaco from developers as well \cite{mishka-monaco, sahoo2018}.
+seen before. There are many different tutorials on using Monaco from
+developers as well \cite{mishka-monaco, sahoo2018}.
 
 The Monaco editor is written in TypeScript and its API is written in
 JavaScript. While Rust will be the primary language used in SWIM, the
@@ -2483,36 +2484,36 @@ instructions supported in SWIM.
           organization.
 \end{itemize}
 
-    {\renewcommand{\arraystretch}{1.4}
-        \begin{tabularx}{\textwidth}{|L|L|L|L|L|L|}
-            \hline
-            \multicolumn{6}{|l|}{\emph{\ul{Arithmetic and Immediate Instructions:}}}                                                                                                                                                                                                    \\ \hline
-            \textbf{add}                                      & \textbf{sub}               & \textbf{mul}                & \textbf{div}                                 & or                                                     & and                                                  \\ \hline
-            addi*                                             & subi\textsuperscript{+}    & muli\textsuperscript{+}     & divi\textsuperscript{+}                      & \textbf{ori} (or immediate)                            & andi                                                 \\ \hline
-            seq\textsuperscript{+} (set equal)                & sne\textsuperscript{+} (≠) & slt (\textless)             & sle\textsuperscript{+} (\textless=)          & sgt\textsuperscript{+} (\textgreater)                  & sge\textsuperscript{+} (\textgreater=)               \\ \hline
-                                                              &                            & sltu                        & sleu\textsuperscript{+}                      & sgtu\textsuperscript{+}                                & sgeu\textsuperscript{+}                              \\ \hline
-            \textbf{lui} (load upper immediate)               &                            &                             &                                              &                                                        &                                                      \\ \hline
-            \multicolumn{6}{|l|}{\emph{\ul{Arithmetic and Immediate Instructions (MIPS64):}}}                                                                                                                                                                                           \\ \hline
-            dadd (add 64-bit integers)                        & dsub                       & dmul                        & ddiv                                         & dahi (double-word add high immediate)                  & dati (double-word add top immediate)                 \\ \hline
-            daddi                                             & dsubi\textsuperscript{+}   & dmuli\textsuperscript{+}    & ddivi\textsuperscript{+}                     &                                                        &                                                      \\ \hline
-            daddiu                                            & dsubiu\textsuperscript{+}  & dmuliu\textsuperscript{+}   & ddiviu\textsuperscript{+}                    &                                                        &                                                      \\ \hline
-            \multicolumn{6}{|l|}{\emph{\ul{Floating-Point Instructions (MIPS64):}}}                                                                                                                                                                                                     \\ \hline
-            mtc1 (move to coprocessor 1)                      & dmtc1 (double move)        & mfc1                        & dmfc1                                        &                                                        &                                                      \\ \hline
-            add.s                                             & sub.s                      & mul.s                       & div.s                                        &                                                        &                                                      \\ \hline
-            add.d                                             & sub.d                      & mul.d                       & div.d                                        &                                                        &                                                      \\ \hline
-            c.eq.s* (compare if equal single-precision float) & c.lt.s* (\textless)        & c.le.s* (\textless=)        & c.ngt.s* (! \textgreater) (not greater than) & c.nge.s* (! \textgreater=) (not greater than or equal) &                                                      \\ \hline
-            c.eq.d*                                           & c.lt.d*                    & c.le.d*                     & c.ngt.d*                                     & c.nge.d*                                               &                                                      \\ \hline
-            \multicolumn{6}{|l|}{\emph{\ul{Branch Instructions:}}}                                                                                                                                                                                                                      \\ \hline
-            j                                                 & jal                        & \emph{jalr}                 & beq                                          & bne                                                    & \emph{bc1t} (branch if coprocessor 1 condition true) \\ \hline
-                                                              &                            &                             &                                              &                                                        & \emph{bc1f}                                          \\ \hline
-            \multicolumn{6}{|l|}{\emph{\ul{Pseudo-Instructions:}}}                                                                                                                                                                                                                      \\ \hline
-            \textbf{li}                                       &                            &                             &                                              &                                                        &                                                      \\ \hline
-            \multicolumn{6}{|l|}{\emph{\ul{Memory Instructions:}}}                                                                                                                                                                                                                      \\ \hline
-            \textbf{lw}                                       & \textbf{sw}                & \emph{ld }(load doubleword) & \emph{sd}                                    &                                                        &                                                      \\ \hline
-            \textbf{lwc1} (load word to coprocessor 1)        & \textbf{swc1}              & \emph{ldc1}                 & \emph{sdc1}                                  &                                                        &                                                      \\ \hline
-            \multicolumn{6}{|l|}{\emph{\ul{I/O and System Instructions:}}}                                                                                                                                                                                                              \\ \hline
-            \emph{syscall}                                    &                            &                             &                                              &                                                        &                                                      \\ \hline
-        \end{tabularx}}
+{\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{|L|L|L|L|L|L|}
+    \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Arithmetic and Immediate Instructions:}}}                                                                                                                                                                                                    \\ \hline
+    \textbf{add}                                      & \textbf{sub}               & \textbf{mul}                & \textbf{div}                                 & or                                                     & and                                                  \\ \hline
+    addi*                                             & subi\textsuperscript{+}    & muli\textsuperscript{+}     & divi\textsuperscript{+}                      & \textbf{ori} (or immediate)                            & andi                                                 \\ \hline
+    seq\textsuperscript{+} (set equal)                & sne\textsuperscript{+} (≠) & slt (\textless)             & sle\textsuperscript{+} (\textless=)          & sgt\textsuperscript{+} (\textgreater)                  & sge\textsuperscript{+} (\textgreater=)               \\ \hline
+                                                      &                            & sltu                        & sleu\textsuperscript{+}                      & sgtu\textsuperscript{+}                                & sgeu\textsuperscript{+}                              \\ \hline
+    \textbf{lui} (load upper immediate)               &                            &                             &                                              &                                                        &                                                      \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Arithmetic and Immediate Instructions (MIPS64):}}}                                                                                                                                                                                           \\ \hline
+    dadd (add 64-bit integers)                        & dsub                       & dmul                        & ddiv                                         & dahi (double-word add high immediate)                  & dati (double-word add top immediate)                 \\ \hline
+    daddi                                             & dsubi\textsuperscript{+}   & dmuli\textsuperscript{+}    & ddivi\textsuperscript{+}                     &                                                        &                                                      \\ \hline
+    daddiu                                            & dsubiu\textsuperscript{+}  & dmuliu\textsuperscript{+}   & ddiviu\textsuperscript{+}                    &                                                        &                                                      \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Floating-Point Instructions (MIPS64):}}}                                                                                                                                                                                                     \\ \hline
+    mtc1 (move to coprocessor 1)                      & dmtc1 (double move)        & mfc1                        & dmfc1                                        &                                                        &                                                      \\ \hline
+    add.s                                             & sub.s                      & mul.s                       & div.s                                        &                                                        &                                                      \\ \hline
+    add.d                                             & sub.d                      & mul.d                       & div.d                                        &                                                        &                                                      \\ \hline
+    c.eq.s* (compare if equal single-precision float) & c.lt.s* (\textless)        & c.le.s* (\textless=)        & c.ngt.s* (! \textgreater) (not greater than) & c.nge.s* (! \textgreater=) (not greater than or equal) &                                                      \\ \hline
+    c.eq.d*                                           & c.lt.d*                    & c.le.d*                     & c.ngt.d*                                     & c.nge.d*                                               &                                                      \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Branch Instructions:}}}                                                                                                                                                                                                                      \\ \hline
+    j                                                 & jal                        & \emph{jalr}                 & beq                                          & bne                                                    & \emph{bc1t} (branch if coprocessor 1 condition true) \\ \hline
+                                                      &                            &                             &                                              &                                                        & \emph{bc1f}                                          \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Pseudo-Instructions:}}}                                                                                                                                                                                                                      \\ \hline
+    \textbf{li}                                       &                            &                             &                                              &                                                        &                                                      \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{Memory Instructions:}}}                                                                                                                                                                                                                      \\ \hline
+    \textbf{lw}                                       & \textbf{sw}                & \emph{ld }(load doubleword) & \emph{sd}                                    &                                                        &                                                      \\ \hline
+    \textbf{lwc1} (load word to coprocessor 1)        & \textbf{swc1}              & \emph{ldc1}                 & \emph{sdc1}                                  &                                                        &                                                      \\ \hline
+    \multicolumn{6}{|l|}{\emph{\ul{I/O and System Instructions:}}}                                                                                                                                                                                                              \\ \hline
+    \emph{syscall}                                    &                            &                             &                                              &                                                        &                                                      \\ \hline
+\end{tabularx}}
 
 For the simplicity of usage, some instructions have been brought from
 the MIPS Release 5 specification, causing some conflicts with
@@ -5625,11 +5626,11 @@ into any compatibility issues, or will be possible to mitigate.
     {\renewcommand{\arraystretch}{1.4}
         \begin{tabularx}{\textwidth}{|c|cccccc|}
             \hline
-                                     & \multicolumn{6}{|c|}{\textbf{Support for Technology By the Browser}}                                                                                        \\\hline
-            \textbf{Technology}      & \textbf{Chrome}                                                      & \textbf{Edge} & \textbf{Safari} & \textbf{Firefox} & \textbf{Opera} & \textbf{Brave} \\\hline
-            Rust through WebAssembly & \checkmark                                                           & \checkmark    & \checkmark      & \checkmark       & \checkmark     & ?              \\\hline
-            Monaco Code Editor       & \checkmark                                                           & \checkmark    & \checkmark      & \checkmark       & \checkmark     & ?              \\\hline
-            JavaScript               & \checkmark                                                           & \checkmark    & \checkmark      & \checkmark       & \checkmark     & \checkmark     \\\hline
+                                     & \multicolumn{6}{c|}{\textbf{Support for Technology By the Browser}}                                                                                        \\\hline
+            \textbf{Technology}      & \textbf{Chrome}                                                     & \textbf{Edge} & \textbf{Safari} & \textbf{Firefox} & \textbf{Opera} & \textbf{Brave} \\\hline
+            Rust through WebAssembly & \checkmark                                                          & \checkmark    & \checkmark      & \checkmark       & \checkmark     & ?              \\\hline
+            Monaco Code Editor       & \checkmark                                                          & \checkmark    & \checkmark      & \checkmark       & \checkmark     & ?              \\\hline
+            JavaScript               & \checkmark                                                          & \checkmark    & \checkmark      & \checkmark       & \checkmark     & \checkmark     \\\hline
         \end{tabularx}}
 
     \vspace{\baselineskip}
@@ -5715,11 +5716,11 @@ architecture for studying computer logic and design, it is aging in
 comparison to modern architectures. Both the team working on MIPS and
 the 6th edition of Hennessy and Patterson's textbook have moved to
 discussing RISC-V rather than MIPS \cites[p.~xviii]
-    {hennessy-patterson-6}{mips-to-risc-v}. MIPS could be considered by
-this to be falling out of favor, and so to continue to maintain
-relevance in education, should support RISC-V. There is a great chance
-that the majority of students learning computer architecture in a decade
-will have introduced to RISC-V, or even another ISA altogether.
+{hennessy-patterson-6}{mips-to-risc-v}. MIPS could be considered by this
+to be falling out of favor, and so to continue to maintain relevance in
+education, should support RISC-V. There is a great chance that the
+majority of students learning computer architecture in a decade will
+have introduced to RISC-V, or even another ISA altogether.
 
 It should be noted that RISC-V appears to, in some regard, bear strong
 resemblance to MIPS, as they are both RISC architectures. The emulation
