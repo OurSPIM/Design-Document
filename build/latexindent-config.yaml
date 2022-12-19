@@ -1,0 +1,8 @@
+modifyLineBreaks:
+    preserveBlankLines: 1
+    textWrapOptions:
+        columns: 73
+defaultIndent: "    "
+verbatimEnvironments:
+    verbatim: 1
+    Verbatim: 1
