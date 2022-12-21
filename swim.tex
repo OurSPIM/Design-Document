@@ -2861,10 +2861,11 @@ students using SWIM for their courses.
     \item ALUSrc
           \begin{itemize}
               \tightlist
-              \item Determines the second source~to the ALU. The first input is always the
+              \item Determines the second source to the ALU. The first input is always the
                     data read from register rs (or called base in some contexts).
               \item 0 - Use data from the second source register rt.
               \item 1 - Use the sign-extended 16-bit immediate field in the instruction.
+                    This may be left-shifted by some amount given by the ImmShift control signal.
           \end{itemize}
 
     \item Branch
@@ -2874,6 +2875,17 @@ students using SWIM for their courses.
                     branching or not relies on the result from the ALU.
               \item 0 - Do not consider branching.
               \item 1 - Consider branching.
+          \end{itemize}
+
+    \item ImmShift
+          \begin{itemize}
+              \tightlist
+              \item Determines the amount of bits to left-shift the immediate value before
+                    being passed to the ALU.
+              \item 0 - 0 bits.
+              \item 1 - 16 bits.
+              \item 2 - 32 bits.
+              \item 3 - 48 bits.
           \end{itemize}
 
     \item Jump
@@ -2932,8 +2944,9 @@ students using SWIM for their courses.
               \tightlist
               \item Determines, given that RegWrite is set, which destination register to
                     write to, which largely depends on the instruction format.
-              \item 0 - Use register rt (``reg2'').
-              \item 1 - Use register rd (``reg3'').
+              \item 0 - Use register rs (``reg1'').
+              \item 1 - Use register rt (``reg2'').
+              \item 2 - Use register rd (``reg3'').
           \end{itemize}
 
     \item RegWidth
