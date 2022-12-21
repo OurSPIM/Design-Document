@@ -3128,7 +3128,17 @@ counterparts, but are completely original to this project and datapath.
           \end{itemize}
 \end{itemize}
 
-% TODO: Exception Handler
+\subsection{Exception Handler}
+
+It should be noted that this datapath, in its planned first iteration,
+will have no explicit handling of exceptions or errors in instructions.
+Explicit handling would imply stopping the progress of an instruction's
+execution early and setting a signal to be shown in the user interface.
+Since the parser and assembler will determine the acceptability of each
+instruction, this will take the place of true exception handling within
+the emulation core. In the case where there is an invalid instruction,
+the datapath will silently ignore it, performing an empty operation or
+using bitwise zero in the case where data is required.
 
 \subsection{Emulation Core API}
 \label{subsec:emulation-core-api}
