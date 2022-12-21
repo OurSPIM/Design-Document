@@ -974,6 +974,8 @@ of a processor.
           understand how a program works, or undo previous parts of execution to
           replace with other instructions.
     \item The interface should be able to support a light and dark theme.
+    \item The user should be able to change the amount of memory available for
+          use, to a reasonable extent.
 \end{itemize}
 
 \subsection{Parser}
@@ -2788,7 +2790,12 @@ process simple for interfacing in a wide range of data types. We have
 decided to use 4 KB of storage for this memory at this time, but could
 easily be increased if needed.
 
-% TODO: Explain memory resizing
+Should the stretch goal for allowing the resizing of memory be desired,
+this can be accomplished by exposing an API call in the emulation core.
+In the case of enlargement, bitwise zero will be appended to the end of
+the existing memory space to create the new space as requested. In the
+case of reduction, the existing memory space will be truncated to the
+new requested size.
 
 \subsubsection{Endianness}
 
