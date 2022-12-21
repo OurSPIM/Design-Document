@@ -2799,17 +2799,22 @@ new requested size.
 
 \subsubsection{Endianness}
 
-% TODO: Explain reasoning for endianness
-
-The memory and registers used in this project store data in a big-endian
-format. This means that the most significant bit of a number at the
-lowest address it is in. For example, the value 5:
+The MIPS specification allows for both little-endian and big-endian
+formats, so the choice for which endianness system to use is completely
+at our discretion. We have decided to store data in memory and registers
+in a big-endian format. This means that the most significant bit of a
+number at the lowest address it is in. For example, the value 5:
 
 \begin{tabularx}{\textwidth}{|l|c|c|c|c|}
     \hline
     \textbf{Bits:}    & 00000000 & 00000000 & 00000000 & 00000101 \\\hline
     \textbf{Address:} & 0x5000   & 0x5001   & 0x5002   & 0x5003   \\\hline
 \end{tabularx}
+
+The reason for this is that Western nomenclature for numbers tends to
+prefer a big-endian format. In \cite{hennessy-patterson}, binary numbers
+are written in big-endian for most if not all examples, so this system
+is mirrored in SWIM.
 
 \subsection{Control Signals}
 \label{subsec:control-signals}
