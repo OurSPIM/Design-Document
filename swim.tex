@@ -3154,6 +3154,16 @@ the emulation core. In the case where there is an invalid instruction,
 the datapath will silently ignore it, performing an empty operation or
 using bitwise zero in the case where data is required.
 
+In the case of arithmetic integer overflow, such as in the \texttt{add}
+instruction, we chose to use alternative behavior than the actual MIPS
+specification due to the absence of exceptions. The specification states
+that a register is not modified in the case of an Integer Overflow exception
+during the \texttt{add} instruction, however our implementation chooses
+to modify the register anyway and provide no exception.
+
+Should SWIM be developed further in the future, it is noted within source
+code where these inconsistencies lie between it and MIPS specification.
+
 \subsection{Emulation Core API}
 \label{subsec:emulation-core-api}
 
