@@ -2749,7 +2749,11 @@ additional registers that may be added in the future. All such decisions
 would be nomenclature original to the project that could only act to
 confuse others.
 
-% TODO: Explain strum
+To assist with the implementation of register indexing, we used the
+crate \texttt{strum} \cite{strum}, which provides mappings between
+strings and enums. This allows implementing SWIM to access registers
+with a string or an enum easily with the addition of a new
+\texttt{EnumString} macro.
 
 A future plan of the Registers struct is to additionally implement a
 trait within the Rust library for iteration. This further allows for
