@@ -3069,29 +3069,27 @@ counterparts, but are completely original to this project and datapath.
               \item Floating-point ALU:
                     \begin{itemize}
                         \tightlist
-                        \item The fifth bit of the control signal represents either a single-precision
+                        \item The fourth bit of the control signal represents either a single-precision
                               floating-point operation (0), or a double-precision floating-point
-                              operation (1). This fifth bit is determined by FpuRegWidth.
-                        \item \_ 0000 (0) - Perform an addition.
-                        \item \_ 0001 (1) - Perform a subtraction.
-                        \item \_ 0010 (2) - Perform a multiplication.
-                        \item \_ 0011 (3) - Perform a division.
-                        \item \_ 0100 (4) - Perform an ``AND'' operation.
-                        \item \_ 0101 (5) - Perform an ``OR'' operation.
-                        \item \_ 1000 (8) - Perform a multiplication.
-                        \item \_ 1001 (9) - Perform a division.
+                              operation (1). This fourth bit is determined by FpuRegWidth.
+                        \item \_ 000 (0) - Perform an addition.
+                        \item \_ 001 (1) - Perform a subtraction.
+                        \item \_ 010 (2) - Perform a multiplication.
+                        \item \_ 011 (3) - Perform a division.
+                        \item \_ 100 (4) - Perform an ``AND'' operation.
+                        \item \_ 101 (5) - Perform an ``OR'' operation.
                     \end{itemize}
               \item Floating-point comparator:
                     \begin{itemize}
                         \tightlist
-                        \item The fifth bit of the control signal represents either a single-precision
+                        \item The fourth bit of the control signal represents either a single-precision
                               floating-point operation (0), or a double-precision floating-point
-                              operation (1). This fifth bit is determined by FpuRegWidth.
-                        \item \_ 0000 (0) - Set if equal.
-                        \item \_ 0010 (2) - Set if less than.
-                        \item \_ 0011 (3) - Set if less than or equal.
-                        \item \_ 0110 (6) - Set if not greater than.
-                        \item \_ 0111 (7) - Set if not greater than or equal.
+                              operation (1). This fourth bit is determined by FpuRegWidth.
+                        \item \_ 000 (0) - Set if equal.
+                        \item \_ 010 (2) - Set if less than.
+                        \item \_ 011 (3) - Set if less than or equal.
+                        \item \_ 110 (6) - Set if not greater than.
+                        \item \_ 111 (7) - Set if not greater than or equal.
                     \end{itemize}
           \end{itemize}
 
