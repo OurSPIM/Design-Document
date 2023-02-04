@@ -18,16 +18,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: awalsh128/cache-apt-pkgs-action@latest
+    - name: Generate tag
+      run: echo "release_tag=`TZ='America/New_York' date '+%Y-%m-%d-%H%M%S'`" >> $GITHUB_ENV
+
+    - uses: awalsh128/cache-apt-pkgs-action@v1
       with:
         packages: texlive-xetex biber texlive-full
         version: 1
 
     - name: Build
       run: bash ./build/build.sh
-
-    - name: Generate tag
-      run: echo "release_tag=`date '+%Y-%m-%d-%H%M%S'`" >> $GITHUB_ENV
 
     - uses: softprops/action-gh-release@v1
       with:
