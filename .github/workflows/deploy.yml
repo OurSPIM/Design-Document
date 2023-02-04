@@ -21,13 +21,17 @@ jobs:
     - name: Generate tag
       run: echo "release_tag=`TZ='America/New_York' date '+%Y-%m-%d-%H%M%S'`" >> $GITHUB_ENV
 
-    - uses: awalsh128/cache-apt-pkgs-action@v1.2.3
-      with:
-        packages: texlive-xetex biber texlive-full
-        version: 1
+    # - uses: awalsh128/cache-apt-pkgs-action@v1.2.3
+      # with:
+        # packages: texlive-xetex biber texlive-full
+        # version: 1
 
-    - name: Build
-      run: bash ./build/build.sh
+    - uses: dante-ev/latex-action@latest
+      with:
+        entrypoint: ./build/build.sh
+
+    # - name: Build
+      # run: bash ./build/build.sh
 
     - uses: softprops/action-gh-release@v1
       with:
