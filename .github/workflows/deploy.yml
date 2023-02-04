@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install dependencies
-      run: sudo apt-get install texlive-xetex biber
+      run: sudo apt-get install texlive-xetex biber texlive-full
 
     - name: Build
       run: bash ./build/build.sh
