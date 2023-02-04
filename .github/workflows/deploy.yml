@@ -16,11 +16,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: sudo apt-get install texlive-xetex biber
+
     - name: Build
       run: bash ./build/build.sh
+
+    - name: Generate tag
+      run: echo "release_tag=`date '+%Y-%m-%d-%H%M%S'`" >> $GITHUB_ENV
 
     - uses: softprops/action-gh-release@v1
       with:
         prerelease: true
+        tag_name: ${{ env.release_tag }}
         files: swim.pdf
 
