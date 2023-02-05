@@ -38,4 +38,5 @@ jobs:
         prerelease: true
         tag_name: ${{ env.release_tag }}
         files: swim.pdf
+        fail_on_unmatched_files: true
 
