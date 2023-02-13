@@ -2956,6 +2956,16 @@ students using SWIM for their courses.
                     given instruction.
           \end{itemize}
 
+    \item OverflowWriteBlock
+          \begin{itemize}
+              \tightlist
+              \item Demonstrates an overflow signal from the ALU. If this signal is set,
+                    this overrides RegWrite, blocking any general-purpose register from
+                    being written to.
+              \item 0 - Do not block writing to general-purpose registers if RegWrite is set.
+              \item 1 - Block writing to general-purpose registers and ignore RegWrite.
+          \end{itemize}
+
     \item RegDst
           \begin{itemize}
               \tightlist
@@ -2979,7 +2989,8 @@ students using SWIM for their courses.
     \item RegWrite
           \begin{itemize}
               \tightlist
-              \item Determines if the register file should be written to.
+              \item Determines if the register file should be written to. This signal may be
+                    overridden if OverflowWriteBlock is set.
               \item 0 - Do not write to the register file.
               \item 1 - Write to the register file.
           \end{itemize}
