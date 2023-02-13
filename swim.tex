@@ -2838,8 +2838,8 @@ students using SWIM for their courses.
                     this bit is 0, it indicates an operation using words (32-bits). If this
                     bit is 1, it indicates an operation using doublewords (64-bits). This
                     leading bit is determined by the RegWidth control signal.
-              \item \_ 0000 (0) - Perform an addition. (Also used in cases where the ALU result does not matter.)
-              \item \_ 0001 (1) - Perform a subtraction.
+              \item \_ 0000 (0) - Perform an addition. (Also used in cases where the ALU result does not matter.) Will not set any overflow signal on overflow.
+              \item \_ 0001 (1) - Perform a subtraction. Will not set any underflow signal on underflow.
               \item \_ 0010 (2) - Perform a ``set on less than'' operation.
               \item \_ 0011 (3) - Perform a ``set on less than unsigned'' operation.
               \item \_ 0100 (4) - Perform an ``AND'' operation.
@@ -2850,6 +2850,7 @@ students using SWIM for their courses.
               \item \_ 1001 (9) - Perform unsigned multiplication.
               \item \_ 1010 (10) - Perform signed integer division. (Returns the integer quotient.)
               \item \_ 1011 (11) - Perform unsigned integer division. (Returns the integer quotient.)
+              \item \_ 1100 (12) - Perform an addition, and set the OverflowWriteBlock signal in the event of an overflow.
           \end{itemize}
 
     \item ALUOp
@@ -2858,20 +2859,21 @@ students using SWIM for their courses.
               \item This determines the operation sent to the ALU control unit. This is on a
                     higher abstraction than the output of this control unit, which more
                     specifically determines what operation the ALU will perform.
-              \item 000 (0) - Perform an addition. (Also used in cases where the ALU result does not matter.)
-              \item 001 (1) - Perform a subtraction.
-              \item 010 (2) - Perform a ``set on less than'' operation.
-              \item 011 (3) - Perform a ``set on less than unsigned'' operation.
-              \item 100 (4) - Perform an ``AND'' operation.
-              \item 101 (5) - Perform an ``OR'' operation.
-              \item 110 (6) - Shift left the sign-extended immediate value 16 bits.
-              \item 111 (7) - This is an R-type instruction and should instead
+              \item 0000 (0) - Perform an addition. (Also used in cases where the ALU result does not matter.) Will not set any overflow signal on overflow.
+              \item 0001 (1) - Perform a subtraction. Will not set any underflow signal on underflow.
+              \item 0010 (2) - Perform a ``set on less than'' operation.
+              \item 0011 (3) - Perform a ``set on less than unsigned'' operation.
+              \item 0100 (4) - Perform an ``AND'' operation.
+              \item 0101 (5) - Perform an ``OR'' operation.
+              \item 0110 (6) - Shift left the sign-extended immediate value 16 bits.
+              \item 0111 (7) - This is an R-type instruction and should instead
                     refer to the ``funct'' field in the instruction for the
                     operation of the ALU. (Note: For the \texttt{mul} and
                     \texttt{div} instructions, the operation of the ALU may
                     additionally be determined by bits 10-6 of the instruction, as
                     the ``funct'' field alone does not provide the full description
                     of those instructions.)
+              \item 1000 (8) - Perform an addition, and set the OverflowWriteBlock signal in the event of an overflow.
           \end{itemize}
 
     \item ALUSrc
