@@ -3082,29 +3082,32 @@ counterparts, but are completely original to this project and datapath.
               \item Floating-point ALU:
                     \begin{itemize}
                         \tightlist
-                        \item The fourth bit of the control signal represents either a
+                        \item The fifth bit of the control signal represents either a
                               single-precision floating-point operation (0), or a double-precision
-                              floating-point operation (1). This fourth bit is determined by
+                              floating-point operation (1). This fifth bit is determined by
                               FpuRegWidth.
-                        \item \_ 000 (0) - Perform an addition.
-                        \item \_ 001 (1) - Perform a subtraction.
-                        \item \_ 010 (2) - Perform a multiplication.
-                        \item \_ 011 (3) - Perform a division.
-                        \item \_ 100 (4) - Perform an ``AND'' operation.
-                        \item \_ 101 (5) - Perform an ``OR'' operation.
+                        \item \_ 0000 (0) - Perform an addition.
+                        \item \_ 0001 (1) - Perform a subtraction.
+                        \item \_ 0010 (2) - Perform a multiplication.
+                        \item \_ 0011 (3) - Perform a division.
+                        \item \_ 0100 (4) - Perform an ``AND'' operation.
+                        \item \_ 0101 (5) - Perform an ``OR'' operation.
                     \end{itemize}
               \item Floating-point comparator:
                     \begin{itemize}
                         \tightlist
-                        \item The fourth bit of the control signal represents either a
+                        \item The fifth bit of the control signal represents either a
                               single-precision floating-point operation (0), or a double-precision
-                              floating-point operation (1). This fourth bit is determined by
+                              floating-point operation (1). This fifth bit is determined by
                               FpuRegWidth.
-                        \item \_ 000 (0) - Set if equal.
-                        \item \_ 010 (2) - Set if less than.
-                        \item \_ 011 (3) - Set if less than or equal.
-                        \item \_ 110 (6) - Set if not greater than.
-                        \item \_ 111 (7) - Set if not greater than or equal.
+                        \item \textit{Implementation note:} The values for comparator operations are
+                              intended to match the values used for the \texttt{cond} field of a
+                              \texttt{c.cond.fmt} instruction. 
+                        \item \_ 0010 (2) - Set if equal.
+                        \item \_ 1100 (12) - Set if less than.
+                        \item \_ 1101 (13) - Set if not greater than or equal.
+                        \item \_ 1110 (14) - Set if less than or equal.
+                        \item \_ 1111 (15) - Set if not greater than.
                     \end{itemize}
           \end{itemize}
 
