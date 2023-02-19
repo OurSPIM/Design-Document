@@ -2896,6 +2896,17 @@ students using SWIM for their courses.
               \item 1 - Consider branching.
           \end{itemize}
 
+    \item BranchType
+          \begin{itemize}
+              \tightlist
+              \item Determines, given Branch is set, whether to branch when the AluZ signal
+                    is set, AluZ is not set. In effect, this decides whether or not to
+                    invert the AluZ signal, which is used between the \texttt{beq} and
+                    \texttt{bne} instructions.
+              \item 0 - Branch based on AluZ. (Used in \texttt{beq}.)
+              \item 1 - Branch based on the inverse of AluZ. (Used in \texttt{bne}.)
+          \end{itemize}
+
     \item ImmShift
           \begin{itemize}
               \tightlist
@@ -3082,10 +3093,9 @@ counterparts, but are completely original to this project and datapath.
               \item Floating-point ALU:
                     \begin{itemize}
                         \tightlist
-                        \item The fifth bit of the control signal represents either a
-                              single-precision floating-point operation (0), or a double-precision
-                              floating-point operation (1). This fifth bit is determined by
-                              FpuRegWidth.
+                        \item The fifth bit of the control signal represents either a single-precision
+                              floating-point operation (0), or a double-precision floating-point
+                              operation (1). This fifth bit is determined by FpuRegWidth.
                         \item \_ 0000 (0) - Perform an addition.
                         \item \_ 0001 (1) - Perform a subtraction.
                         \item \_ 0010 (2) - Perform a multiplication.
@@ -3096,13 +3106,12 @@ counterparts, but are completely original to this project and datapath.
               \item Floating-point comparator:
                     \begin{itemize}
                         \tightlist
-                        \item The fifth bit of the control signal represents either a
-                              single-precision floating-point operation (0), or a double-precision
-                              floating-point operation (1). This fifth bit is determined by
-                              FpuRegWidth.
+                        \item The fifth bit of the control signal represents either a single-precision
+                              floating-point operation (0), or a double-precision floating-point
+                              operation (1). This fifth bit is determined by FpuRegWidth.
                         \item \textit{Implementation note:} The values for comparator operations are
                               intended to match the values used for the \texttt{cond} field of a
-                              \texttt{c.cond.fmt} instruction. 
+                              \texttt{c.cond.fmt} instruction.
                         \item \_ 0010 (2) - Set if equal.
                         \item \_ 1100 (12) - Set if less than.
                         \item \_ 1101 (13) - Set if not greater than or equal.
@@ -3258,7 +3267,7 @@ powerful amount of functionality for development.
                         \tightlist
                         \item Retrieve all memory as-is.
                     \end{itemize}
-                \item \texttt{fn reset(\&mut self);}
+              \item \texttt{fn reset(\&mut self);}
                     \begin{itemize}
                         \tightlist
                         \item Restore the datapath to its default state.
