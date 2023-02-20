@@ -3275,6 +3275,22 @@ powerful amount of functionality for development.
                     \end{itemize}
           \end{itemize}
 
+    \item VisualDatapath (trait)
+          \begin{itemize}
+              \tightlist
+              \item This trait is designed to be implemented by other developers when creating an implementation of a datapath that supports the visual datapath feature.
+              \item \texttt{type LineInformation;}
+                    \begin{itemize}
+                        \tightlist
+                        \item The information about a piece of the diagram that is returned from the datapath.
+                    \end{itemize}
+             \item \texttt{fn visual\_line\_to\_data(\&self, variable: \&str) -\textgreater{} Self::LineInformation;}
+                   \begin{itemize}
+                        \tightlist
+                        \item Return the information from the datapath corresponding to the \texttt{variable} attribute on a part of the visual datapath diagram.
+                   \end{itemize}
+          \end{itemize}
+
     \item Registers
           \begin{itemize}
               \tightlist
