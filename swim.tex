@@ -3247,14 +3247,16 @@ powerful amount of functionality for development.
                         \item This function should execute a single instruction based on the current
                               state of the datapath. Should the datapath support stages, if the
                               datapath is midway through a stage, the current instruction will be
-                              finished instead of executing a new instruction.
+                              finished instead of executing a new instruction. Should the datapath be
+                              in a ``halted'' state, behavior is undefined.
                     \end{itemize}
               \item \texttt{fn execute\_stage();}
                     \begin{itemize}
                         \tightlist
                         \item Execute a single stage of execution based on the current state of the
                               datapath. Should the datapath not support stages, assume the same
-                              behavior as \texttt{execute\_instruction()}.
+                              behavior as \texttt{execute\_instruction()}. Should the datapath be in a
+                              ``halted'' state, behavior is undefined.
                     \end{itemize}
               \item \texttt{fn get\_register\_by\_enum(\&self, register: Self::RegisterEnum) -\textgreater{} Self::RegisterData;}
                     \begin{itemize}
@@ -3268,6 +3270,12 @@ powerful amount of functionality for development.
                         \tightlist
                         \item Retrieve all memory as-is.
                     \end{itemize}
+              \item \texttt{fn is\_halted(\&self) -\textgreater{} bool;}
+                    \begin{itemize}
+                        \tightlist
+                        \item Returns if the datapath is in a ``halted'' or ``stopped'' state. This may be
+                              true in the case where an error had occurred previously.
+                    \end{itemize}
               \item \texttt{fn reset(\&mut self);}
                     \begin{itemize}
                         \tightlist
@@ -3278,17 +3286,21 @@ powerful amount of functionality for development.
     \item VisualDatapath (trait)
           \begin{itemize}
               \tightlist
-              \item This trait is designed to be implemented by other developers when creating an implementation of a datapath that supports the visual datapath feature.
+              \item This trait is designed to be implemented by other developers when
+                    creating an implementation of a datapath that supports the visual
+                    datapath feature.
               \item \texttt{type LineInformation;}
                     \begin{itemize}
                         \tightlist
-                        \item The information about a piece of the diagram that is returned from the datapath.
+                        \item The information about a piece of the diagram that is returned from the
+                              datapath.
                     \end{itemize}
-             \item \texttt{fn visual\_line\_to\_data(\&self, variable: \&str) -\textgreater{} Self::LineInformation;}
-                   \begin{itemize}
+              \item \texttt{fn visual\_line\_to\_data(\&self, variable: \&str) -\textgreater{} Self::LineInformation;}
+                    \begin{itemize}
                         \tightlist
-                        \item Return the information from the datapath corresponding to the \texttt{variable} attribute on a part of the visual datapath diagram.
-                   \end{itemize}
+                        \item Return the information from the datapath corresponding to the
+                              \texttt{variable} attribute on a part of the visual datapath diagram.
+                    \end{itemize}
           \end{itemize}
 
     \item Registers
