@@ -2421,44 +2421,40 @@ would allow individual, non-pipelined instructions to be viewed passing
 through the datapath at a more granular level, as if it was pipelined.
 
 \subsection{Approaches of Representing Instructions}
-% TODO: Proofread
 
-In our project we can take several levels of abstractions for how
-instructions are handled inside the emulation core. One option for
-instruction handling is that we hand around 32-bit integers. In a quite
-simple sense, a MIPS instruction is just a 32-bit value. This approach
-is reasonably simple and it works fine. An instruction fits nicely into
-any size 4 byte datatype. Whenever a user wants to grab a piece of
-information from an instruction encoding, they can shift and clear bits
-as needed.
+In our project, we take two levels of abstractions for how instructions
+are handled inside the emulation core. One level of instruction handling
+is with integer values for each instruction and each field. In a basic
+sense, a MIPS64 instruction is just a 32-bit integer value, thus when
+referring to a specific field from an instruction, additional variables
+can shift and clear bits as needed.
 
-Handing instructions around as simple 32-bit values may not be the best
-approach for instruction handling. It is a poor idea to have repetitive
-bit masking and isolating splattered throughout a codebase. If one of
-our developers wants to, for example, grab the rs bits from an
-instruction, they should not have to worry about how to isolate and grab
-those bits. Every now and then one of our developers will mess up. Our
-project should be designed in a way to maximize readability and to
-minimize the spots where bugs arise. The key to achieving such an
-endeavor is to encapsulate the instructions.
+However, handing instructions as simple integer values may not be
+appropriate for all development cases. For instance, using repetitive
+bit masking and isolation is error-prone and reduces code readability.
+In the MIPS64 specification, different instructions use varying names to
+describe fields with varying widths. As an example, R-type instructions
+use \texttt{op}, \texttt{rs}, \texttt{rt}, \texttt{rd}, \texttt{shamt},
+and \texttt{funct}, whereas FPU R-type instructions use \texttt{op},
+\texttt{fmt}, \texttt{ft}, \texttt{fs}, \texttt{fd}, and
+\texttt{function}. These instruction types may use the same field
+widths, however use completely different names to describe them. Using
+integer values throughout the emulation core can cause confusion for
+developers as fields are re-used with differing names, depending on the
+context. The key to avoid this is with a second level of abstraction.
+This abstraction, specific to this project, takes advantage of Rust's
+ability to use enums and structs.
 
-One thing about our emulation core is that we want to link it solidly to
-some kind of pseudo datapath. The core needs to be written in a way that
-makes the link between the emulation core and pseudo datapath simple.
-With this requirement, we really want to break our instruction up into
-separate clear pieces. There are several different encodings for the
-various categories of MIPS instructions. With the basics, there are
-R-Type, I-Type, and J-Type instructions. There are also the categories
-for floating point instructions. When someone is reading our code, it
-should be clear to them on which category and piece of an instruction it
-is, and the piece of code that is processing it.
+While the second level of abstraction is used for handling instruction
+fields throughout the emulation core, the first level remains
+appropriate for the visual datapath feature, as this feature
+necessitates decribing and viewing each individual wire in the datapath.
 
-There are many approaches to exactly how, and to what level,
-instructions are encapsulated. In general we want to use some kind of
-enumeration for different types of instructions. Each type of
-instruction will then have its own specific fields. For setting these
-fields, we would likely set up a constructor that would get called at
-the instruction decode phase of execution.
+This dual instruction handling, while first appearing to be redundant,
+has been effective for this project. Adding new instruction formats and
+behavior in practice has been easy with the second added level of
+abstraction. The first level of abstraction remains appropriate for
+working in tandem with individual wires in the datapath.
 
 \subsection{Supported Instructions}
 \label{subsec:supported-instructions}
