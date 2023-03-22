@@ -1347,18 +1347,11 @@ instructions for these coprocessors to use the opcode space for those
 tasks. However, for the floating point units to work, CP1 needs to be
 activated by CP0, or else it will return an exception.
 
-%\subsubsection{General Purpose and New Floating-Point Registers}
+\subsubsection{Registers and Additional Instructions}
 
-% TODO
-
-%The Floating Point General Purpose Register are either 32-bit or 64-bit
-%models, with the 64-bit model being our main focus as it also supports
-%all the 32-bit formats in the register. What is new about these
-%registers compared to its 32-bit counterpart is that..
-
-% TODO: SPOT THAT KEVIN COULD POSSIBLY WORK ON
-
-\subsubsection{Additional Instructions}
+Compared to the standard 32-bit MIPS architecture, MIPS64 specifies all
+general-purpose registers to use 64-bit registers, and adds 32, 64-bit
+floating-point registers.
 
 Additional instructions are available to the processor, including
 \texttt{add.s} (add single-precision floating-point), \texttt{mtc1}
