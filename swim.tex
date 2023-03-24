@@ -1479,7 +1479,7 @@ use Rust for SWIM's planned feature set.
 
 This project is unique in that rather than using the standard JavaScript
 framework like React, Angular, and Vue to build the front end, it is
-utilizing a new method to build web applications, WebAssembly. As the
+utilizing a new type of code to build web applications, WebAssembly. As the
 development team explains,
 
 \begin{quote}
@@ -1491,8 +1491,8 @@ development team explains,
     well.'' \cite{webassembly-introduction}
 \end{quote}
 
-Historically, HTML, CSS, and JavaScript were the only languages to run
-code on web browsers and it has been the standard for almost 20 years.
+Historically, HTML, CSS, and JavaScript were the only means to run
+applications on web browsers and it has been the standard for almost 20 years.
 WebAssembly aims to allow programmers to write in other languages, like
 Rust, and compile to a binary file that could run on the web. This is
 still in its infancy, so one of the biggest challenges is how our
@@ -1556,18 +1556,23 @@ to be used alongside any JavaScript packages already well-established.
 This interoperability is integral to incorporating a new framework such
 as Rust with existing JavaScript projects. \texttt{wasm-bindgen}
 \cite{wasm-bindgen} is a Rust library and CLI tool that facilitates
-high-level interactions between wasm modules and JavaScript. There are
-two additional crates that helps with WebAssembly binding JS's API
+high-level interactions between wasm modules and JavaScript. However, 
+there are some limitations on which JavaScript libraries you can bind with it.
+You cannot use JavaScript libraries that are post-processed, like ones that are 
+processed through Babel(i.e. FileSaver.js), rather they have to be
+handwritten. There are two additional crates that helps 
+with WebAssembly binding JS's API
 libraries, and they are packaged with wasm-bindgen:
 
 \begin{enumerate}
     \tightlist
     \item \texttt{js-sys} \cite{js-sys} provides raw bindings to all the global APIs guaranteed to
           exist in every JavaScript environment by the ECMAScript standard. With
-          it, we can work with JS types without writing the imports by hand.
+          it, we can work with JS types without writing the imports by hand. This is key to pass in objects, 
+         arrays, and values to JavaScript libraries in Rust since both do not share types.
     \item \texttt{web-sys} \cite{web-sys} provides raw wasm-bindgen imports for all of the Web's
-          APIs, so the required APIs for our project like DOM, Console, UI
-          Events, Canvas/WebGL, and Web Animations are supported here.
+          APIs, so the required APIs for our project like DOM, Console, and UI
+          Events are supported here.
 \end{enumerate}
 
 \subsubsection{Thoughts on WebAssembly}
