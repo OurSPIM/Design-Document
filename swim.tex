@@ -4468,38 +4468,22 @@ point during execution as a panic mechanism, i.e. an infinite loop.
 
 \subsection{The Register Window}
 
-The Register Viewer will show two tabs to show two different types of
-registers: General Purpose (GP) and Floating Point (FP). General Purpose
-registers are basically CPU registers, as in they are responsible for
-storing data and moving instructions to Floating Point registers, then
-those Floating Point registers will execute those instructions. Those
-data will be fetched by an API call to the core so that the core gives
-the front end access to the array/strings/enum of registers. The core is
-able to give the register viewer three types of register data to show,
-so we decided that for the time being we will process the strings of
-registers from the core to display in the viewer. Details on GP and FP
-registers are mentioned in Section \ref{subsec:mips64-registers}.
+The register window will show two tabs to show two different types of
+registers: general purpose (GP) and floating-point (FP). General purpose
+registers are used primarily to supply data for most instructions, as
+well as to move data to floating-point registers. Floating-point
+registers are used for instructions involving the floating-point unit.
+Registers are transferred to the front end by the API provided by the
+emulation core. Details on the MIPS specification of general purpose and
+floating-point registers are described in Section
+\ref{subsec:mips64-registers}.
 
-The register window will also show the values of registers by default in
-hexadecimal, but it can also be converted to decimal or binary with a
-press of a button. This feature will make SWIM more unique than other
-emulators with register viewing functions. This converting functionality
-will help understanding values in register better, as users may have a
-preference between reading binary decimal or hexadecimal numbers.
-
-Within GP and FP are also different types of registers to be shown. The
-\$gp register, or called the global pointer, will always point to the
-middle of memory in the heap that contains constant and global variation
-for load and store instructions \cite{moor2009}, so it will be the first
-register shown in the list of GP despite being the 28th register of CPU
-registers. However, that way may not work as intended, so the \$gp
-display will be highlighted more in the list.
-
-As for the reason we decided to show this kind of data in the Register
-Window, MIPS learners will need to get accustomed to the registers and
-what they do, so that the process of where instructions go and how the
-registers work with them are as clear as possible.
-% TODO: Discuss this with group
+The register window shows the values of registers in decimal by default,
+but they can be converted to hexadecimal or binary with a press of a
+button, additionally making SWIM more unique than other emulators with
+register viewing functions. This converting functionality will help
+understanding values in registers better, as users may have a preference
+between reading binary, decimal, or hexadecimal formats.
 
 \subsection{The Help Button}
 
