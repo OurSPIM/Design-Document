@@ -2383,13 +2383,11 @@ layout and usage of these components.
 \section{Pseudo-Single-Cycle Datapath Implementation}
 \label{sec:emulation-core}
 
-Our implementation of a MIPS single-cycle datapath allows for simplicity
-in understanding it. The implementation will fit with how the emulation
-core will be written. There may also be some kind of staging diagram to
-go along with the pseudo-single-cycle datapath. Our emulation core must
-be written in a way to allow for such features to be added in the
-future, and at the same time, work in tandem with the
-pseudo-single-cycle datapath.
+Our implementation of a MIPS single-cycle datapath, also referred to
+throughout this document as the ``emulation core,'' is designed to be
+easy to use as both a developer and an end user. Throughout the
+development of the emulation core, its design is influenced by the
+visual datapath feature in SWIM.
 
 \subsection{Approach and Reasoning}
 
