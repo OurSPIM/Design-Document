@@ -2391,34 +2391,33 @@ visual datapath feature in SWIM.
 
 \subsection{Approach and Reasoning}
 
-The datapath will mainly be structured as a single-cycle datapath out of
-a few considerations in the project design. A pipelined datapath, while
-more efficient in real-world situations, can be more complex for
-students to learn just beginning a computer architecture and design
-course. In addition, instruction-level parallelism introduces additional
-programming complexity for a first release of this project that may not
-be feasible. With the use of a pipelined datapath, there comes a large
-swath of additional considerations, such as handling hazards and the use
-of branch prediction.
+The datapath is structured to mimic a single-cycle datapath out of a few
+considerations in the project design. A pipelined datapath, while more
+efficient in real-world situations, can be more complex for students to
+learn just beginning a computer architecture and design course. In
+addition, instruction-level parallelism introduces additional
+programming complexity that is not feasible for a first release of this
+project. With the use of a pipelined datapath, there comes a large swath
+of additional technical considerations, such as handling hazards and the
+use of branch prediction.
 
-However, while the pipeline itself and parallelism will not be
-implemented, the project is structured in a way that modularizes each
-component of the datapath, such that pipelining would be easy to add at
-a future point. Each of the five stages in the datapath (Instruction
-Fetch, Instruction Decode, Execute, Memory, Writeback) will be split in
-source code for this future implementation, should this be added. Our
-emulation core will be implemented with pipeline-less staging. In a
-real-world implementation, a CPU designed with stages but without
-pipelining would be inefficient and less performant than, for example,
-using a single-cycle or multi-cycle datapath. However, for the
-previously mentioned reasons, this will be acceptable for this project.
+However, while the pipeline itself and parallelism is not implemented,
+the emulation core is structured in a way that modularizes each stage of
+the datapath, such that pipelining would be easier to add at a future
+point. Each of the five stages in the datapath (Instruction Fetch,
+Instruction Decode, Execute, Memory, Writeback) is split in source code
+for the purpose of this future implementation. In a real-world
+implementation, a CPU designed with stages but without pipelining would
+be inefficient and less performant than, for example, using a
+single-cycle or multi-cycle datapath. However, for the previously
+mentioned reasons, we have considered this acceptable for this project.
 
-Beyond pipelining, an additional stretch goal of SWIM is to allow a user
-to view a visual representation of an instruction passing through a
-datapath. (See Section \ref{subsec:datapath-visual-representation} for
-more details.) Structured in this pseudo-single-cycle datapath, this
-would allow individual, non-pipelined instructions to be viewed passing
-through the datapath at a more granular level, as if it was pipelined.
+Beyond pipelining, SWIM allows users to execute instructions one stage
+at a time. Users can additionally view a visual representation of
+instructions passing through a datapath. (See Section
+\ref{subsec:datapath-visual-representation} for more details.) These
+features combine to view individual instructions passing through the
+datapath at a more granular level, as if it were pipelined.
 
 \subsection{Approaches of Representing Instructions}
 
