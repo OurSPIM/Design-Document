@@ -1525,8 +1525,6 @@ app unusable in inconsistent intervals \cite{chromium-webassembly-bug1,
     chromium-webassembly-bug2}. Fortunately, both of those bugs are fixed
 within months.
 
-% TODO: More steps will be added in the future
-
 In order for Rust and WebAssembly to work
 \cite{wasm-game-of-life-introduction}, the project requires us to have
 the most recent version of Rust's toolchain (rustup, rustc, and cargo),
@@ -1609,11 +1607,6 @@ difficult given the loss of information associated with compiling.
 
 % TODO: More to fill out
 
-\ul{\emph{\textbf{Note: As of November 28th, 2022, Yew was updated to
-            version 0.20, so the information provided here may not be accurate to
-            it. However, we plan on using the development build to take advantage of
-            all of its features and bug fixes.}}}
-
 While WebAssembly provides an environment for programming languages to
 be used in web development, there are more steps involved to get a web
 application developed, so we selected Yew as our framework. Yew is
@@ -1639,9 +1632,9 @@ libraries.
 % TODO: There could be a diagram to visualize the lifecycle
 
 One of Yew's defining features is how it streamlines web application
-development; it uses a lifecycle model for components. Components manage
-their state and render themselves to the DOM. The lifecycle, taken from
-Yew's Documentation \cite{yew-lifecycle}, is as follows:
+development; it uses a lifecycle model for struct components. 
+Struct components manage their state and render themselves to the DOM. 
+The lifecycle, taken from Yew's Documentation \cite{yew-lifecycle}, is as follows:
 
 \begin{enumerate}
     \tightlist
@@ -1676,8 +1669,8 @@ Yew's Documentation \cite{yew-lifecycle}, is as follows:
           from the DOM.
 \end{enumerate}
 
-It is possible to implement infinite loops by updating the component
-after every render when the update also requests the component to be
+It is possible to implement infinite loops by updating the struct component
+after every render when the update also requests the struct component to be
 rendered. This is done by setting the \texttt{update} method to {\em
         true} to always request to re-render on any message from the
 \texttt{rendered} method. This lifecycle could make the implementation
@@ -1686,6 +1679,13 @@ implementing a live debugger in SWIM, and this can easily be done by
 running the parser in an infinite loop so it can catch whenever the user
 mistyped an instruction or try to access memory that would cause the
 virtual machine to crash upon execution.
+
+An alternative to struct components are function components\cite{yew-function-components}. 
+These are more abstract than struct components in that all the code is going 
+into the equivalent of a struct component's \texttt{view} method, but the code is more concise.
+Then, Yew builds a virtual tree of these components to compute the virtual DOM. 
+When an update is necessary, Yew will call the view function with the new virtual DOM 
+and only propagate the new/changed/necessary parts to the actual DOM. 
 
 The components only have two associated types: Message and Properties.
 The Message type is used for a component to send messages after an event
@@ -1747,29 +1747,6 @@ different. While the compiler will show how HTML can be changed to
 \texttt{html!} for specific syntax errors, the macro can be a little
 jarring to use for novice HTML developers.
 
-\subsubsection{Yew Routers}
-
-Yew also supports routers, which is a way for single-page applications
-to display different information depending on the URL. Rather than
-requesting a completely new page when a link to the same site is
-clicked, by default, the router sets the URL locally to point to a valid
-route in the Yew application and the content for that location would be
-rendered without reloading the entire page. In implementation, this
-would be extremely useful for implementing the datapath window to show
-how code is processed. In order to use routers, we would need yew-router
-crate must be added as a dependency, then imported using \texttt{use
-    yew\_router::prelude::*;}. \texttt{Route} is an enum type, so match
-statements can be used to render each page neatly, and each page can be
-encapsulated in their own method. If a given URL is not found, the
-router would direct to a page with the ``not found'' attribute, which
-could be used as the default case. From there, you would have a switch
-function that would match the current Route based on its type. Within
-the main function to run the app, we would have to use
-\texttt{BrowserRouter} inside \texttt{html!} to insert the switch
-function and render the current page. The advantage to this is that we
-could separate how the pages would render in their own function, which
-improves readability and finding rendering bugs due to the page
-functions being isolated compared to having them stored in one function.
 
 \subsubsection{Thoughts on Yew}
 
@@ -1777,14 +1754,17 @@ What was discussed in this subsection are only the significant topics
 that pertain to the general understanding of Yew's code and feature
 structure. Yew assists with the translation process to WebAssembly by
 having little-to-no developer interaction with JavaScript, as this
-interaction is generated from the Rust code. The main disadvantage of
-using Yew is that it is still in early development, so any features used
-in SWIM may not be supported in the future once it is officially
-released. We are not going to rely on web-sys for the API calls since
+interaction is generated from the Rust code. At this point, Yew is close to being in release 
+state, so it is safe to assume that our project will not be heavily affected by updates. 
+At worst, we will refactor the code to be in-line with the most recent release of Yew. 
+We relied on web-sys for the API calls, however
 the documentation is vast to account for all the APIs supported by
-JavaScript. There is a toolkit that could remedy this. The documentation
+JavaScript and using it is diffucult to read and understand due to its verbose nature. 
+There are crates that will remedy this issue, but utilizing web-sys is inevitable to interact 
+more intimately with the APIs. The documentation
 for Yew is hard to follow, but there are examples that show the concepts
-in action. Yew has a lot of support compared to its contemporaries,
+in action, video tutorials on the framework, and a discord server emcompassing everything about Yew \& 
+Rust web development. Yew has a lot of support compared to its contemporaries,
 there are plenty of real-world examples that used Yew as a framework to
 develop their apps. One example is qubit \cite{qubit}, which is a
 calculator that could do algebra, conversions, and functions. It would
@@ -1810,6 +1790,8 @@ bundling, which makes the project look cleaner at the top-most level.
 With Trunk, SWIM's source code, and a compatible web browser, you will
 be able to run SWIM on your computer locally.
 
+% TODO: Expand a little on Trunk
+
 \subsubsection{Using Gloo}
 
 Gloo \cite{gloo} is a toolkit to abstract JavaScript API calls to simple
@@ -1826,61 +1808,30 @@ used for calls to the DOM API. However, the advantage of more readable
 code from an outsider's perspective is preferred since the function
 calls are labeled idiomatically.
 
-The following describe the crates provided by Gloo as of the time of
-writing:
+The following describe the crates we have used while working on SWIM, provided by Gloo:
 
 \begin{itemize}
     \tightlist
     \item Console -- This crate gives us access to the browser's console for
-          logging information onto it, clearing it, and more. This does not have a
-          lot of use for deployment unless it becomes desired to allow users to
-          access the browser. However, this is impractical since a terminal window
-          to show errors and warnings will already be designed on the page.
+          logging information onto it, clearing it, and more. It was used as a means 
+          to debug communications between the front end, parser \& assembler, and emulation core.
     \item Dialogs -- This crate allows the user to interact with the program by
           asking for input, alerting them of a certain event, or confirming a
           selection. This appears to be useful for creating a small help section
           with a browser's `alert` feature, but this should not be abused, as
           users should not click through many windows to do a simple task.
     \item Events -- This crate is for implementing event listeners to user actions
-          or calling directly to the emulation core.
-    \item File -- This crate is for supporting file transfers, which could be
-          useful for loading in example code but to translate it from text to
-          bytecode will be the job of the parser and assembler.
-    \item History -- This crate is for accessing a browser's session history. This
-          crate will be discarded for development of SWIM due to its irrelevance
-          to planned features.
-    \item Net -- This crate is for websockets and HTTP fetching. This will
-          similarly be discarded for development.
-    \item Render -- This crate is for rendering animation frames; this would be
-          integral for visualizing code moving through a datapath.
-    \item Storage -- This crate focuses on bindings to the Web Storage API, so for
-          anything larger than what a cookie could handle. We talked about using
-          cookies to store user customizations or even the bytecode in the early
-          stage, but this was quickly dropped in favor of the Web Storage API. We
-          will use this API extensively since it provides more security with user
-          data, allows us to save data even if the user closes the browser, and
-          allocates more storage for us to use for custom themes and future
-          features. See Section \ref{subsec:storing-session-data} for additional
-          details on the use of cookies.
-    \item Timers -- This crate is for binding with timers, specifically setTimeout
-          and setInterval. This one has features that are yet to be implemented,
-          namely intervals with a callback function and intervals as
-          \texttt{Stream}s, but has no real use for the project currently.
+          like mouseover, keyup, etc. This was used primarily in the implementation of
+          the visual datapth.
+    \item File -- This crate is for supporting file read and write, which could be
+          useful for loading code stored locally on one's computer. 
     \item Utils -- This crate houses convenience functions to access web\_sys
-          bindings. This means that if we have to use web\_sys as a fallback to
+          bindings. This means we use web\_sys idiomatically to
           access APIs that are not supported by gloo, then we can use this to
           improve readability. Due to that previous fact, the documentation
           fallbacks on web\_sys which is huge given its nature. As mentioned
           before, it is recommended that we compare the documentation to the one
-          provided by Mozilla. For example if we to use yew\_router to naviagte
-          through SWIM, we would need to use the history function to access
-          web\_sys bindings for the History API.
-    \item Worker -- This crate is for implementing web workers to improve
-          performance of our project. Another crucial crate uses this concept,
-          % TODO: Might research further
-          so we might research further on this to see where it can be applied
-          appropriately within SWIM. For now, this crate will have little
-          relevance for the project.
+          provided by Mozilla. 
 \end{itemize}
 
 \subsection{Monaco}
