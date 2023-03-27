@@ -2482,7 +2482,7 @@ event of an invalid instruction.)
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{swim-datapath}
-    \caption{Full simulated datapath including the floating point unit. Red lines represent primary processor control signals. Purple lines represent floating point unit control signals.}
+    \caption{Full simulated datapath including the floating-point unit. Red lines represent primary processor control signals. Purple lines represent floating-point unit control signals.}
 \end{figure}
 
 The simulated datapath used for this project's emulation core can be
@@ -2526,7 +2526,7 @@ was split, with the possible addition of a new logic unit. Going from a
 single floating-point ALU to including an additional floating-point
 comparator is one such example.
 
-When incorporating the functionality specific to the floating point
+When incorporating the functionality specific to the floating-point
 unit, the most notable in original structure is this inclusion of a
 separate comparator, as well as a condition code register. The
 functionality for this was designed to mirror how the existing
@@ -2573,16 +2573,14 @@ code has been expanded to four bits, allowing for 16 total operations.
 The original eight are preserved, as those are commonly used in
 education, and additional operations follow after.
 
-% TODO SD2: Update with past-tense language
 For the sake of this project, only one ALU is required in the primary
 unit, and an additional floating-point ALU is required in the
-floating-point unit. We do not foresee the need for a more complex ALU
-or multiple units given the planned supported instructions.
+floating-point unit.
 
 \subsubsection{ALU Control Unit}
 
 An ALU control unit is the component of a processor that selects the
-operations for an ALU, playing a role in the instruction decoding stage.
+operations for an ALU, playing a role in the Instruction Decode stage.
 In the standard single-cycle MIPS datapath, there is a single ALU
 control unit that effectively maps R-type function bits to ALU operation
 codes. See Section \ref{subsec:control-signals} for details on the
@@ -2592,12 +2590,10 @@ implementation of ALU control unit signals.
 
 \underline{\textbf{Implementation in Rust:}}
 \begin{verbatim}
-#[derive(Default)]
+#[derive(Clone, Copy, Default, PartialEq)]
     pub struct Registers {
     pub pc: u64,
     pub gpr: [u64; 32],
-    pub fpr: [u64; 32],
-    pub cc: u64,
 }
 \end{verbatim}
 
@@ -2608,22 +2604,10 @@ especially important that interfacing with the registers is flexible,
 since they are directly accessed in both the front end and the emulation
 core.
 
-First, it should be noted that a notable (but reasonable) departure has
-been made from the standard MIPS64 specification surrounding the
-\texttt{cc} or ``condition code'' register that resides on the
-floating-point unit. Within the specification, an instruction may
-include multiple bits to indicate a selection of multiple condition code
-registers. However, for all intents and purposes in this project, this
-specific aspect of the datapath reflects MIPS Release 5, not the latest
-Release 6 as of the time of writing. Any other condition code registers
-are not considered in any of the supported instructions for this
-implementation of the datapath.
-
 Notice that all registers are stored as unsigned 64-bit integers. While
-the types of data stored in these registers can vary, and the condition
-code register only necessitates a single bit, the motivation for this
-decision stems from the idea of interfacing with these registers. By
-having a common data type between all of these registers, this allows
+the types of data stored in these registers can vary, the motivation for
+this decision stems from the idea of interfacing with these registers.
+By having a common data type between all of these registers, this allows
 any APIs for the Register struct to use the same data types, both for
 reading and writing. Variations in data types, including 32-bit integers
 and floating-point values, are handled by some form of casting within
@@ -2678,23 +2662,22 @@ static code checking.
 The third method of indexing (and the second method taking advantage of
 the Index and IndexMut traits) is by string. For example, register \$sp
 (the thirtieth general-purpose register) can be accessed by
-\texttt{datapath.registers[``sp'']}. This is by far the most simplistic
-in terms of its readability, and is intended for use within the front
-end. For the case where the user desires to access a register by
-providing its name manually, this is easily possible using this method.
-While it is possible to give an invalid register name, it is simple to
-use from a programming perspective.
+\texttt{datapath.registers["sp"]}. This is by far the most simplistic in
+terms of its readability, and is intended for use within the front end.
+For the case where the user desires to access a register by providing
+its name manually, this is easily possible using this method. While it
+is possible to give an invalid register name, it is simple to use from a
+programming perspective.
 
-One data type not implemented with the Index and IndexMut class is any
+One data type not implemented with the Index and IndexMut traits is any
 form of integer (e.g. u32, i32, usize). It was decided that this would
 be conducive to non-standard nomenclature for the MIPS ISA, against the
 primary goal of the project to be easy to use in educational
 environments. For example, the 32 general-purpose registers could easily
 map to indices 0 through 31, but leaves for debate the indices to be
-used for the program counter, floating-point registers, and other
-additional registers that may be added in the future. All such decisions
-would be nomenclature original to the project that could only act to
-confuse others.
+used for the program counter and floating-point registers. All such
+decisions would be nomenclature original to the project that would only
+act to confuse others.
 
 To assist with the implementation of register indexing, we used the
 crate \texttt{strum} \cite{strum}, which provides mappings between
@@ -2702,17 +2685,51 @@ strings and enums. This allows implementing SWIM to access registers
 with a string or an enum easily with the addition of a new
 \texttt{EnumString} macro.
 
-A future plan of the Registers struct is to additionally implement a
-trait within the Rust library for iteration. This further allows for
-simple access with registers by allowing a front-end programmer to
-essentially use `for register in registers` in displaying the contents
-of all registers.
+An additional method of interfacing with the Registers struct is to
+additionally implement the \texttt{Iterator} and \texttt{IntoIterator}
+traits for iteration. This further allows for simple access with
+registers by allowing a front-end programmer to essentially use
+\texttt{for register in registers} in displaying the contents of all
+registers.
+
+\subsubsection{Floating-Point Register File}
+
+Notably absent from the register-file are floating-point registers. Due
+to the rules surrounding Rust's ownership system, it was determined that
+the simplest way to implement registers in the floating-point
+coprocessor was to add them as fields to the coprocessor data structure
+itself.
+
+\underline{\textbf{Floating-Point Coprocessor Implementation in Rust:}}
+\begin{verbatim}
+#[derive(Clone, Default, PartialEq)]
+pub struct MipsFpCoprocessor {
+    instruction: Instruction,
+    pub signals: FpuControlSignals,
+    pub state: FpuState,
+    pub is_halted: bool,
+
+    pub fpr: [u64; 32],
+    pub condition_code: u64,
+    data: u64,
+}
+\end{verbatim}
+
+A notable (but reasonable) departure has been made from the standard
+MIPS64 specification surrounding the \texttt{condition\_code} register
+that resides on the floating-point unit. Within the MIPS specification,
+an instruction may include multiple bits to indicate a selection of
+multiple condition code registers. However, for all intents and purposes
+in this project, this specific aspect of the datapath reflects MIPS
+Release 5, not the latest Release 6 as of the time of writing. Any other
+condition code registers are not considered in any of the supported
+instructions for this implementation of the datapath.
 
 \subsection{Data and Instruction Memory}
 
 \underline{\textbf{Implementation in Rust:}}
 \begin{verbatim}
-const CAPACITY_BYTES: usize = 4 * 1024;
+const CAPACITY_BYTES: usize = 64 * 1024;
 pub struct Memory {
     pub memory: Vec<u8>,
 }
@@ -2736,15 +2753,7 @@ the Memory struct to translate between contiguous bytes within a vector
 and 32-bit and 64-bit values. Internal functions such as
 \texttt{load\_word()} and \texttt{store\_double\_word()} make this
 process simple for interfacing in a wide range of data types. We have
-decided to use 4 KB of storage for this memory at this time, but could
-easily be increased if needed.
-
-Should the stretch goal for allowing the resizing of memory be desired,
-this can be accomplished by exposing an API call in the emulation core.
-In the case of enlargement, bitwise zero will be appended to the end of
-the existing memory space to create the new space as requested. In the
-case of reduction, the existing memory space will be truncated to the
-new requested size.
+decided to use 64 KB of storage for this memory at this time.
 
 \subsubsection{Endianness}
 
@@ -2890,6 +2899,7 @@ students using SWIM for their courses.
                     floating-point unit's DataWrite control signal.
               \item 0 - Do not use data from memory. Use the result of the ALU.
               \item 1 - Use data from memory.
+              \item 2 - Use PC + 4. (Used for the \texttt{jal} instruction.)
           \end{itemize}
 
     \item MemWrite
@@ -3121,27 +3131,10 @@ counterparts, but are completely original to this project and datapath.
 
 \subsection{Exception Handler}
 
-It should be noted that this datapath, in its planned first iteration,
-will have no explicit handling of exceptions or errors in instructions.
-Explicit handling would imply stopping the progress of an instruction's
-execution early and setting a signal to be shown in the user interface.
-Since the parser and assembler will determine the acceptability of each
-instruction, this will take the place of true exception handling within
-the emulation core. In the case where there is an invalid instruction,
-the datapath will silently ignore it, performing an empty operation or
-using bitwise zero in the case where data is required.
-
-In the case of arithmetic integer overflow, such as in the \texttt{add}
-instruction, we chose to use alternative behavior than the actual MIPS
-specification due to the absence of exceptions. The specification states
-that a register is not modified in the case of an Integer Overflow
-exception during the \texttt{add} instruction, however our
-implementation chooses to modify the register anyway and provide no
-exception.
-
-Should SWIM be developed further in the future, it is noted within
-source code where these inconsistencies lie between it and MIPS
-specification.
+It should be noted that this datapath, in its first iteration, has no
+real-world handling of exceptions or errors in instructions. In the
+event of any errors or invalid instructions, the datapath will simply
+halt.
 
 \subsection{Emulation Core API}
 \label{subsec:emulation-core-api}
@@ -3247,6 +3240,18 @@ powerful amount of functionality for development.
                         \tightlist
                         \item Return the information from the datapath corresponding to the
                               \texttt{variable} attribute on a part of the visual datapath diagram.
+                    \end{itemize}
+          \end{itemize}
+
+    \item MipsDatapath (API specific to our MIPS implementation)
+          \begin{itemize}
+              \tightlist
+              \item \texttt{fn initialize(\&mut self, instructions: Vec\textless u32\textgreater) -\textgreater{} Result\textless u32, String\textgreater;}
+                    \begin{itemize}
+                        \tightlist
+                        \item Reset the datapath, load instructions into memory, and un-sets the
+                              \texttt{is\_halted} flag. If the process fails, an \texttt{Err} is
+                              returned.
                     \end{itemize}
           \end{itemize}
 
