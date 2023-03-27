@@ -1855,8 +1855,8 @@ user assistance such as error highlighting, tab completion, and
 suggestions. Monaco comes with a usable API for providing these
 features, which in one example, is particularly important for supporting
 step-through execution with line highlighting. Monaco also has a
-built-in auto-commenting feature, where a single button can be pressed
-when selecting text to comment said text.
+built-in auto-commenting feature, where a single button combination can be pressed
+when selecting text to comment said text [Ctrl/Cmd + K + C].
 
 By default, code syntax highlighting works in Monaco without
 modification. If this were not the case, it is even possible to markup
@@ -1893,14 +1893,11 @@ SWIM.
 The API for Monaco, while extensive, can be difficult to read or parse
 through. Due to the common naming conventions used by Microsoft, unlike
 in other languages, names can be overly-descriptive and complex, as
-documented on the Microsoft website \cite{monaco-api}. There are so many
-features to the editor it is crazy.
-% TODO: Formality
-Despite this, Monaco has become an extremely popular library, and many
-developers build projects with it. With this popularity comes more
-experience and help from other developers via online forums, and any
-problem that may arise through the use of Monaco has likely already been
-seen before. There are many different tutorials on using Monaco from
+documented on the Microsoft website \cite{monaco-api}. The library is feature-rich, 
+which requires coordination to use them to their fullest.
+Despite this, Monaco has become a popular library, and with this popularity comes more
+experience and help from other developers via online forums. 
+There are different tutorials on using Monaco from
 developers as well \cite{mishka-monaco, sahoo2018}.
 
 The Monaco editor is written in TypeScript and its API is written in
@@ -1948,6 +1945,15 @@ rust-monaco crate:
 
 The sys module is the only one that is optional to use, but the rest are
 required (turned on by default) to have it functional on Yew.
+
+The crate is an interesting case, because the lead maintainer behind 
+this used it as proof-of-concept of converting Typescript to Rust
+with a script with Python and by hand. There was a huge limitation with
+the crate and the nature of wasm-bindgen when it came to implementing our
+custom language to the application. Trying to implement it properly with JavaScript, 
+caused the application to crash. This resulted in us forking over the repository, then 
+replacing the default MIPS language from Monaco with ours in order for the syntax 
+to highlight properly with some changes to the regular expressions.
 
 \subsection{CodeMirror}
 
