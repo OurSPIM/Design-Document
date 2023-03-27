@@ -2099,21 +2099,19 @@ how MIPS handles an instruction that is broken across multiple lines.
 
 \subsubsection{Register View Decimal to Hex Conversion - Huy Nguyen}
 
-% TODO: sp unclear
-
 The register view window aims to include labels for data, address, and
-sp. Its main feature that is different from other register viewers is
+stack pointer. The main feature that makes my register view different from other register view windows is
 the ability to switch between hexadecimal and decimal representation of
 the numbers input through the data or address. The main function of
 decimal to hexadecimal conversion, as well as converting the opposite
-way, is completed, but the UI looks nothing like it should. As of
-current time, the system is definitely not completed. The mini-project
-still has not had the data and MIPS address, even though the conversion
-number form is correct. However, when every functionality is accounted
+way, was completed, but the UI looked nothing like it should. As of
+early November, the system was not completed. The mini-project
+still didn't have the data and MIPS address, even though the conversion
+number form was correct. However, when every functionality is accounted
 for and made, it will definitely be incorporated in the main project.
-What has already been implemented is the conversion between hexadecimal
+What has already been implemented was the conversion between hexadecimal
 and decimal values, and a dropdown list for different kinds of
-registers. The goal now is to show the register data when the type is
+registers. The goal then was to show the register data when the type is
 selected.
 
 \begin{figure}[H]
@@ -2124,26 +2122,23 @@ selected.
 
 As seen in Figure \ref{fig:huy-register-view-project}, this project uses
 dependencies like gloo, wasm-bindgen, HTML websys to be able to use HTML
-in Rust and most importantly, Yew. There can be more dependencies used
+in Rust and most importantly, Yew. There would be more dependencies used
 as the project goes forward, and documentation will become necessary for
 those, as well.
 
-There are more challenges to getting this mini-project working than I
+There were more challenges to getting this mini-project working than I
 expected, with the first being my unfamiliarity with Rust and Yew. Yew
 allows for HTML integration, and because of that, I coded like it was
 JavaScript and HTML, which caused issues with incorporating with the
 example Rust code. I ended up having to use Rust hooks for the
-conversions, and it certainly takes longer than it should for me to read
+conversions, and it certainly took longer than it should for me to read
 through the documents on how to do it. The Rust and Yew documentations
-help with this project, but with how much time I wasted for a supposedly
-easy component, this is going to be a major wall to the project, at
-least in my opinion.
+helped with this project, but with how much time I spent for a
+simple component, this was going to be a major wall for my progress in the project.
 
-% TODO: sp unclear
-
-There is also seemingly a problem with API connection. The register
-window will need the core to upload the MIPS address and sp so that it
-has data to display. I am not too sure if it could be extracted from
+There was also a problem with API connection. The register
+window needed the core to upload the MIPS address and stack pointer so that it
+can display data. I was not sure if it could be extracted from
 within an operating system of a computer, since MIPS is the base of it.
 However, it may not be plausible compared to other ways I could think
 of, which shows that I need more understanding on the issue so that this
