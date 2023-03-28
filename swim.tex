@@ -1934,9 +1934,9 @@ rust-monaco crate:
 
     \item sys -- This is where the bindings for monaco's namespace are located,
           this is how we bind events to the monaco window. An example of this is
-          we can use IMouseEvent and IPosition to see if the cursor is hovering
-          over a line that has an error, and the result of it would show an error
-          message.
+          we used IModelDeltaDecoration and IMarkerData to mark where on the editor
+          there is an error in the code, which line was previously executed by highlighting it,
+          and providing information about the instruction the user typed via the hover provider.
     \item workers -- This is required for the performance of Monaco Editor to be
           adequate otherwise via web workers, we get a performance penalty for not
           using it.
@@ -1944,7 +1944,7 @@ rust-monaco crate:
 \end{itemize}
 
 The sys module is the only one that is optional to use, but the rest are
-required (turned on by default) to have it functional on Yew.
+required (turned on by default) to have it function with Yew.
 
 The crate is an interesting case, because the lead maintainer behind 
 this used it as proof-of-concept of converting Typescript to Rust
@@ -1955,24 +1955,6 @@ caused the application to crash. This resulted in us forking over the repository
 replacing the default MIPS language from Monaco with ours in order for the syntax 
 to highlight properly with some changes to the regular expressions.
 
-\subsection{CodeMirror}
-
-CodeMirror is an older alternative front-end library to Monaco. Monaco
-was released in 2016 \cite{monaco-changelog}, while CodeMirror's first
-version was released around 2009 \cite{codemirror-changelog}. Despite
-this additional age, CodeMirror has a considerably modern interface and
-a rounded style and works well with touch screens. In a way, CodeMirror
-is the modern replacement of Monaco. For example, the online code editor
-Replit switched from Monaco to CodeMirror for its front end after
-finding it to be more advantageous for their uses
-\cite{replit-code-editors}.
-
-Although CodeMirror has its advantages and was considered for use in
-SWIM, it has no major support for Yew at this time, and would
-necessitate additional JavaScript for the integral part of the editor.
-Thus, it was decided that SWIM will continue to use Monaco for editing.
-In the future, should CodeMirror support as a Yew component be
-supported, this may be considered as an alternative to Monaco again.
 
 \section{Prototypes}
 
@@ -4998,22 +4980,6 @@ has its own CSS system, so we have to be mindful of making the two look
 cohesive. If we can create a functional CSS system, then we will have a
 good foundation for making SWIM more accessible and customizable.
 
-As a personal aside from Jimmie Smith, I do not understand the obsession
-to translate something into another. WebAssembly is a welcome addition
-in web development and I hope it gets used more as it matures, likewise
-with Yew turning Rust into a language for front end development.
-However, CSS in Rust (ala stylist-rs) seems more like fitting a square
-peg into a circle hole. For simple projects it could be a nice
-challenge, but with the CSS frameworks provided it does not justify the
-means. It reminds me of my experience learning older methods of creating
-music digitally, and how people want to bring their projects from one
-software suite to another with ease. When in reality, the automatic
-translation process will output something that the user would not
-understand and give up on using the target software. A realistic
-approach is to understand the software and its capabilities, it would
-not only save time but it will be worthwhile to understand how it works.
-Understanding a CSS framework is more desirable in the workforce than
-stylist-rs.
 
 \section{Project Management}
 
