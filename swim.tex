@@ -1856,7 +1856,7 @@ suggestions. Monaco comes with a usable API for providing these
 features, which in one example, is particularly important for supporting
 step-through execution with line highlighting. Monaco also has a
 built-in auto-commenting feature, where a single button combination can be pressed
-when selecting text to comment said text [Ctrl/Cmd + K + C].
+when selecting text to comment said text {[}Ctrl/Cmd + K + C{]}.
 
 By default, code syntax highlighting works in Monaco without
 modification. If this were not the case, it is even possible to markup
@@ -1938,17 +1938,17 @@ rust-monaco crate:
           there is an error in the code, which line was previously executed by highlighting it,
           and providing information about the instruction the user typed via the hover provider.
     \item workers -- This is required for the performance of Monaco Editor to be
-          adequate otherwise via web workers, we get a performance penalty for not
+          adequate via web workers, otherwise we get a performance penalty for not
           using it.
     \item yew -- This is for turning the Monaco Editor into a yew component.
 \end{itemize}
 
 The sys module is the only one that is optional to use, but the rest are
-required (turned on by default) to have it function with Yew.
+required (turned on by default) to have it function in Yew.
 
 The crate is an interesting case, because the lead maintainer behind 
 this used it as proof-of-concept of converting Typescript to Rust
-with a script with Python and by hand. There was a huge limitation with
+with a Python script then by hand. There was a huge limitation with
 the crate and the nature of wasm-bindgen when it came to implementing our
 custom language to the application. Trying to implement it properly with JavaScript, 
 caused the application to crash. This resulted in us forking over the repository, then 
@@ -4035,25 +4035,34 @@ error occurs if it is outside of those.
 \section{The Front End}
 \label{sec:front-end}
 
-The main four components that constitute the front end are the Monaco
-editor, the register view, the console for input and output, and the
-buttons. Most of them are implemented using HTML with the \texttt{html!}
-macro discussed in Section \ref{subsec:html-macro}. For the Monaco
-Editor library's details, see Section \ref{subsec:monaco}, but overall,
+The main six components that constitute the front end are the Monaco
+editor, the register viewer, the console, the memory viewer, the visual datapath, 
+and the buttons. Most of them are implemented using HTML with the \texttt{html!}
+macro discussed in Section \ref{subsec:html-macro} and Yew components. For the Monaco
+Editor library's details, see Section \ref{subsec:monaco}. Overall,
 the Monaco Code Editor is going to be one of the main components the
-users see when the web application is launched, as it is the place where
-the code is displayed and edited by the users. The register view
-component shows values of the register in the current system. The
-console is where inputs and outputs are managed as well as where error
-are displayed to the user when they are found in the parser or emulation
-core. The buttons are designed to be separate components that use API
-calls to do their functions. All of them are wrapped together into a
+users see when SWIM is launched, as it is the place where
+the code is displayed and edited by the users. The register viewer
+shows values of the GP and FP registers. The console is where 
+the user is notified about errors in their code at specific 
+locations or to tell the user the code was successfully assembled. 
+The memory viewer will display the 64 kB of RAM that the datapath uses, it is formatted 
+so the instructions and data are readable in hexadecimal with an ASCII viewer on the right.
+The visual datapath will help users understand how their code works 
+down to the stages of fetching and executing instructions, 
+and providing information on the status of certain areas in the datapath.
+The register, console, memory viewer and the visual datapath are updated 
+as the user execute instructions or the execution stages.
+The buttons are designed to be separate components that use API
+calls to do their functions like assembling code, executing code, resetting the datapath,
+ uploading a file to SWIM, and copying the code to the clipboard to be saved locally. 
+All of them are wrapped together into a
 user interface, which will be discussed in Section
 \ref{subsec:ui-design}.
 
 The reason the front end is structured this way is that it helps the
 user become familiar quickly with what SWIM does. This kind of layout is
-standard and is the staple for a lot of other code editors' layout. For
+standard and is the staple for contemporary code editors. For
 example the MARS app, which is similar to what we are making as a code
 editor and MIPS processor, also has this interface setup. Visual Studio
 Code is another example of the layout we are aiming for SWIM to look
