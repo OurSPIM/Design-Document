@@ -3280,31 +3280,31 @@ subsequently reading instructions and their operands. This is to keep
 each part of the system as simple as reasonably possible.
 
 The program written in the Monaco code editor is passed to the parser
-and assembler as a string. The first step of the parser is to remove any
-of the non-functional parts of the program by removing all comments,
-extra spaces, and blank lines from the program.
+and assembler as a string.
+The first step of the parser & assembler is to tokenize the program, separating the string
+into discrete tokens delimited by spaces, commas, and newline characters and removing
+extra spaces and comments.
 
-After this, the system goes through the program a second time, finding
-any label names and building a table of these with their corresponding
-instruction/line number. This is additionally where the parser starts
-checking for errors. Any errors pertaining to labels are recorded to
-later be passed back to the front end. In this case, parsing will not
-stop, but the final binary program will not be able to be passed to the
-emulation core. Once a label has been read successfully, it can be
-removed from the input string.
+After that, the system goes through the program and determines for each line is within
+the .text section or the .data section.
+In this step, it can be determined if a token is a label, operator, directive, and so on.
+Commas are removed and labels can be associated with an instruction or data entry.
 
-After all of the labels have been found, the individual instructions can
-then be read. Without comments, labels, and extra blank lines, each line
-should be an instruction and each instruction will have a single space
-between the tokens it is comprised of. The parser can then read through
-the cleaned string line by line. The first word on every line should be
-the instruction name, so it is compared against a list containing all
-valid instruction names. If there is an error with the instruction name,
-it is then logged. The match case for each specific instruction houses
-function calls to verify that the given operands match the expected
-type; if they do not, this is also logged. Once all of the operands are
-verified as valid, the assembler can then construct the binary
-representation of the instruction, stored in a vector.
+The .data sections of the program can be read immediately after.
+The assembled data is held in a vector to be appended onto the assembled instructions later.
+
+Then, pseudo-instructions can be translated to real instructions.
+This has to be done before labels are associated with a memory address since a pseudo-instruction
+translated into multiple real instructions will affect the ultimate address of a subsequent label in memory.
+After that, a map associating labels with memory addresses can be created.
+The translation of lw / sw label pseudo-instructions is dependent on the label map
+so it must be translated after the label map is made.
+
+Finally, individual instructions can be read.
+Tokens have already been categorized as operators and operands previously so the string of the operator
+token is compared against the list of supported instructions.
+Then, the assembly process unique to each instruction is done, building up the machine code by
+appending the opcode and binary of the operands with any other binary specifiers in the proper order.
 
 The above process is continued for each line in the program, logging
 information about each line in the program for the front end and
@@ -3315,57 +3315,14 @@ no errors have been found, the binary can be provided to the emulation
 core, however the metadata and error information about the instructions
 is provided to the front end regardless.
 
-\subsection{Blank Line and Extra Space Removal}
-
-In MIPS assembly languages, newline characters separate different
-instructions while space characters separate instruction names,
-operands, and labels. While only a single newline character is needed to
-separate instructions and a single space character is needed to separate
-terms of an instruction, MIPS does not mandate that the user only use
-one of these characters. Users may add as many spaces between terms and
-as many blank lines between instructions as they want; these extra
-spaces and newline characters do not affect what the program does, so
-the parser can simply ignore these characters. Similarly, the user can
-have a line in their program that solely consists of space characters.
-This can also be ignored.
-
-Since a blank line on its own does not affect the program, it can safely
-be removed from the program. Consequently, if the system finds a newline
-character immediately followed by another newline character, it can
-remove the second one. This process can be repeated until a non-newline
-character is found to remove sequential blank lines. This can
-additionally incorporate lines containing only space characters, so if
-between two newline characters there are only space characters, all of
-the space characters and one of the newline characters can be safely
-removed.
-
-Since there can be any number of spaces between instructions, if the
-parser is reading a line one character at a time, it will have to be
-written in a way to accommodate any number of extra space characters,
-even without the foresight of future characters. Since there could be
-many blank spaces between any term of an instruction, this extra space
-handling would have to be included for every instruction type.
-
-Instead of handling extra spaces and lines as they show up, the parser
-can do an initial pass through of the program when it first receives it
-to remove these instead, similar to how it will handle comments. This
-pass-through can be done at the same time as when removing comments.
-
-Removing blank lines and lines with only space characters can be done as
-detailed above. Extra spaces can be done similarly by checking if a
-space character is followed by another space character. If so, the
-second space character can be removed and this process is repeated until
-the character following the first space character is a non-space
-character. During this process, we can also make sure there are not any
-needless space characters at the end of the line. If the character
-immediately following the space character at the end of this process is
-a newline character, the space character can safely be removed.
-
 \subsection{Label Handling}
 
 MIPS assembly languages do not have support for functions, however they
-do use labels. A label is essentially a name that can be given to a
-specific instruction. This name can then be used by J-type instructions
+do use labels.
+A label is essentially a name that can be given to a
+specific address in memory.
+Instructions can optionally have a label associated with them while a line in the .data section is madated to have one.
+An instruction label can then be used by J-type instructions
 as an operand to move the program counter to the instruction that the
 label corresponds to.
 
@@ -3401,25 +3358,34 @@ the best way of handling this case is by passing through the written
 program in its entirety and searching for labels before trying to read
 individual instructions.
 
-To check for labels, the parser will specifically look for lines with
-the colon character in it, as colons are only used in assembly to denote
-labels. The only exception to this is in comments, but this is combated
+To check for labels, the parser looks for tokens ending in a colon, as colons are only used in assembly to denote labels.
+Technically, comments can also end in a colon, but this is combated
 by removing comments before checking for labels. The colon is the
 terminating character of a label, so any characters from be beginning of
 the interpreted line to this colon is checked for correctness using the
 method described in Section \ref{subsec:invalid-label-names}.
 
-Once the label is recognized, the label name and the instruction number
-it occurs on is stored in a table that can be referenced for other
-instructions read by the parser. After all labels are read, the
-characters of the label up to and including the colon are removed from
-the line that they occur on.
+Once a label is recognized, the label name and it's associated address in memory can be entered into a HashMap to
+use as a lookup table when the label is used as an operand.
+This step is done late in the parser \& assembler process because the final address of the labelled memory must be known
+for this to function.
+While every instruction is 32 bits long, pseudo-instructions can be composed of multiple real instructions and
+data entries can be any multiple of 8-bits long so this process must occur after .data is assembled
+and after pseudo-instructions are expanded.
 
-MIPS also allows labels to be on their own line. In this case, the line
-immediately following the line with the label is the instruction that is
-associated with the label. Once this has been recognized by the parser,
-the entire line that the label is on can be removed from the string
-instead.
+There are also a few small details that should be discussed about labels.
+Labels do not need to be on the same line as the data or instruction that it is associated with.
+If a label is on a line by itself, it is associated with the next data or label found in the given section.
+However, if a label is written and the section type changes before the label is complete (e.g., a label is specified in
+a .text section but the .data directive occurs immediately after), an error is generated.
+Additionally, there can be multiple labels associated with the same instruction.
+Data entries all must have a label.
+If a data entry does not have a label, an error will be generated.
+However, multiple labels in a row are handled differently in .data than .text.
+Only one label can be associated with a data entry.
+If there are multiple labels in a row before a data entry, only the label immediately preceding the data
+entry is associated with the data's address.
+All other labels cause the assembler to add an empty 32-bit word to memory which the label is then associated with.
 
 \subsubsection{Label to Bit Translation}
 
@@ -3462,31 +3428,6 @@ the J-type instruction. The other four bits removed from the address are
 from the front of the address. Thus, the 26-bit version of the address
 for instruction 9 becomes \texttt{00000000000000000000001000}.
 
-\subsection{MIPS32 / MIPS64 Instructions}
-
-SWIM is a MIPS64 emulator. The emulation core of the project is
-structured based on how MIPS64 is structured. However, MIPS64 is fully
-backwards compatible with MIPS32 \cite{mips-specification}; all
-instructions and features of MIPS32 are also featured in MIPS64 and will
-run identically in MIPS64 to how they would in MIPS32. Because of this,
-SWIM will be capable of being used to create MIPS32 projects in addition
-to MIPS64 projects.
-
-When students learn assembly languages with MIPS, they first learn
-MIPS32 and only after familiarizing themselves with that system do they
-learn MIPS64. At UCF, computer science students learn about MIPS32 in
-the required class, CDA3103, Computer Logic and Organization, and learn
-about MIPS64 in the optional class, EEL4768, Computer Architecture
-\cite{ucf-cs-electives}. Since students should be able to SWIM as an
-educational tool, a stretch goal is to make the user aware of which
-instructions are in MIPS32 versus only in MIPS64.
-
-To do this, the parser will send this information about each line back
-to the front end so it can be displayed to the user. As an instruction
-is being processed, once the instruction type has been found, the parser
-will notate whether the instruction is a MIPS64-exclusive instruction or
-a MIPS32 instruction.
-
 \subsection{Pseudo-Instructions}
 
 One of the requirements of SWIM is to support at least some common
@@ -3501,7 +3442,7 @@ For example, a commonly used pseudo-instruction is \texttt{li} (load
 immediate), which loads an integer value into a given register. This
 instruction is not written in the MIPS specification, so it is
 considered a pseudo-instruction. While MIPS cannot directly load an
-integer into a register, it instead uses a hardware-supported
+integer into a register, it instead can use a hardware-supported
 instruction that can accomplish an equivalent task. In this case, it
 uses the \texttt{ori} (or immediate) instruction to perform the task.
 The ``or immediate'' instruction performs a bitwise or between an
@@ -3537,43 +3478,16 @@ the Rust equivalent of a switch statement in languages like C or Java,
 to determine the instruction type so the program knows how to build the
 binary representation of the instruction to pass to the emulation core.
 Every time the parser recognizes a pseudo-instruction, it makes note of
-the line that it was on. Once an entire program has passed through the
-parser, the list of lines with pseudo-instructions is available for the
-front end to look at to represent that data to the user. Hopefully, by
+the line that it was on.
+In the process of translating the pseudo-instructions to real instructions, the parser also edits a copy
+of the program string it received from Monaco.
+The line with the pseudo-instruction is commented out and new lines with the real, translated instructions are added
+in with comments at the end of them explaining they came from this translation process.
+This updated string then replaces the contents of Monaco when the program is assembled.
+Hopefully, by
 signifying to the user when an instruction is a pseudo-instruction as
 opposed to a hardware supported instruction, we will be able to
 highlight how the MIPS hardware actually functions.
-
-A separate decision we have to make for the implementation of
-pseudo-instructions is how it is handled during step-through debugging
-where a single instruction is run at a time. There are two different
-ways this can be handled, both with their own drawbacks. The first
-option is that, when the program gets to a pseudo-instruction, they are
-all run together as if they are all part of the same long instruction.
-There are two downsides to this, though. One of them is that the
-emulation core will have to be notified of when to run multiple
-instructions together during step-through debugging so the system knows
-when instructions are part of a pseudo-instruction versus just matching
-up to it. The other downside is that this would be unrepresentative of
-the MIPS hardware to the user. The goal of the project is MIPS education
-and having the work of multiple instructions come across as a single
-instruction during step-through debugging might hinder that.
-
-The alternative is to run the pseudo-instruction's real instructions one
-at a time during the step-through debugging. A benefit of this
-implementation is that it requires no extra communication between the
-parser and the emulation core. The downside to this is that it might
-confuse the user why their single instruction is taking multiple clicks
-to run through.
-
-For both of these implementations, the important thing is to provide
-information to the user about why the step-through debugger is running
-the way it is. The implementation that we opted to use is the second
-one. While it may be confusing at first why the debugger is not running
-the way the user likely expects, properly notifying the user about why
-this is happening will minimize any issues that come from it.
-Additionally, having the instructions run one at a time helps keep the
-project as representative of actual MIPS hardware as possible.
 
 \subsection{Comment Removal}
 
@@ -3585,7 +3499,8 @@ comments can be denoted by the hash sign: \#. Any text written after a
 \# on a line in a MIPS program is ignored by the compiler
 \cite{wikibooks-mips-instructions}. Comments do not have to be written
 on their own line; a line with an instruction followed by a comment is
-still recognized. It should be noted that MIPS does not support block
+still recognized.
+It should be noted that most MIPS implementations do not support block
 comments like other languages. Each line in a ``multi-line'' comment
 must begin with the \# character. Along with that, the only terminating
 character for a comment is the new line character.
@@ -3594,51 +3509,7 @@ Due to these restrictions of comment structure, the actual work that the
 parser has to do to remove a comment from the text of a program is
 fairly simple. Since the only use of the \# character in the MIPS
 assembly language is to denote the start of a comment, once the parser
-recognizes that character, it can keep removing characters until it
-reaches a new line character. What makes comment removal slightly more
-intricate is in the decision of where in the parsing process this is
-handled.
-
-The first option is to do this immediately. Once the parser receives the
-text file representing a program, the string representing the file is
-passed through a function that iterates through each character checking
-if it is a \# symbol and then removes that character and all following
-characters until it reaches the new line character. This method would
-guarantee that the code is comment-free when it is passed into the bulk
-of the parser and its match statements would not have to have any cases
-to handle the comments. The downside to this method, though, is that
-every time a program is run through the parser, the text of it has to be
-run through an extra time. Even if a program has no comments in it, this
-extra pass would still be executed on compilation.
-
-A different method would be to handle comments as they arise. This
-approach would have to handle comments that are on their own line and
-comments that are part of a line with an instruction differently. For
-comments that are on their own line, the \# symbol would just have to be
-another case in the match statement that matches the instruction name.
-This would be near the end of the match statement and just would not
-return any corresponding binary to the main function. Comments that are
-on the same line as an instruction would be more complicated to handle.
-One way to do this would be to just ignore any characters on a line
-after the requisite operands for an instruction have been recognized.
-The downside to this would be that, if a user accidentally wrote too
-many operands for an instruction, the parser would not even recognize it
-there so the user might not realize that extra, invalid operand is being
-ignored. The other option is to check after every instruction if it is
-followed by a new line character, a \#, or something else entirely.
-
-Between the two different approaches to recognizing comments, handling
-them as they show up seemed like the ideal option at first since the
-code that handles it will only execute if an instruction is not matched
-to something else beforehand. However, while this would be marginally
-more efficient than the alternative, the code to handle this would be
-far less user-friendly. Having the code that handles the comments
-separated into two different spots, one for handling whole line comments
-and the other for handling end of the line comments, would make it
-significantly harder to debug, to edit, and to read. Since one of the
-hopes of SWIM is to continue to be built upon, making the code easier to
-work with seems like it would be the better option over a small
-performance boost.
+recognizes that character, it can ignore anything else left on the line and move on to start parsing the next.
 
 \subsection{Error Recognition and Handling}
 
@@ -3647,7 +3518,7 @@ errors that it recognizes in a program that a user writes. Inevitably,
 users will write something that is not grammatically recognized,
 especially since SWIM is primarily geared toward being an educational
 tool and most users will likely be relatively new to working in MIPS32
-and MIPS64. Thus, this section outlines what the parser does if it
+and MIPS64. Thus, this section outlines what the parser and assembler does if it
 encounters errors, as well as how it surfaces information to the user,
 both in why the issue occurred and how it can be fixed.
 
@@ -3672,8 +3543,9 @@ should continue looking through the remaining code after it finds an
 error. In MIPS assembly languages, users cannot put multiple
 instructions on a single line, nor can they use multiple lines to write
 a single instruction. MIPS also does not have support for functions or
-variables. Due to these two points, the parser can reasonably assume
-that the scope of an error will be limited to the line(s) that the
+variables beyond labels acting as pointers.
+Due to these two points, the parser can reasonably assume
+that the scope of an error will be limited to the line that the
 invalid instruction is written on. So, once the parser has recognized an
 error, it can do the work to recognize the error type to provide the
 proper feedback to the user and make note of it so it will not try to
@@ -3689,20 +3561,21 @@ front end to display to the user about any errors that it encounters.
 For this, the plan is to have the parser store a couple of pieces of
 information about the line an error occurs on and then an array or
 vector of the instances of all errors in the program will be passed to
-the front end to display to the user. For our version of SWIM, the
-information about errors will be displayed into the console at the
-bottom of the browser window. However, by packaging it that way and
-passing it to the front end to handle, future iterations of SWIM could
-easily pivot to have this information presented in a different way such
-as in a mouse hover box over the instruction line or a separate window
-entirely. The information about each error that will be passed to the
+the front end to display to the user.
+Error information is displayed to the user in three different ways.
+The first way is in the console where the error type and a message about it are displayed.
+Additionally, the token within Monaco that is causing the error is underlined with a squiggly, red line
+similar to how most IDEs do.
+Finally, mouse hovering over the token that is causing the error provides the information
+that is displayed in the console, as well.
+The information about each error that will be passed to the
 front end will be the line number from Monaco that it occurs on, the
 instruction number that it will be if it was passed to the emulation
-core, the error type, the likely necessary solution, and the substring
-of the line that caused the issue.
+core, the error type, the likely correction when possible, and the starting and ending columns
+of the token causing the error.
 
-Below is information about the various types of errors that the parser
-will be able to recognize as well as how the system will check for
+Below is information about some of the various types of errors that the parser
+is able to recognize as well as how the system will check for
 instances of them. For most of these errors, the approach taken has been
 to parameterize data as much as possible so that the functions can still
 be used to check new instructions that are added after our initial
@@ -3711,10 +3584,10 @@ version of SWIM.
 \subsubsection{Invalid Instruction Name}
 
 In our initial version of SWIM, we are planning on supporting
-approximately 70 different instructions and pseudo-instructions
-combined. These instructions will be in a large match statement that the
-string given as the instruction name will be compared against. If the
-given instruction name is not a match against any of the supported
+approximately 60 different instructions
+These instructions will be in a large match statement that the
+operator string will be compared against.
+If the given instruction name is not a match against any of the supported
 instructions and pseudo-instructions, the parser will flag the line as
 having an invalid instruction name. Since we are not planning on
 supporting all instructions, the parser will consider instructions that
@@ -3734,9 +3607,9 @@ instruction in the supported instruction match statement.
 
 This match statement will be housed in a separate function that will be
 called after the supported instruction match statement ends. These match
-cases could combined with the supported instruction match statement, but
+cases could be combined with the supported instruction match statement, but
 since an unsupported instruction is handled differently from a supported
-instruction, structuring the code this way will help highlight the
+instruction, structuring the code this way  helps highlight the
 differences between matches in each of the statements. If a match with
 one of these is found, the parser can tell the front end that the user
 is trying to use an unsupported instruction.
@@ -3749,15 +3622,6 @@ unsupported instructions. In this instance, the parser will simply tell
 the front end that it cannot recognize the instruction that the user is
 trying to use on the given line.
 
-One of the stretch goals for the parser is that instead of just saying
-that an instruction is not recognized, the parser could try to suggest
-the instruction that the invalid instruction most likely was supposed to
-be based on how similar a string is to a supported instruction. If that
-functionality is added into the project, the function call to that
-system would be at this point, after the match statements for valid but
-unsupported functions. This system is described in more detail in
-Section \ref{subsec:parser-stretch-goals}.
-
 \subsubsection{Invalid Label Names}
 \label{subsec:invalid-label-names}
 
@@ -3766,29 +3630,6 @@ name, it will compare a given label against the list of the labels that
 it has recognized throughout the program. If this does not match any of
 the recognized labels, the parser tells the front end that it does not
 recognize the label the user provided.
-
-One of the stretch goals of the parser is that it will be able to
-suggest the label that was most likely to be the one that the user
-intended to write based on the differences between the strings. This
-stretch goal is explained in more detail in Section
-\ref{subsec:parser-stretch-goals}.
-
-Other errors that the parser has to handle have to do with the label
-names themselves. The name of a label can be composed of any characters
-other than the space character. There can be any number of space
-characters at the beginning of the line before the name of the label and
-any number of space characters after the label name and before the
-colon, or between the colon and the actual instruction, but there cannot
-be any space characters in the middle of the label itself. Once the
-parser has recognized the start of a label name, it will iterate through
-the characters until a space character or a colon character are
-recognized. If the character it finds is a colon character, then there
-is not an instance of this issue. However, if the character it finds is
-a space character, then it iterates through the space characters until
-it finds a non-space character. If that character is a colon, then there
-is not an issue. If the character is anything other than a colon, then
-an instance of this error is found and the front end is told of its
-occurrence.
 
 Another possible issue with the label names is having multiple labels
 with the same name. If there are multiple labels with the same name, a
@@ -3814,72 +3655,6 @@ different requirements of an instruction will be separated into
 individual functions that can be called in the correct order for the
 given instruction's structure.
 
-\paragraph{Instruction Structure Grouping}
-
-Most instructions are structured in one of three different ways, often
-denoted as I-type, J-type, and R-type. Most I-type instructions take
-three operands separated by commas; the first two are registers while
-the last is an immediate value. J-type instructions are straightforward,
-where the only operand J-type instructions take is the label of the
-instruction that they are jumping to. R-type instructions take three
-operands separated by commas and all three are registers. Since most
-instructions follow set structures, we can implement a function that
-does the proper calls checking for operands and commas for each
-instruction type with the proper function being called once an
-instruction of the corresponding type is recognized.
-
-There are, however, a number of instructions that we are planning to
-support that do not adhere to these conventional structure guidelines.
-With that, many of these instructions follow similar structures so they
-can be grouped into further subcategories. In the parser, once an
-instruction has been recognized to not be one with the standard I-type,
-J-type, or R-type instruction formats, it will instead be matched
-against these subcategories which will each have their own functions to
-check the structure against.
-
-Of the instructions that SWIM plans to support, the first subcategory is
-made up of instructions that move data across co-processors.
-\texttt{mtc1}, \texttt{dmtc1}, \texttt{mfc1}, and \texttt{dmfc1} all
-follow the same format. Each one of these instructions takes a
-general-purpose register followed by a comma and then a floating-point
-register as their operands.
-
-The second large grouping of instructions is made up of instructions
-that handle loading and storing information into memory. \texttt{lw},
-\texttt{sw}, \texttt{ld}, \texttt{sd}, \texttt{lwc1}, \texttt{swc1},
-\texttt{ldc1}, and \texttt{sdc1} all take a general purpose register as
-their first operand followed by a comma, then an immediate value, and a
-base memory location value in parentheses. The immediate value and base
-memory are not separated by a comma and are, instead, right up against
-each other with only the opening parenthesis symbol separating them.
-
-The branch sub-grouping is a small group made up of only the
-\texttt{beq} and \texttt{bne} instructions. Both instructions have two
-comma separated registers followed by an offset value.
-
-The remaining instructions notably have optional operands that can be
-included or omitted by the user. If the operand is omitted, there is a
-default value associated with that operand that is used, instead. The
-first of these is \texttt{jalr}. \texttt{jalr} takes two registers as
-its operands with a comma between them. Alternatively, the user can only
-write a single register as their operands. In this case, the first
-register in the full version of the instruction defaults to register 31,
-the return address register, and the written register is taken as the
-second operand.
-
-The second group of instructions that have optional operands are
-\texttt{bc1t} and \texttt{bc1f}. The full versions of both of these take
-a value as \texttt{cc} followed by a comma and then an offset value. The
-\texttt{cc} value can be omitted in which case the \texttt{cc} defaults
-to the value zero.
-
-The final group of instructions are the \texttt{c.cond} instructions.
-\texttt{c.cond.s}, \texttt{c.cond.d}, and \texttt{c.cond.ps} all take a
-\texttt{cc} value followed by a comma and then two comma-separated
-floating-point registers in their full versions. Same as \texttt{bc1t}
-and \texttt{bc1f}, the \texttt{cc} value can be omitted in which case
-the value defaults to zero.
-
 \paragraph{Comma and Operand Count}
 \label{subsec:comma-and-operand-count}
 
@@ -3898,7 +3673,7 @@ substring that is made of characters other than the space character,
 newline character, and the comma character are accepted as valid
 operands.
 
-Because of this, the way this function will work is that it will take in
+Because of this, the way this processv will work is that it will take in
 the entirety of the string of a line after the instruction name as its
 operand as well as the expected number of MIPS operands. The space
 characters up until the first non-space character will be ignored. If
@@ -4015,6 +3790,36 @@ specifically. The first character of the substring would be compared
 against the valid register categories and the following string, if it
 can be cast to an int, is checked against the valid ranges and this
 error occurs if it is outside of those.
+
+\subsubsection{.Data}
+
+In MIPS programs, instructions are grouped into what is known as the .text section.
+In addition to the .text section, a MIPS program can have a section known as .data.
+In .data, addresses in memory can be initialized with data.
+This data can range from ascii to integers to blank spaces.
+The syntax of an entry in the .data section is a label
+(either on the same line as the following tokens or a preceding one),
+a data type directive, and then the value(s) of that data type.
+A line in .data can hold a single value of the data type or multiple.
+Multiple entries of a data type on the same line are separated by commas.
+There are eight different data types that SWIM currently recognizes:
+
+\paragraph{.ascii}
+.ascii recognizes strings made up of ASCII characters.
+.ascii data entries must begin and end with the double quotes (") character.
+Each character within the double quotes is converted into its ASCII bytecode and
+the array of these entries is inserted into memory.
+While MIPS only recognizes ASCII, the Monaco editor and Rust itself work with UTF-8 meaning a user is able to type in
+UTF-8 characters in within the double quotes characters.
+This possibility is specifically checked for;
+if there are UTF-8 characters not on the ASCII table within the double quotes, an error is generated.
+SWIM also checks for escape characters within the double quotes.
+If the backslash character is followed by the single quote character, the double quote character, the t character, the n character, or another backslash character,
+the two characters are instead read as the correlated escape character instead of as two separate characters (e.g., \\\n is read as 0x0A instead of 0x5C41).
+
+\paragraph{.asciiz}
+.asciiz functions identically to .ascii.
+The only difference between the two is that the null character (0x00) is appended to the array of chars that is entered into memory.
 
 \section{The Front End}
 \label{sec:front-end}
@@ -5522,42 +5327,39 @@ emulation core.
 
 \section{Summary and Conclusion}
 
-In broad strokes, the goal of our project is to create a user-friendly
+In broad strokes, the goal of our project was to create a user-friendly
 emulator for MIPS64 with a focus on usability in learning computer
 architecture. Computer architecture can be such a difficult subject
 already, the central goal of ours became making the toolset as
 accessible and easy to use as possible while also emulating MIPS64 as
 accurately as possible.
 
-SWIM will be an online emulator to make it as accessible as possible.
+SWIM is an online emulator to make it as accessible as possible.
 Users do not have to dedicate any hard drive space or wait through
 download time to use SWIM; everything is handled through the browser.
-The website itself will be written with the Rust programming language
-and the tools that allow it to run on the web like WebAssembly, yew, and
-gloo. Thanks to WebAssembly, we are able to use a powerful language like
+The website itself is written with the Rust programming language
+and the tools that allow it to run on the web are WebAssembly, yew, and
+gloo. Thanks to WebAssembly, we were able to use a powerful language like
 Rust to build our website meaning we do not have to sacrifice low-level
 power in exchange for the portability provided by commonly used web
-development languages like JavaScript. Embedded into the front end will
-be a Monaco code editor, providing our users with a familiar yet
+development languages like JavaScript. Embedded into the front end is
+a Monaco code editor, providing our users with a familiar yet
 powerful tool to work with.
 
-Code written in the editor will be passed into a custom-built parser and
+Code written in the editor is passed into a custom-built parser and
 assembler that will provide meaningful information about each line of
 code back to the front end to display to the user and then provide the
 binaries of each line of code to a custom-built emulation core where it
-is run. This emulation core will be built to emulate MIPS64 as
-accurately as possible complete with a fully-realized datapath.
+is run. This emulation core was built to emulate MIPS64 as
+accurately as possible complete with a fully-realized visual datapath.
 
-Now at the end of Senior Design I and looking forward towards the next
-semester, the workload ahead of us is large. Building an emulator from
-scratch is not a small feat nor is hosting it on the web using tools
-still in their infancy like WebAssembly and Yew. However, neither was
-this first semester. Two major storms helped make an already tight
-timeline even tighter. And it is a project that all five of us on the
-team believe in passionately. In spite of the limited tools we had to
-learn MIPS64 ourselves, we all came out of it eager to work with it
-more. Our hope is that SWIM will help facilitate that in others learning
-computer architecture, as well.
+Now, at the end of Senior Design II, our work on this first iteration SWIM is complete.
+The project is built from almost 25,000 lines of code and contains over 400 tests to make sure it
+stays working properly.
+SWIM supports over 60 real instructions, over 15 pseudo-instructions, labels, and all major data types.
+It takes advantage of Monaco's feature set with mouse-hover information, error underlining,
+and error-messages and suggestions all surfaced within the custom-built parser \& assembler.
+And it features a 5-stage visual datapath with step-by-step execution.
 
 \printbibliography
 
