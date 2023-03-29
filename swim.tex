@@ -3791,7 +3791,7 @@ against the valid register categories and the following string, if it
 can be cast to an int, is checked against the valid ranges and this
 error occurs if it is outside of those.
 
-\subsubsection{.Data}
+\subsubsection{.data}
 
 In MIPS programs, instructions are grouped into what is known as the .text section.
 In addition to the .text section, a MIPS program can have a section known as .data.
@@ -3820,6 +3820,34 @@ the two characters are instead read as the correlated escape character instead o
 \paragraph{.asciiz}
 .asciiz functions identically to .ascii.
 The only difference between the two is that the null character (0x00) is appended to the array of chars that is entered into memory.
+
+\paragraph{.byte}
+.byte recognizes single byte pieces of data.
+This can be either an immediate value or a single character.
+If the immediate value is too large to fit into a single byte, an error is generated.
+If the entry is a single character, there must be a single quote character on either side of the entry.
+Similar to .ascii and .asciiz, escape characters can also be recognized.
+
+\paragraph{.double}
+.double recognizes double-precision floating point values, i.e., 64-bit floats.
+If the value provided here cannot be recognized as a 64-bit float, an error is generated.
+
+\paragraph{.float}
+.float recognizes single-precision floating point values, i.e., 32-bit floats.
+If the value provided here cannot be recognized as a 32-bit float, an error is generated.
+
+\paragraph{.half}
+.half recognizes 16-bit immediate values.
+If the value cannot be represented with 16-bits, an error is generated.
+
+\paragraph{.space}
+.space pushes empty bytes to memory.
+The number of empty bytes that are pushed to memory is specified by an immediate value.
+E.g., if a user writes `label: .space 5`, 5 empty bytes are pushed to memory.
+
+\paragrah{.word}
+.word recognizes 32-bit immediate values.
+If the value cannot be represented with 16-bits, an error is generated.
 
 \section{The Front End}
 \label{sec:front-end}
