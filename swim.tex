@@ -2301,7 +2301,7 @@ more detail in Sections \ref{sec:emulation-core}, \ref{sec:parser}, and
 Figures \ref{fig:use-case-diagram} and \ref{fig:block-diagram} show the
 layout and usage of these components.
 
-\subsection{Use Case Diagrams}
+\subsection{Use Case Diagram}
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{use-case-diagram}
@@ -2309,7 +2309,7 @@ layout and usage of these components.
     \label{fig:use-case-diagram}
 \end{figure}
 
-\subsection{Block Diagrams}
+\subsection{Block Diagram}
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{block-diagram}
@@ -4878,22 +4878,15 @@ of devices and device sizes, enabling automatic adaptation to the
 screen, whether the content is viewed on a tablet, phone, television, or
 watch'' \cite{mdn-responsive-design}. The relevant methods of
 implementation would be for the user to be able to adjust sizes of the
-windows at will (i.e. dragging the border between the Monaco and I/O
-windows to get more room for either window, or scaling the text based on
+windows at will (i.e. dragging the border between the Monaco and console/memory/visual datapath
+window to get more room for either window, or scaling the text based on
 the size of the main window. There are multiple situations that will
 arise that will force us to think this way in order for SWIM to look
-professional across all platforms. We plan to use either Tailwinds,
-Bulma, or Patternfly since those three enable us to fully understand CSS
-frameworks and will not hinder us from developing an intuitive web
-application. While doing CSS in Rust is interesting, it seems to be an
-extreme perspective on trying to make web development free of JavaScript
-without considering the fact that developers are trying to make a
-functional product; It is too early to see where it goes and a lot of
-examples that use Yew, WebAssembly, and Rust in any capacity are much
-smaller in scope. The Monaco Editor is a challenge with this since it
+professional across all platforms. The Monaco Editor is a challenge with this since it
 has its own CSS system, so we have to be mindful of making the two look
-cohesive. If we can create a functional CSS system, then we will have a
-good foundation for making SWIM more accessible and customizable.
+cohesive. For SWIM, we used raw CSS to style the page and codicon, 
+the icon library for Monaco Editor, and font awesome 
+as our icon libraries to make SWIM look modern as Visual Studio Code.
 
 
 \section{Project Management}
