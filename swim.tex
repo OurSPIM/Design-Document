@@ -1475,8 +1475,6 @@ use Rust for SWIM's planned feature set.
 
 \subsection{Using WebAssembly}
 
-% TODO: Add subsections on "wasm-pack" and "wasm-bindgen" and incorporate info from the MDN Web Docs.
-
 This project is unique in that rather than using the standard JavaScript
 framework like React, Angular, and Vue to build the front end, it is
 utilizing a new type of code to build web applications, WebAssembly. As
@@ -1547,6 +1545,7 @@ directory, you run the following npm commands:
 \end{enumerate}
 
 \subsubsection{Using \texttt{wasm-pack} \& \texttt{wasm-bindgen}}
+\label{subsec:pack-bindgen}
 
 With \texttt{wasm-pack} \cite{wasm-pack} being used for building, Rust
 WebAssembly packages could be published to the npm registry or allow it
@@ -1631,7 +1630,8 @@ libraries.
 
 One of Yew's defining features is how it streamlines web application
 development; it uses a lifecycle model for struct components. Struct
-components manage their state and render themselves to the DOM. The
+components manage their state and render themselves to the DOM, 
+which is where the user will interact with SWIM's HTML. The
 lifecycle, taken from Yew's Documentation \cite{yew-lifecycle}, is as
 follows:
 
@@ -1686,8 +1686,7 @@ struct component's \texttt{view} method, but the code is more concise.
 Then, Yew builds a virtual tree of these components to compute the
 virtual DOM. When an update is necessary, Yew will call the view
 function with the new virtual DOM and only propagate the
-new/changed/necessary parts to the actual DOM, 
-which is where the user will interact with SWIM's HTML.
+new/changed/necessary parts to the actual DOM.
 
 The components only have two associated types: Message and Properties.
 The Message type is used for a component to send messages after an event
@@ -4249,14 +4248,15 @@ load assembly files (.asm) and text files (.txt), as well as MIPS files
 they work and how SWIM handles loading and saving those. The main
 advantage of loading and saving files is that the workflow for the user
 will be more intuitive, no need to copy and paste your code onto a text
-editor just to put your code onto SWIM for loading or copy-paste the
-code from SWIM onto a text editor for saving. The reason we can load and
+editor just to put your code onto SWIM for loading. 
+However due to the limitation discussed in \ref{subsec:pack-bindgen}, 
+we implemented the ability for the user to copy their code onto 
+their clipboard so they can paste it in a text editor like Notepad. The reason we can load and
 save these files is due to how Monaco Editor only loads in strings.
 However due to Rust's persistence on using UTF-8 encoded text, some
 invalid data cases (i.e. transforming a .exe to a .txt with UTF-8
-encoding) will not compile and start SWIM.
-% TODO: May have to test this
-We should take advantage of this if we want to safely load a file by
+encoding) will not compile and crash SWIM.
+We should take note of this if we want to safely load a file by
 having the application only accept certain file types via the
 \texttt{accept} attribute from a \texttt{file \textless
     input\textgreater{} element}, which will be explained later in this
@@ -4268,18 +4268,6 @@ template file for the user to store their variables and strings, and how
 to structure their code(main block, labels, etc.). The template file can
 also be an empty text file or formatted file for the user to be able to
 structure code if they do not have anything else to work with.
-
-Since we want users to be able to customize how SWIM looks, we would
-have to account for .json files that could be loaded onto the site to
-provide the appropriate color and transparency values. While the values
-correlate to Monaco Editor's theming, we could also use some of those
-values to apply it onto the register window, toolbar, and console. We
-have to make sure that the .json file is the correct type, so we will
-need to employ a simple parser that can read the values and let the user
-know that we need the correct type. This should be simple since we are
-dealing with text files, so it is a matter of properly calling the File
-API for loading files and File and Directories Entries \& File System
-Access APIs to save them on a user's desktop.
 
 The File API \cite{mdn-file-api} allows the web applications to access
 files and their contents. The user can let the application access them
@@ -4385,32 +4373,32 @@ would pass it to the emulation core and present it in a way that the
 user knows that it is executing in front of them while only having the
 space of a single window.
 
-We plan to have two modes of execution, normal and step, which would be
+We have two modes of execution, step and stage, which would be
 activated with a press of a button at the top of the window. Normal
 execution is where the code gets sent to the parser to transform it into
 bytecode and gets sent to the emulation core to process it. The core
 would process every line until there is no more code or there's a line
 that causes the system to stop, either from a crash, syscall, or user
 input. This means that the user will only see the last processed state
-of the emulation core via the console and register windows. The second
-mode, step execution, is much more interesting from an educational
+of the emulation core via the console and register windows, however 
+this was not implemented due to the lack of an interrupt system for SWIM. 
+Step execution is much more interesting from an educational
 perspective. The user will get to see how each line is processed, and
-the current line would be highlighted to make the flow control more
+the previously executed line would be highlighted to make the flow control more
 explicit and hopefully make debugging logic errors easier to find. The
 highlight would be designed to contrast with the default theme
-appropriately, otherwise the user would have to set the color themselves
-if they are using a custom theme. MARS has speed control with executing
+appropriately. MARS has speed control with executing
 code measured by instructions per second, but we rarely saw any use for
-it since it is like the normal execution mode but slow. Another idea we
-played around with is loading from a specific spot in code by inputting
-a number in the PC register, but it would lead to more unnecessary work
-to check for valid input and passing that directly to the emulation
-core. The nice part about the design of the step execution mode is that
+it since it is like the normal execution mode but slow. A brand-new form of execution 
+is excuting by stage, which is similar to step execution but it will execute the stage 
+within the single-cycle datapath. The lines that correlate to 
+the stage that was previously executed are highlighted on the datapath. 
+The nice part about the design of the step execution mode is that
 everything is visually communicated to the user, there is no need for
 the console to show any information unless it pertains to user I/O. With
 addition to step-execution, we could apply the rewind function through
 this to improve the debugging process. It is important to note that we
-should give users the ability to stop/pause running their code at any
+give users the ability to reset the datapath at any
 point during execution as a panic mechanism, i.e. an infinite loop.
 
 \begin{figure}[H]
@@ -4469,78 +4457,6 @@ However, with that having been said, we are also debating if the help
 section is worth making. For the reasons stated in the beginning, we do
 agree to implement it, but it may be difficult for the amount of things
 it does.
-
-\subsection{User Settings}
-
-Besides the Help button, there should be other ways to customize or set
-the application to best aid the user's needs. The User Settings is for
-that purpose, and the button for that should be next to or around the
-Help button for ease of finding. However, that may not justify the need
-for User Settings in the first place, as maybe without those settings,
-everything can be ensured to run as expected within the app. Also, it
-may mean more hooking up with other functionalities to be able to change
-or disable them, which means more code work. However, there are some
-more purposes to having a user settings setup, such as having the user
-understand what the parts in MIPS do and how they can be adjusted, as
-well as making the page more accessible to more users.
-
-Our idea for this emulator stems from other emulators such as MARS. As
-such, there are some options from them that we may want to have for our
-adjustable settings. Some configuration settings that we feel like they
-should be considered to be in our emulator include failing execution
-when there are warnings in assembly, assembling a file as it is opened
-\cite{mars-settings}, displaying memory address and register in hex
-values, pop-up for syscalls, modifying font and highlighting, exceptions
-and memory handling.
-
-\begin{itemize}
-    \tightlist
-    \item Having execution stop at warnings ensures stability to compiling and
-          running through MIPS, as some warnings may or may not break the entire
-          process. MIPS is quite fickle as a computer system architecture, as
-          such, one thing that can possibly fail will also possibly crash. It will
-          also help those that did not want to see warnings while the assembly is
-          running, because assembler warnings may be useful info for optimization.
-    \item Displaying memory and register values in hexadecimal is connected to the
-          fact that in register view, it is possible to use a button to view
-          register values in hexadecimal, binary or decimal values. There are
-          several ideas in mind for this setting, such as making it so that the
-          button converts the default hexadecimal view to binary only or
-          converting to decimal view only, and vice versa. This will change how
-          the register view convert button is implemented, so this setting may not
-          be as good an idea, but it will be considered.
-    \item Having a pop-up dialogue for syscalls in MARS means that input will be
-          inside a dialog instead of the usual I/O console. This may not be
-          something we will implement as it may prove too complex for inputting
-          values and implementing purposes, and that may also break or invalidate
-          the I/O screen setup.
-    \item Modifying fonts and highlighting may be the most likely thing to be
-          implemented for settings, as that helps with customization and
-          accessibility. As discussed in Section \ref{subsec:ui-design}, the
-          Monaco Editor has some default fonts, and we should be able to decide
-          what the default font for our website will be. This settings will most
-          likely change the font of the entire webpage instead of just the editor.
-          The Monaco fonts can be changed within Monaco, so it is doubtful that it
-          will be a separate setting within User Settings. However, having the
-          webpage being able to change fonts needs a lot of other fonts to be in
-          the system to be able to change them just like in a text editor like
-          Word, which is something we may not have considered as much as we need
-          to.
-    \item Exception and memory handling are usually reliant on the language that
-          something is coded in. In MARS the exception handler and memory
-          configuration is optional, as they can be activated when the user needs
-          it, with the default configuration for memory is SPIM
-          \cite{mars-settings}. With the exception handler in MARS, if activated,
-          a button to browse files will be enabled. We do not see much of this
-          implemented, as the users may not touch these options as much.
-\end{itemize}
-
-The User Settings will probably have it so that when a setting is
-hovered over, a pop-up explains what the setting does to the user. An
-alternative way to implement this is that instead of a pop-up, it
-appears at the bottom of the settings window whenever a setting is
-selected. These settings are mainly on/off options, so it will be an
-on/off button.
 
 \subsection{The Lack of Project Tabs and Why}
 \label{subsec:lack-of-project-tabs}
