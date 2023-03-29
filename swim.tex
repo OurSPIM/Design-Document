@@ -1629,8 +1629,6 @@ libraries.
 
 \subsubsection{Yew's Components Model}
 
-% TODO: There could be a diagram to visualize the lifecycle
-
 One of Yew's defining features is how it streamlines web application
 development; it uses a lifecycle model for struct components. Struct
 components manage their state and render themselves to the DOM. The
@@ -1688,7 +1686,8 @@ struct component's \texttt{view} method, but the code is more concise.
 Then, Yew builds a virtual tree of these components to compute the
 virtual DOM. When an update is necessary, Yew will call the view
 function with the new virtual DOM and only propagate the
-new/changed/necessary parts to the actual DOM.
+new/changed/necessary parts to the actual DOM, 
+which is where the user will interact with SWIM's HTML.
 
 The components only have two associated types: Message and Properties.
 The Message type is used for a component to send messages after an event
@@ -1730,14 +1729,7 @@ Yew's \texttt{html!} macro, as stated before, allows writing HTML and
 SVG code directly into Rust, and the rules for using valid HTML tags
 still apply here. The macro helps explicitly specify what will be
 rendered on the webpage through the DOM API.
-% Sometimes we do not want to directly
-% change the DOM but want to send instructions to Yew's virtual DOM, which is a lightweight JavaScript representation of the DOM.
-% TODO: Virtual DOM and "ref" unexplained
-% Using the ``ref'' keyword allows us to access and manipulate the underlying DOM node
-% directly, which means that we could make changes to the DOM outside of
-% the ``view'' method. And to restate it, any type that implements
-% TODO: Restating what
-% ``component'' can be used in this macro.
+
 
 There are a few caveats with \texttt{html!} compared to normal HTML. For
 example, consider an html button\texttt{ \textless button onclick =
@@ -1792,8 +1784,6 @@ Trunk's specialty is using a source HTML to drive all asset building and
 bundling, which makes the project look cleaner at the top-most level.
 With Trunk, SWIM's source code, and a compatible web browser, you will
 be able to run SWIM on your computer locally.
-
-% TODO: Expand a little on Trunk
 
 \subsubsection{Using Gloo}
 
