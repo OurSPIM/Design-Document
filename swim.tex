@@ -396,8 +396,8 @@ the user to understand the concept and have fun with it, too. Recently,
 I have been learning about the Motorola 68000 since it was a CPU that
 was used extensively back then, so I have a general feel for CISC and
 RISC assembly with their concepts. I also have an affinity for emulation
-since it is of some fun to explore older systems, and you can preserve
-them, study them, and make new tools for them.
+since it is fun to explore older systems, and you can preserve, study, 
+and make new tools for them.
 
 This is my first time being relegated to front-end development solely so
 it is a huge responsibility to make sure the whole suite is presented in
@@ -1529,7 +1529,7 @@ the most recent version of Rust's toolchain (rustup, rustc, and cargo),
 wasm-pack, cargo-generate, and npm. wasm-bindgen is required as a
 dependency in the project's .toml file, then you can use wasm-pack to
 build your project. By typing in \texttt{wasm-pack build} in the main
-directory of your project, WebAssembly will generate a .wasm, .js,
+directory of your project via terminal/cmd, WebAssembly will generate a .wasm, .js,
 .json, and .ts file in the package directory. Within the package
 directory, you run the following npm commands:
 
@@ -1618,11 +1618,11 @@ packages and to integrate with existing JavaScript applications
 \cite{malomo2022}.
 
 Having a framework like Yew to use on top of WebAssembly is beneficial
-for development, since WebAssembly's learning curve is otherwise
+for development, since WebAssembly's learning curve is 
 comparatively steep. Developing in WebAssembly and JavaScript to
 incorporate features directly can make the project's code cumbersome and
-ineffective. Instead, Yew aims for developers to use a familiar or
-desired programming language like Rust to build the web application,
+ineffective. Instead, Yew aims for developers to use a programming 
+language like Rust to build the web application,
 while the translation to WebAssembly and JavaScript are abstracted to
 libraries.
 
@@ -3899,10 +3899,11 @@ other emulators: a unique UI design with familiarity for the user in
 mind.
 
 Theoretically, the front end's process is as follows: there will be API
-calls available from the core, which are then hooked up to the front-end
+calls available from the core and parser, which are then hooked up to the front-end
 buttons so that, when the buttons are interacted with by the user, the
 API calls will be made and the core will transfer data queried to the
-front end for whatever the purpose of the button is.
+front end for whatever the purpose of the button is and the parser will provide information 
+on the program to.
 
 \subsection{UI Design}
 \label{subsec:ui-design}
@@ -4110,7 +4111,7 @@ but it is safe since this property can only be accessed from within the
 property emptied. This does introduce a problem if the user wants to
 drop multiple files onto SWIM, but this could be remedied by only
 opening the first file in that list. For the philosophy behind only
-being able to load in one file at any given time, please read Section
+being able to load in one file at any given time, read Section
 \ref{subsec:lack-of-project-tabs}.
 
 While loading files is simple, it is the process of saving a file that
@@ -4144,10 +4145,8 @@ the virtual sandboxed file system, the web app can read, write, and
 create files and/or directories. There is one last method that could be
 utilized to save files, and it is through the Web Storage API which is
 the alternative for saving session data. This means that we do not have
-to worry about any compatibility issues, no need to over engineer a
-system to save files and session data (as discussed in Section
-\ref{subsec:storing-session-data}), and there is a simple yet effective
-system to save data.
+to worry about any compatibility issues, so no need to over engineer a
+system to save files.
 
 All of this is under the assumption that we could treat SWIM's saving
 system as if it is a desktop application, but another paradigm to this
@@ -4175,6 +4174,12 @@ local filesystem. This storage is temporary, so to preserve the file it
 must be copied or moved from the location before returning the
 completion handler.
 
+While these APIs are great, we lack some form of a database and FTP system 
+to properly implement this so we resorted to an alternative of copying the code 
+onto the clipboard. Once that is done, we tell the user that the code has 
+been copied and it can pasted onto a text editor with the paste shortcut 
+provided to them to save locally.
+
 It is entertaining to see how ubiquitous the web browsers are when it
 comes to loading files, but saving files is a challenge in itself. The
 best way to tackle saving is to create a catch-all function that would
@@ -4185,9 +4190,7 @@ Downloads API. Now the debacle over the methodology of saving files is
 due to the controversial topic of user's giving browsers access to their
 device's functionalities. Safari denied support for APIs like Web
 Bluetooth, Web NFC API, User Idle Detection, and more since they would
-make digital tracking easier for advertisers \cite{cimpanu2020}. In
-order to stay in line with the moral guidelines of the project, we would
-have to take the Downloads API/\texttt{URLSessionDownloadTask} approach.
+make digital tracking easier for advertisers \cite{cimpanu2020}.
 
 \subsubsection{Code Execution}
 
@@ -4204,10 +4207,10 @@ space of a single window.
 We have two modes of execution, step and stage, which would be
 activated with a press of a button at the top of the window. Normal
 execution is where the code gets sent to the parser to transform it into
-bytecode and gets sent to the emulation core to process it. The core
+bytecode, which gets sent to the emulation core to process it. The core
 would process every line until there is no more code or there's a line
-that causes the system to stop, either from a crash, syscall, or user
-input. This means that the user will only see the last processed state
+that causes the system to stop, either from a crash or syscall. 
+This means that the user will only see the last processed state
 of the emulation core via the console and register windows, however 
 this was not implemented due to the lack of an interrupt system for SWIM. 
 Step execution is much more interesting from an educational
@@ -4558,7 +4561,7 @@ candidates for SWIM:
           ``\$\{''.
 
           \begin{figure}[H]
-              \includegraphics[height=16cm]{stylist-rust-example}
+              \includegraphics[height=14cm]{stylist-rust-example}
               \caption{Example code of how CSS is done in Rust with stylist. Note how the arguments are handled with ``\$\{\}'' to easily store and edit definistions and all of it is encapsulated within the ``css!'' macro. This will output the appropriate CSS below it.}
           \end{figure}
 
@@ -4577,7 +4580,7 @@ candidates for SWIM:
           \texttt{html!} macros to create auto updating styles.
 
           \begin{figure}[H]
-              \includegraphics[width=0.85\textwidth]{stylist-rust-component}
+              \includegraphics[width=0.75\textwidth]{stylist-rust-component}
               \caption{An example of a styled component. Note that it uses a different macro ``use\_style!'' and looks similar to an internal stylesheet, having CSS inside a HTML document.}
           \end{figure}
 
@@ -4598,7 +4601,7 @@ styled!(pub RedDiv : Div {
     color: "red";
 });
     \end{verbatim}
-
+          
           With \texttt{styled!} being the macro to write in CSS rules for the
           application and the component being visible for the code to use with the
           familiar structure we have to give a certain area of the page color,
