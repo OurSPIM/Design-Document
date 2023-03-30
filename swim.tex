@@ -3810,12 +3810,12 @@ There are eight different data types that SWIM currently recognizes:
 Each character within the double quotes is converted into its ASCII bytecode and
 the array of these entries is inserted into memory.
 While MIPS only recognizes ASCII, the Monaco editor and Rust itself work with UTF-8 meaning a user is able to type in
-UTF-8 characters in within the double quotes characters.
+UTF-8 characters within the double quotes characters.
 This possibility is specifically checked for;
 if there are UTF-8 characters not on the ASCII table within the double quotes, an error is generated.
 SWIM also checks for escape characters within the double quotes.
 If the backslash character is followed by the single quote character, the double quote character, the t character, the n character, or another backslash character,
-the two characters are instead read as the correlated escape character instead of as two separate characters (e.g., \textbackslash\textbackslash\textbackslash{n} is read as 0x0A instead of 0x5C41).
+the two characters are instead read as the correlated escape character instead of as two separate characters (e.g., \textbackslash{n} is read as 0x0A instead of 0x5C41).
 
 \paragraph{.asciiz}
 .asciiz functions identically to .ascii.
