@@ -3281,7 +3281,7 @@ each part of the system as simple as reasonably possible.
 
 The program written in the Monaco code editor is passed to the parser
 and assembler as a string.
-The first step of the parser & assembler is to tokenize the program, separating the string
+The first step of the parser \& assembler is to tokenize the program, separating the string
 into discrete tokens delimited by spaces, commas, and newline characters and removing
 extra spaces and comments.
 
@@ -3815,7 +3815,7 @@ This possibility is specifically checked for;
 if there are UTF-8 characters not on the ASCII table within the double quotes, an error is generated.
 SWIM also checks for escape characters within the double quotes.
 If the backslash character is followed by the single quote character, the double quote character, the t character, the n character, or another backslash character,
-the two characters are instead read as the correlated escape character instead of as two separate characters (e.g., \\\n is read as 0x0A instead of 0x5C41).
+the two characters are instead read as the correlated escape character instead of as two separate characters (e.g., \textbackslash\textbackslash\textbackslash{n} is read as 0x0A instead of 0x5C41).
 
 \paragraph{.asciiz}
 .asciiz functions identically to .ascii.
@@ -3845,7 +3845,7 @@ If the value cannot be represented with 16-bits, an error is generated.
 The number of empty bytes that are pushed to memory is specified by an immediate value.
 E.g., if a user writes `label: .space 5`, 5 empty bytes are pushed to memory.
 
-\paragrah{.word}
+\paragraph{.word}
 .word recognizes 32-bit immediate values.
 If the value cannot be represented with 16-bits, an error is generated.
 
