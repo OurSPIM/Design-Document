@@ -600,6 +600,63 @@ The following are the ideas provided by each group member.
           necessary.
 \end{itemize}
 
+\subsection {Individual Roles}
+Due to the highly technical nature of this project, it would have been difficult for everybody
+on the team to work equally in each of the different types of work required for making SWIM.
+Because of this, we had each member of the team focus on a specific discipline and only help out on other parts
+of the project when necessary.
+Listed below are the individual roles that each team member had on our project:
+\begin{roles}
+
+    \item Evan Raiford - Project Manager, Parser \& Assembler
+
+    Evan was the project manager on on SWIM, running meetings, building schedules, and handling
+    any communication that had to come from the team.
+    On the development end, his focus was on the parser \& assembler, building the systems to
+    recognize MIPS64 syntax, expand pseudo-instructions, and then translate it into the appropriate binary,
+    and providing syntax error information back to the front end.
+    Additionally, he worked on certain parts of the front end that dealt directly with information coming from the parser
+    Specifically, this was the information for mouse hover on instructions, syntax error messages, and the formatting of
+    the memory view.
+
+    \item Jerrett Longworth - Emulation Core, Visual Datapath
+
+    Jerrett worked primarily on the emulation core, building the overall framework for the five-stage datapath
+    and doing the entirety of development on the floating-point processor.
+    Additionally, he built the bulk of the visual datapath, mirroring the emulation core.
+    On the front end, he helped with general issues with CSS, Yew, and Rust-Monaco.
+    Within Rust-Monaco, he implemented the error underlining and the error mouse hovering.
+    He also created the majority of our integration tests.
+
+    \item Kevin Cahalan - Emulation Core, Visual Datapath
+
+    Kevin worked on the emulation core, working specifically on the general-purpose processor and extending it
+    to handle extra instructions.
+    He also worked on the visual datapath, adding extra lines to have it accurately mirror the emulation core and
+    creating the simplified visual datapath that more closely mirrors the design within the Hennessy \& Patterson textbook.
+    He also worked on ensuring that as many of the MIPS64 instructions GCC utilizes work accurately on the emulation core.
+
+    \item Jimmie Smith - Front End (Monaco)
+
+    Jimmie's work was on hooking up the SWIM to Rust-Monaco to take advantage of the features that it offers.
+    This involved creating a custom language for syntax highlighting based on the subset of MIPS64 instructions SWIM supports,
+    getting the last executed instruction highlighted, displaying the corresponding information about an instruction on a line with mouse hovering,
+    and replacing the text within Monaco with version with translated pseudo-instructions after assembly among
+    multiple others.
+    Additionally, he added in the ability to load files into SWIM and the ability to copy the text from Monaco onto a user's
+    clipboard.
+
+    \item Huy Nguyen - Front End (Graphical Interface)
+
+    Huy primarily focused on the visual interface that the users interact with in SWIM.
+    This included creating GP and FP register views, a memory view, and a console and hooking them up to the contents of the
+    emulation core.
+    He also worked to add alternative views for the registers, allowing views for the values in decimal, hexadecimal, and binary.
+    Additionally, he created the visual design for the project, working on color choice, project layout, and adding in smaller
+    UI details like button icons.
+
+\end{roles}
+
 \subsection{Goals}
 
 \begin{itemize}
@@ -3806,7 +3863,7 @@ There are eight different data types that SWIM currently recognizes:
 \paragraph{.ascii}
 .ascii recognizes strings made up of ASCII characters.
 .ascii data entries must begin and end with the double quotes (") character.
-Each character within the double quotes is converted into its ASCII bytecode and
+Each character within the double quotes is converted into its ASCII byte value and
 the array of these entries is inserted into memory.
 While MIPS only recognizes ASCII, the Monaco editor and Rust itself work with UTF-8 meaning a user is able to type in
 UTF-8 characters within the double quotes characters.
