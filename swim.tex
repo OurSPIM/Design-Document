@@ -394,7 +394,7 @@ the user to understand the concept and have fun with it, too. Recently,
 I have been learning about the Motorola 68000 since it was a CPU that
 was used extensively back then, so I have a general feel for CISC and
 RISC assembly with their concepts. I also have an affinity for emulation
-since it is fun to explore older systems, and you can preserve, study, 
+since it is fun to explore older systems, and you can preserve, study,
 and make new tools for them.
 
 This is my first time being relegated to front-end development solely so
@@ -599,59 +599,70 @@ The following are the ideas provided by each group member.
 \end{itemize}
 
 \subsection {Individual Roles}
-Due to the highly technical nature of this project, it would have been difficult for everybody
-on the team to work equally in each of the different types of work required for making SWIM.
-Because of this, we had each member of the team focus on a specific discipline and only help out on other parts
-of the project when necessary.
-Listed below are the individual roles that each team member had on our project:
+Due to the highly technical nature of this project, it would have been
+difficult for everybody on the team to work equally in each of the
+different types of work required for making SWIM. Because of this, we
+had each member of the team focus on a specific discipline and only help
+out on other parts of the project when necessary. Listed below are the
+individual roles that each team member had on our project:
 
 \begin{itemize}
     \item Evan Raiford - Project Manager, Parser \& Assembler
 
-    Evan was the project manager on on SWIM, running meetings, building schedules, and handling
-    any communication that had to come from the team.
-    On the development end, his focus was on the parser \& assembler, building the systems to
-    recognize MIPS64 syntax, expand pseudo-instructions, and then translate it into the appropriate binary,
-    and providing syntax error information back to the front end.
-    Additionally, he worked on certain parts of the front end that dealt directly with information coming from the parser.
-    Specifically, this was the information for mouse hover on instructions, syntax error messages, and the formatting of
-    the memory view.
+          Evan was the project manager on on SWIM, running meetings, building
+          schedules, and handling any communication that had to come from the
+          team. On the development end, his focus was on the parser \& assembler,
+          building the systems to recognize MIPS64 syntax, expand
+          pseudo-instructions, and then translate it into the appropriate binary,
+          and providing syntax error information back to the front end.
+          Additionally, he worked on certain parts of the front end that dealt
+          directly with information coming from the parser. Specifically, this was
+          the information for mouse hover on instructions, syntax error messages,
+          and the formatting of the memory view.
 
     \item Jerrett Longworth - Emulation Core, Visual Datapath
 
-    Jerrett worked primarily on the emulation core, building the overall framework for the five-stage datapath
-    and doing the entirety of development on the floating-point processor.
-    Additionally, he built the bulk of the visual datapath, mirroring the emulation core.
-    On the front end, he helped with general issues with CSS, Yew, and Rust-Monaco.
-    Within Rust-Monaco, he implemented the error underlining and the error mouse hovering.
-    He also created the majority of our integration tests.
+          Jerrett worked primarily on the emulation core, building the overall
+          framework for the five-stage datapath and doing the entirety of
+          development on the floating-point processor. Additionally, he built the
+          bulk of the visual datapath, mirroring the emulation core. On the front
+          end, he helped with general issues with CSS, Yew, and Rust-Monaco.
+          Within Rust-Monaco, he implemented the error underlining and the error
+          mouse hovering. He also created the majority of our integration tests.
 
     \item Kevin Cahalan - Emulation Core, Visual Datapath
 
-    Kevin worked on the emulation core, working specifically on the general-purpose processor and extending it
-    to handle extra instructions.
-    He also worked on the visual datapath, adding extra lines to have it accurately mirror the emulation core and
-    creating the simplified visual datapath that more closely mirrors the design within the Hennessy \& Patterson textbook.
-    He also worked on ensuring that as many of the MIPS64 instructions GCC utilizes work accurately on the emulation core.
+          Kevin worked on the emulation core, working specifically on the
+          general-purpose processor and extending it to handle extra instructions.
+          He also worked on the visual datapath, adding extra lines to have it
+          accurately mirror the emulation core and creating the simplified visual
+          datapath that more closely mirrors the design within the Hennessy \&
+          Patterson textbook. He also worked on ensuring that as many of the
+          MIPS64 instructions GCC utilizes work accurately on the emulation core.
 
     \item Jimmie Smith - Front End (Monaco)
 
-    Jimmie's work was on hooking up the SWIM to Rust-Monaco to take advantage of the features that it offers.
-    This involved creating a custom language for syntax highlighting based on the subset of MIPS64 instructions SWIM supports,
-    getting the last executed instruction highlighted, displaying the corresponding information about an instruction on a line with mouse hovering,
-    and replacing the text within Monaco with version with translated pseudo-instructions after assembly among
-    multiple others.
-    Additionally, he added in the ability to load files into SWIM and the ability to copy the text from Monaco onto a user's
-    clipboard.
+          Jimmie's work was on hooking up the SWIM to Rust-Monaco to take
+          advantage of the features that it offers. This involved creating a
+          custom language for syntax highlighting based on the subset of MIPS64
+          instructions SWIM supports, getting the last executed instruction
+          highlighted, displaying the corresponding information about an
+          instruction on a line with mouse hovering, and replacing the text within
+          Monaco with version with translated pseudo-instructions after assembly
+          among multiple others. Additionally, he added in the ability to load
+          files into SWIM and the ability to copy the text from Monaco onto a
+          user's clipboard.
 
     \item Huy Nguyen - Front End (Graphical Interface)
 
-    Huy primarily focused on the visual interface that the users interact with in SWIM.
-    This included creating GP and FP register views, a memory view, and a console and hooking them up to the contents of the
-    emulation core.
-    He also worked to add alternative views for the registers, allowing views for the values in decimal, hexadecimal, and binary.
-    Additionally, he created the visual design for the project, working on color choice, project layout, and adding in smaller
-    UI details like button icons.
+          Huy primarily focused on the visual interface that the users interact
+          with in SWIM. This included creating GP and FP register views, a memory
+          view, and a console and hooking them up to the contents of the emulation
+          core. He also worked to add alternative views for the registers,
+          allowing views for the values in decimal, hexadecimal, and binary.
+          Additionally, he created the visual design for the project, working on
+          color choice, project layout, and adding in smaller UI details like
+          button icons.
 \end{itemize}
 
 \subsection{Goals}
@@ -1583,9 +1594,9 @@ the most recent version of Rust's toolchain (rustup, rustc, and cargo),
 wasm-pack, cargo-generate, and npm. wasm-bindgen is required as a
 dependency in the project's .toml file, then you can use wasm-pack to
 build your project. By typing in \texttt{wasm-pack build} in the main
-directory of your project via terminal/cmd, WebAssembly will generate a .wasm, .js,
-.json, and .ts file in the package directory. Within the package
-directory, you run the following npm commands:
+directory of your project via terminal/cmd, WebAssembly will generate a
+.wasm, .js, .json, and .ts file in the package directory. Within the
+package directory, you run the following npm commands:
 
 \begin{enumerate}
     \tightlist
@@ -1658,8 +1669,6 @@ difficult given the loss of information associated with compiling.
 
 \subsection{Using Yew}
 
-% TODO: More to fill out
-
 While WebAssembly provides an environment for programming languages to
 be used in web development, there are more steps involved to get a web
 application developed, so we selected Yew as our framework. Yew is
@@ -1672,22 +1681,20 @@ packages and to integrate with existing JavaScript applications
 \cite{malomo2022}.
 
 Having a framework like Yew to use on top of WebAssembly is beneficial
-for development, since WebAssembly's learning curve is 
-comparatively steep. Developing in WebAssembly and JavaScript to
-incorporate features directly can make the project's code cumbersome and
-ineffective. Instead, Yew aims for developers to use a programming 
-language like Rust to build the web application,
-while the translation to WebAssembly and JavaScript are abstracted to
-libraries.
+for development, since WebAssembly's learning curve is comparatively
+steep. Developing in WebAssembly and JavaScript to incorporate features
+directly can make the project's code cumbersome and ineffective.
+Instead, Yew aims for developers to use a programming language like Rust
+to build the web application, while the translation to WebAssembly and
+JavaScript are abstracted to libraries.
 
 \subsubsection{Yew's Components Model}
 
 One of Yew's defining features is how it streamlines web application
 development; it uses a lifecycle model for struct components. Struct
-components manage their state and render themselves to the DOM, 
-which is where the user will interact with SWIM's HTML. The
-lifecycle, taken from Yew's Documentation \cite{yew-lifecycle}, is as
-follows:
+components manage their state and render themselves to the DOM, which is
+where the user will interact with SWIM's HTML. The lifecycle, taken from
+Yew's Documentation \cite{yew-lifecycle}, is as follows:
 
 \begin{enumerate}
     \tightlist
@@ -1782,7 +1789,6 @@ Yew's \texttt{html!} macro, as stated before, allows writing HTML and
 SVG code directly into Rust, and the rules for using valid HTML tags
 still apply here. The macro helps explicitly specify what will be
 rendered on the webpage through the DOM API.
-
 
 There are a few caveats with \texttt{html!} compared to normal HTML. For
 example, consider an html button\texttt{ \textless button onclick =
@@ -1898,8 +1904,9 @@ user assistance such as error highlighting, tab completion, and
 suggestions. Monaco comes with a usable API for providing these
 features, which in one example, is particularly important for supporting
 step-through execution with line highlighting. Monaco also has a
-built-in auto-commenting feature, where a single button combination can be pressed
-when selecting text to comment said text {[}Ctrl/Cmd + K + C{]}.
+built-in auto-commenting feature, where a single button combination can
+be pressed when selecting text to comment said text {[}Ctrl/Cmd + K +
+C{]}.
 
 By default, code syntax highlighting works in Monaco without
 modification. If this were not the case, it is even possible to markup
@@ -1936,11 +1943,11 @@ SWIM.
 The API for Monaco, while extensive, can be difficult to read or parse
 through. Due to the common naming conventions used by Microsoft, unlike
 in other languages, names can be overly-descriptive and complex, as
-documented on the Microsoft website \cite{monaco-api}. The library is feature-rich, 
-which requires coordination to use them to their fullest.
-Despite this, Monaco has become a popular library, and with this popularity comes more
-experience and help from other developers via online forums. 
-There are different tutorials on using Monaco from
+documented on the Microsoft website \cite{monaco-api}. The library is
+feature-rich, which requires coordination to use them to their fullest.
+Despite this, Monaco has become a popular library, and with this
+popularity comes more experience and help from other developers via
+online forums. There are different tutorials on using Monaco from
 developers as well \cite{mishka-monaco, sahoo2018}.
 
 The Monaco editor is written in TypeScript and its API is written in
@@ -1977,9 +1984,10 @@ rust-monaco crate:
 
     \item sys -- This is where the bindings for monaco's namespace are located,
           this is how we bind events to the monaco window. An example of this is
-          we used IModelDeltaDecoration and IMarkerData to mark where on the editor
-          there is an error in the code, which line was previously executed by highlighting it,
-          and providing information about the instruction the user typed via the hover provider.
+          we used IModelDeltaDecoration and IMarkerData to mark where on the
+          editor there is an error in the code, which line was previously executed
+          by highlighting it, and providing information about the instruction the
+          user typed via the hover provider.
     \item workers -- This is required for the performance of Monaco Editor to be
           adequate via web workers, otherwise we get a performance penalty for not
           using it.
@@ -1989,32 +1997,32 @@ rust-monaco crate:
 The sys module is the only one that is optional to use, but the rest are
 required (turned on by default) to have it function in Yew.
 
-The crate is an interesting case, because the lead maintainer behind 
-this used it as proof-of-concept of converting Typescript to Rust
-with a Python script then by hand. There was a huge limitation with
-the crate and the nature of wasm-bindgen when it came to implementing our
-custom language to the application. Trying to implement it properly with JavaScript, 
-caused the application to crash. This resulted in us forking over the repository, then 
-replacing the default MIPS language from Monaco with ours in order for the syntax 
-to highlight properly with some changes to the regular expressions.
-
+The crate is an interesting case, because the lead maintainer behind
+this used it as proof-of-concept of converting Typescript to Rust with a
+Python script then by hand. There was a huge limitation with the crate
+and the nature of wasm-bindgen when it came to implementing our custom
+language to the application. Trying to implement it properly with
+JavaScript, caused the application to crash. This resulted in us forking
+over the repository, then replacing the default MIPS language from
+Monaco with ours in order for the syntax to highlight properly with some
+changes to the regular expressions.
 
 \section{Prototypes}
 
 \subsection{User Interface}
 
 Since one of our main goals for SWIM was to create a visually pleasing
-and modern interface for users to easily start working with, one of the biggest goals on the
-front end was creating mock-ups and determining how the interface will look. The
-prototypes for the graphical front end and user interface are created by
-Figma. Figma allowed us to quickly create a general outline of how our
-project will look in its final version.
+and modern interface for users to easily start working with, one of the
+biggest goals on the front end was creating mock-ups and determining how
+the interface will look. The prototypes for the graphical front end and
+user interface are created by Figma. Figma allowed us to quickly create
+a general outline of how our project will look in its final version.
 
 The earliest sketches of the prototype are as follows, showing the basic
 functionalities and user interface as well as indicating the locations
-of buttons, their functionality, and the layout of the page. Note that the
-functionalities buttons are to remain static on the page, some are made as
-tabs to switch between data views:
+of buttons, their functionality, and the layout of the page. Note that
+the functionalities buttons are to remain static on the page, some are
+made as tabs to switch between data views:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{ui-prototype-1}
@@ -2030,7 +2038,8 @@ From this initial design, we further refined the graphical interface. In
 this newer iteration, we worked to define button size as well as the
 sizes of the various windows of the project. We also sought to get a
 general idea of what a possible color scheme could look like on the
-project. This interface will be even more refined in the completed version.
+project. This interface will be even more refined in the completed
+version.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{new-ui-prototype}
@@ -2039,14 +2048,16 @@ project. This interface will be even more refined in the completed version.
 \end{figure}
 
 The prototype indicated by Figure \ref{fig:new-ui-prototype} shows more
-clearly the graphical implementation of SWIM, with the main features like 
-the Monaco Editor, the register view and the console more defined. The figure does not show
-more functionalities that we want to implement or the core functionalities of
-MIPS (the instructions) as they are core implementations not meant to be seen by the user.
-After that prototype is done, it is a matter of polishing for personalization and accessibility like
-color themes, distinction between screens (for resizing the windows),
-streamlining the style of buttons, etc. This will make SWIM fit its name
-and not look like another Visual Studio Code, or a worse version of it.
+clearly the graphical implementation of SWIM, with the main features
+like the Monaco Editor, the register view and the console more defined.
+The figure does not show more functionalities that we want to implement
+or the core functionalities of MIPS (the instructions) as they are core
+implementations not meant to be seen by the user. After that prototype
+is done, it is a matter of polishing for personalization and
+accessibility like color themes, distinction between screens (for
+resizing the windows), streamlining the style of buttons, etc. This will
+make SWIM fit its name and not look like another Visual Studio Code, or
+a worse version of it.
 
 \subsection{Early November Mini Projects}
 
@@ -2153,19 +2164,19 @@ how MIPS handles an instruction that is broken across multiple lines.
 \subsubsection{Register View Decimal to Hex Conversion - Huy Nguyen}
 
 The register view window aims to include labels for data, address, and
-stack pointer. The main feature that makes my register view different from other register view windows is
-the ability to switch between hexadecimal and decimal representation of
-the numbers input through the data or address. The main function of
-decimal to hexadecimal conversion, as well as converting the opposite
-way, was completed, but the UI looked nothing like it should. As of
-early November, the system was not completed. The mini-project
-still didn't have the data and MIPS address, even though the conversion
-number form was correct. However, when every functionality is accounted
-for and made, it will definitely be incorporated in the main project.
-What has already been implemented was the conversion between hexadecimal
-and decimal values, and a dropdown list for different kinds of
-registers. The goal then was to show the register data when the type is
-selected.
+stack pointer. The main feature that makes my register view different
+from other register view windows is the ability to switch between
+hexadecimal and decimal representation of the numbers input through the
+data or address. The main function of decimal to hexadecimal conversion,
+as well as converting the opposite way, was completed, but the UI looked
+nothing like it should. As of early November, the system was not
+completed. The mini-project still didn't have the data and MIPS address,
+even though the conversion number form was correct. However, when every
+functionality is accounted for and made, it will definitely be
+incorporated in the main project. What has already been implemented was
+the conversion between hexadecimal and decimal values, and a dropdown
+list for different kinds of registers. The goal then was to show the
+register data when the type is selected.
 
 \begin{figure}[H]
     \includegraphics[height=17cm]{huy-register-view-project}
@@ -2186,15 +2197,16 @@ JavaScript and HTML, which caused issues with incorporating with the
 example Rust code. I ended up having to use Rust hooks for the
 conversions, and it certainly took longer than it should for me to read
 through the documents on how to do it. The Rust and Yew documentations
-helped with this project, but with how much time I spent for a
-simple component, this was going to be a major wall for my progress in the project.
+helped with this project, but with how much time I spent for a simple
+component, this was going to be a major wall for my progress in the
+project.
 
-There was also a problem with API connection. The register
-window needed the core to upload the MIPS address and stack pointer so that it
-can display data. I was not sure if it could be extracted from
-within an operating system of a computer, since MIPS is the base of it.
-However, it may not be plausible compared to other ways I could think
-of, which shows that I need more understanding on the issue so that this
+There was also a problem with API connection. The register window needed
+the core to upload the MIPS address and stack pointer so that it can
+display data. I was not sure if it could be extracted from within an
+operating system of a computer, since MIPS is the base of it. However,
+it may not be plausible compared to other ways I could think of, which
+shows that I need more understanding on the issue so that this
 mini-project goes better and helps the bigger main project.
 
 \subsubsection{Monaco Window - Jimmie Smith}
@@ -3333,31 +3345,35 @@ subsequently reading instructions and their operands. This is to keep
 each part of the system as simple as reasonably possible.
 
 The program written in the Monaco code editor is passed to the parser
-and assembler as a string.
-The first step of the parser \& assembler is to tokenize the program, separating the string
-into discrete tokens delimited by spaces, commas, and newline characters and removing
-extra spaces and comments.
+and assembler as a string. The first step of the parser \& assembler is
+to tokenize the program, separating the string into discrete tokens
+delimited by spaces, commas, and newline characters and removing extra
+spaces and comments.
 
-After that, the system goes through the program and determines for each line is within
-the .text section or the .data section.
-In this step, it can be determined if a token is a label, operator, directive, and so on.
-Commas are removed and labels can be associated with an instruction or data entry.
+After that, the system goes through the program and determines for each
+line is within the .text section or the .data section. In this step, it
+can be determined if a token is a label, operator, directive, and so on.
+Commas are removed and labels can be associated with an instruction or
+data entry.
 
-The .data sections of the program can be read immediately after.
-The assembled data is held in a vector to be appended onto the assembled instructions later.
+The .data sections of the program can be read immediately after. The
+assembled data is held in a vector to be appended onto the assembled
+instructions later.
 
-Then, pseudo-instructions can be translated to real instructions.
-This has to be done before labels are associated with a memory address since a pseudo-instruction
-translated into multiple real instructions will affect the ultimate address of a subsequent label in memory.
-After that, a map associating labels with memory addresses can be created.
-The translation of lw / sw label pseudo-instructions is dependent on the label map
-so it must be translated after the label map is made.
+Then, pseudo-instructions can be translated to real instructions. This
+has to be done before labels are associated with a memory address since
+a pseudo-instruction translated into multiple real instructions will
+affect the ultimate address of a subsequent label in memory. After that,
+a map associating labels with memory addresses can be created. The
+translation of lw / sw label pseudo-instructions is dependent on the
+label map so it must be translated after the label map is made.
 
-Finally, individual instructions can be read.
-Tokens have already been categorized as operators and operands previously so the string of the operator
-token is compared against the list of supported instructions.
-Then, the assembly process unique to each instruction is done, building up the machine code by
-appending the opcode and binary of the operands with any other binary specifiers in the proper order.
+Finally, individual instructions can be read. Tokens have already been
+categorized as operators and operands previously so the string of the
+operator token is compared against the list of supported instructions.
+Then, the assembly process unique to each instruction is done, building
+up the machine code by appending the opcode and binary of the operands
+with any other binary specifiers in the proper order.
 
 The above process is continued for each line in the program, logging
 information about each line in the program for the front end and
@@ -3371,11 +3387,10 @@ is provided to the front end regardless.
 \subsection{Label Handling}
 
 MIPS assembly languages do not have support for functions, however they
-do use labels.
-A label is essentially a name that can be given to a
-specific address in memory.
-Instructions can optionally have a label associated with them while a line in the .data section is madated to have one.
-An instruction label can then be used by J-type instructions
+do use labels. A label is essentially a name that can be given to a
+specific address in memory. Instructions can optionally have a label
+associated with them while a line in the .data section is madated to
+have one. An instruction label can then be used by J-type instructions
 as an operand to move the program counter to the instruction that the
 label corresponds to.
 
@@ -3411,34 +3426,40 @@ the best way of handling this case is by passing through the written
 program in its entirety and searching for labels before trying to read
 individual instructions.
 
-To check for labels, the parser looks for tokens ending in a colon, as colons are only used in assembly to denote labels.
-Technically, comments can also end in a colon, but this is combated
-by removing comments before checking for labels. The colon is the
-terminating character of a label, so any characters from be beginning of
-the interpreted line to this colon is checked for correctness using the
-method described in Section \ref{subsec:invalid-label-names}.
+To check for labels, the parser looks for tokens ending in a colon, as
+colons are only used in assembly to denote labels. Technically, comments
+can also end in a colon, but this is combated by removing comments
+before checking for labels. The colon is the terminating character of a
+label, so any characters from be beginning of the interpreted line to
+this colon is checked for correctness using the method described in
+Section \ref{subsec:invalid-label-names}.
 
-Once a label is recognized, the label name and it's associated address in memory can be entered into a HashMap to
-use as a lookup table when the label is used as an operand.
-This step is done late in the parser \& assembler process because the final address of the labelled memory must be known
-for this to function.
-While every instruction is 32 bits long, pseudo-instructions can be composed of multiple real instructions and
-data entries can be any multiple of 8-bits long so this process must occur after .data is assembled
-and after pseudo-instructions are expanded.
+Once a label is recognized, the label name and it's associated address
+in memory can be entered into a HashMap to use as a lookup table when
+the label is used as an operand. This step is done late in the parser \&
+assembler process because the final address of the labelled memory must
+be known for this to function. While every instruction is 32 bits long,
+pseudo-instructions can be composed of multiple real instructions and
+data entries can be any multiple of 8-bits long so this process must
+occur after .data is assembled and after pseudo-instructions are
+expanded.
 
-There are also a few small details that should be discussed about labels.
-Labels do not need to be on the same line as the data or instruction that it is associated with.
-If a label is on a line by itself, it is associated with the next data or label found in the given section.
-However, if a label is written and the section type changes before the label is complete (e.g., a label is specified in
-a .text section but the .data directive occurs immediately after), an error is generated.
-Additionally, there can be multiple labels associated with the same instruction.
-Data entries all must have a label.
-If a data entry does not have a label, an error will be generated.
-However, multiple labels in a row are handled differently in .data than .text.
-Only one label can be associated with a data entry.
-If there are multiple labels in a row before a data entry, only the label immediately preceding the data
-entry is associated with the data's address.
-All other labels cause the assembler to add an empty 32-bit word to memory which the label is then associated with.
+There are also a few small details that should be discussed about
+labels. Labels do not need to be on the same line as the data or
+instruction that it is associated with. If a label is on a line by
+itself, it is associated with the next data or label found in the given
+section. However, if a label is written and the section type changes
+before the label is complete (e.g., a label is specified in a .text
+section but the .data directive occurs immediately after), an error is
+generated. Additionally, there can be multiple labels associated with
+the same instruction. Data entries all must have a label. If a data
+entry does not have a label, an error will be generated. However,
+multiple labels in a row are handled differently in .data than .text.
+Only one label can be associated with a data entry. If there are
+multiple labels in a row before a data entry, only the label immediately
+preceding the data entry is associated with the data's address. All
+other labels cause the assembler to add an empty 32-bit word to memory
+which the label is then associated with.
 
 \subsubsection{Label to Bit Translation}
 
@@ -3531,16 +3552,16 @@ the Rust equivalent of a switch statement in languages like C or Java,
 to determine the instruction type so the program knows how to build the
 binary representation of the instruction to pass to the emulation core.
 Every time the parser recognizes a pseudo-instruction, it makes note of
-the line that it was on.
-In the process of translating the pseudo-instructions to real instructions, the parser also edits a copy
-of the program string it received from Monaco.
-The line with the pseudo-instruction is commented out and new lines with the real, translated instructions are added
-in with comments at the end of them explaining they came from this translation process.
-This updated string then replaces the contents of Monaco when the program is assembled.
-Hopefully, by
-signifying to the user when an instruction is a pseudo-instruction as
-opposed to a hardware supported instruction, we will be able to
-highlight how the MIPS hardware actually functions.
+the line that it was on. In the process of translating the
+pseudo-instructions to real instructions, the parser also edits a copy
+of the program string it received from Monaco. The line with the
+pseudo-instruction is commented out and new lines with the real,
+translated instructions are added in with comments at the end of them
+explaining they came from this translation process. This updated string
+then replaces the contents of Monaco when the program is assembled.
+Hopefully, by signifying to the user when an instruction is a
+pseudo-instruction as opposed to a hardware supported instruction, we
+will be able to highlight how the MIPS hardware actually functions.
 
 \subsection{Comment Removal}
 
@@ -3552,17 +3573,18 @@ comments can be denoted by the hash sign: \#. Any text written after a
 \# on a line in a MIPS program is ignored by the compiler
 \cite{wikibooks-mips-instructions}. Comments do not have to be written
 on their own line; a line with an instruction followed by a comment is
-still recognized.
-It should be noted that most MIPS implementations do not support block
-comments like other languages. Each line in a ``multi-line'' comment
-must begin with the \# character. Along with that, the only terminating
-character for a comment is the new line character.
+still recognized. It should be noted that most MIPS implementations do
+not support block comments like other languages. Each line in a
+``multi-line'' comment must begin with the \# character. Along with
+that, the only terminating character for a comment is the new line
+character.
 
 Due to these restrictions of comment structure, the actual work that the
 parser has to do to remove a comment from the text of a program is
 fairly simple. Since the only use of the \# character in the MIPS
 assembly language is to denote the start of a comment, once the parser
-recognizes that character, it can ignore anything else left on the line and move on to start parsing the next.
+recognizes that character, it can ignore anything else left on the line
+and move on to start parsing the next.
 
 \subsection{Error Recognition and Handling}
 
@@ -3571,9 +3593,9 @@ errors that it recognizes in a program that a user writes. Inevitably,
 users will write something that is not grammatically recognized,
 especially since SWIM is primarily geared toward being an educational
 tool and most users will likely be relatively new to working in MIPS32
-and MIPS64. Thus, this section outlines what the parser and assembler does if it
-encounters errors, as well as how it surfaces information to the user,
-both in why the issue occurred and how it can be fixed.
+and MIPS64. Thus, this section outlines what the parser and assembler
+does if it encounters errors, as well as how it surfaces information to
+the user, both in why the issue occurred and how it can be fixed.
 
 Most modern integrated development engines provide feedback to their
 users as they are writing a program. For example, if a user tries to
@@ -3596,16 +3618,15 @@ should continue looking through the remaining code after it finds an
 error. In MIPS assembly languages, users cannot put multiple
 instructions on a single line, nor can they use multiple lines to write
 a single instruction. MIPS also does not have support for functions or
-variables beyond labels acting as pointers.
-Due to these two points, the parser can reasonably assume
-that the scope of an error will be limited to the line that the
-invalid instruction is written on. So, once the parser has recognized an
-error, it can do the work to recognize the error type to provide the
-proper feedback to the user and make note of it so it will not try to
-assemble the instructions but, afterward, it can move on to the next
-line and continue parsing as before. Because of this, our parser will
-still be able to continue accurately finding errors even after the first
-one is discovered.
+variables beyond labels acting as pointers. Due to these two points, the
+parser can reasonably assume that the scope of an error will be limited
+to the line that the invalid instruction is written on. So, once the
+parser has recognized an error, it can do the work to recognize the
+error type to provide the proper feedback to the user and make note of
+it so it will not try to assemble the instructions but, afterward, it
+can move on to the next line and continue parsing as before. Because of
+this, our parser will still be able to continue accurately finding
+errors even after the first one is discovered.
 
 Since the parser will attempt to find as many issues as it can recognize
 and this will be done each time new information is received from the
@@ -3614,21 +3635,21 @@ front end to display to the user about any errors that it encounters.
 For this, the plan is to have the parser store a couple of pieces of
 information about the line an error occurs on and then an array or
 vector of the instances of all errors in the program will be passed to
-the front end to display to the user.
-Error information is displayed to the user in three different ways.
-The first way is in the console where the error type and a message about it are displayed.
-Additionally, the token within Monaco that is causing the error is underlined with a squiggly, red line
-similar to how most IDEs do.
-Finally, mouse hovering over the token that is causing the error provides the information
-that is displayed in the console, as well.
-The information about each error that will be passed to the
-front end will be the line number from Monaco that it occurs on, the
-instruction number that it will be if it was passed to the emulation
-core, the error type, the likely correction when possible, and the starting and ending columns
-of the token causing the error.
+the front end to display to the user. Error information is displayed to
+the user in three different ways. The first way is in the console where
+the error type and a message about it are displayed. Additionally, the
+token within Monaco that is causing the error is underlined with a
+squiggly, red line similar to how most IDEs do. Finally, mouse hovering
+over the token that is causing the error provides the information that
+is displayed in the console, as well. The information about each error
+that will be passed to the front end will be the line number from Monaco
+that it occurs on, the instruction number that it will be if it was
+passed to the emulation core, the error type, the likely correction when
+possible, and the starting and ending columns of the token causing the
+error.
 
-Below is information about some of the various types of errors that the parser
-is able to recognize as well as how the system will check for
+Below is information about some of the various types of errors that the
+parser is able to recognize as well as how the system will check for
 instances of them. For most of these errors, the approach taken has been
 to parameterize data as much as possible so that the functions can still
 be used to check new instructions that are added after our initial
@@ -3637,12 +3658,11 @@ version of SWIM.
 \subsubsection{Invalid Instruction Name}
 
 In our initial version of SWIM, we are planning on supporting
-approximately 60 different instructions
-These instructions will be in a large match statement that the
-operator string will be compared against.
-If the given instruction name is not a match against any of the supported
-instructions and pseudo-instructions, the parser will flag the line as
-having an invalid instruction name. Since we are not planning on
+approximately 60 different instructions These instructions will be in a
+large match statement that the operator string will be compared against.
+If the given instruction name is not a match against any of the
+supported instructions and pseudo-instructions, the parser will flag the
+line as having an invalid instruction name. Since we are not planning on
 supporting all instructions, the parser will consider instructions that
 are valid instructions but not supported by our project as invalid
 instructions. Because of this, invalid instructions will be separated
@@ -3660,9 +3680,9 @@ instruction in the supported instruction match statement.
 
 This match statement will be housed in a separate function that will be
 called after the supported instruction match statement ends. These match
-cases could be combined with the supported instruction match statement, but
-since an unsupported instruction is handled differently from a supported
-instruction, structuring the code this way  helps highlight the
+cases could be combined with the supported instruction match statement,
+but since an unsupported instruction is handled differently from a
+supported instruction, structuring the code this way helps highlight the
 differences between matches in each of the statements. If a match with
 one of these is found, the parser can tell the front end that the user
 is trying to use an unsupported instruction.
@@ -3846,16 +3866,16 @@ error occurs if it is outside of those.
 
 \subsubsection{.data}
 
-In MIPS programs, instructions are grouped into what is known as the .text section.
-In addition to the .text section, a MIPS program can have a section known as .data.
-In .data, addresses in memory can be initialized with data.
-This data can range from ascii to integers to blank spaces.
-The syntax of an entry in the .data section is a label
-(either on the same line as the following tokens or a preceding one),
-a data type directive, and then the value(s) of that data type.
-A line in .data can hold a single value of the data type or multiple.
-Multiple entries of a data type on the same line are separated by commas.
-There are eight different data types that SWIM currently recognizes:
+In MIPS programs, instructions are grouped into what is known as the
+.text section. In addition to the .text section, a MIPS program can have
+a section known as .data. In .data, addresses in memory can be
+initialized with data. This data can range from ascii to integers to
+blank spaces. The syntax of an entry in the .data section is a label
+(either on the same line as the following tokens or a preceding one), a
+data type directive, and then the value(s) of that data type. A line in
+.data can hold a single value of the data type or multiple. Multiple
+entries of a data type on the same line are separated by commas. There
+are eight different data types that SWIM currently recognizes:
 
 \paragraph{.ascii}
 .ascii recognizes strings made up of ASCII characters.
@@ -3906,41 +3926,41 @@ If the value cannot be represented with 16-bits, an error is generated.
 \label{sec:front-end}
 
 The main six components that constitute the front end are the Monaco
-editor, the register viewer, the console, the memory viewer, the visual datapath, 
-and the buttons. Most of them are implemented using HTML with the \texttt{html!}
-macro discussed in Section \ref{subsec:html-macro} and Yew components. For the Monaco
-Editor library's details, see Section \ref{subsec:monaco}. Overall,
-the Monaco Code Editor is going to be one of the main components the
-users see when SWIM is launched, as it is the place where
-the code is displayed and edited by the users. The register viewer
-shows values of the GP and FP registers. The console is where 
-the user is notified about errors in their code at specific 
-locations or to tell the user the code was successfully assembled. 
-The memory viewer will display the 64 kB of RAM that the datapath uses, it is formatted 
-so the instructions and data are readable in hexadecimal with an ASCII viewer on the right.
-The visual datapath will help users understand how their code works 
-down to the stages of fetching and executing instructions, 
-and providing information on the status of certain areas in the datapath.
-The register, console, memory viewer and the visual datapath are updated 
-as the user execute instructions or the execution stages.
-The buttons are designed to be separate components that use API
-calls to do their functions like assembling code, executing code, resetting the datapath,
- uploading a file to SWIM, and copying the code to the clipboard to be saved locally. 
-All of them are wrapped together into a
-user interface, which will be discussed in Section
+editor, the register viewer, the console, the memory viewer, the visual
+datapath, and the buttons. Most of them are implemented using HTML with
+the \texttt{html!} macro discussed in Section \ref{subsec:html-macro}
+and Yew components. For the Monaco Editor library's details, see Section
+\ref{subsec:monaco}. Overall, the Monaco Code Editor is going to be one
+of the main components the users see when SWIM is launched, as it is the
+place where the code is displayed and edited by the users. The register
+viewer shows values of the GP and FP registers. The console is where the
+user is notified about errors in their code at specific locations or to
+tell the user the code was successfully assembled. The memory viewer
+will display the 64 kB of RAM that the datapath uses, it is formatted so
+the instructions and data are readable in hexadecimal with an ASCII
+viewer on the right. The visual datapath will help users understand how
+their code works down to the stages of fetching and executing
+instructions, and providing information on the status of certain areas
+in the datapath. The register, console, memory viewer and the visual
+datapath are updated as the user execute instructions or the execution
+stages. The buttons are designed to be separate components that use API
+calls to do their functions like assembling code, executing code,
+resetting the datapath, uploading a file to SWIM, and copying the code
+to the clipboard to be saved locally. All of them are wrapped together
+into a user interface, which will be discussed in Section
 \ref{subsec:ui-design}.
 
 The reason the front end is structured this way is that it helps the
 user become familiar quickly with what SWIM does. This kind of layout is
-standard and is the staple for contemporary code editors. For
-example the MARS app, which is similar to what we are making as a code
-editor and MIPS processor, also has this interface setup. Visual Studio
-Code is another example of the layout we are aiming for SWIM to look
-like, with the Editor and console taking up over half the window space.
-The main editor being prevalent helps the user to know where to start
-editing code, with the console right beneath them for ease of debugging
-and performance gauging. However, with Monaco being our choice for the
-code editor as well as Visual Studio Code's choice, it may be hard to be
+standard and is the staple for contemporary code editors. For example
+the MARS app, which is similar to what we are making as a code editor
+and MIPS processor, also has this interface setup. Visual Studio Code is
+another example of the layout we are aiming for SWIM to look like, with
+the Editor and console taking up over half the window space. The main
+editor being prevalent helps the user to know where to start editing
+code, with the console right beneath them for ease of debugging and
+performance gauging. However, with Monaco being our choice for the code
+editor as well as Visual Studio Code's choice, it may be hard to be
 totally distinct in terms of user interface from Visual Studio Code as a
 code editor, despite Monaco helping the webapp's code editor having a
 similar feeling to Visual Studio Code. The buttons, while having basic
@@ -3952,11 +3972,11 @@ other emulators: a unique UI design with familiarity for the user in
 mind.
 
 Theoretically, the front end's process is as follows: there will be API
-calls available from the core and parser, which are then hooked up to the front-end
-buttons so that, when the buttons are interacted with by the user, the
-API calls will be made and the core will transfer data queried to the
-front end for whatever the purpose of the button is and the parser will provide information 
-on the program to.
+calls available from the core and parser, which are then hooked up to
+the front-end buttons so that, when the buttons are interacted with by
+the user, the API calls will be made and the core will transfer data
+queried to the front end for whatever the purpose of the button is and
+the parser will provide information on the program to.
 
 \subsection{UI Design}
 \label{subsec:ui-design}
@@ -4130,17 +4150,16 @@ load assembly files (.asm) and text files (.txt), as well as MIPS files
 they work and how SWIM handles loading and saving those. The main
 advantage of loading and saving files is that the workflow for the user
 will be more intuitive, no need to copy and paste your code onto a text
-editor just to put your code onto SWIM for loading. 
-However due to the limitation discussed in \ref{subsec:pack-bindgen}, 
-we implemented the ability for the user to copy their code onto 
-their clipboard so they can paste it in a text editor like Notepad. The reason we can load and
-save these files is due to how Monaco Editor only loads in strings.
-However due to Rust's persistence on using UTF-8 encoded text, some
-invalid data cases (i.e. transforming a .exe to a .txt with UTF-8
-encoding) will not compile and crash SWIM.
-We should take note of this if we want to safely load a file by
-having the application only accept certain file types via the
-\texttt{accept} attribute from a \texttt{file \textless
+editor just to put your code onto SWIM for loading. However due to the
+limitation discussed in \ref{subsec:pack-bindgen}, we implemented the
+ability for the user to copy their code onto their clipboard so they can
+paste it in a text editor like Notepad. The reason we can load and save
+these files is due to how Monaco Editor only loads in strings. However
+due to Rust's persistence on using UTF-8 encoded text, some invalid data
+cases (i.e. transforming a .exe to a .txt with UTF-8 encoding) will not
+compile and crash SWIM. We should take note of this if we want to safely
+load a file by having the application only accept certain file types via
+the \texttt{accept} attribute from a \texttt{file \textless
     input\textgreater{} element}, which will be explained later in this
 section. However, if a user has a text file that lacks any MIPS syntax
 then the parser will be able to notify the user that the file will not
@@ -4227,11 +4246,11 @@ local filesystem. This storage is temporary, so to preserve the file it
 must be copied or moved from the location before returning the
 completion handler.
 
-While these APIs are great, we lack some form of a database and FTP system 
-to properly implement this so we resorted to an alternative of copying the code 
-onto the clipboard. Once that is done, we tell the user that the code has 
-been copied and it can pasted onto a text editor with the paste shortcut 
-provided to them to save locally.
+While these APIs are great, we lack some form of a database and FTP
+system to properly implement this so we resorted to an alternative of
+copying the code onto the clipboard. Once that is done, we tell the user
+that the code has been copied and it can pasted onto a text editor with
+the paste shortcut provided to them to save locally.
 
 It is entertaining to see how ubiquitous the web browsers are when it
 comes to loading files, but saving files is a challenge in itself. The
@@ -4257,33 +4276,33 @@ would pass it to the emulation core and present it in a way that the
 user knows that it is executing in front of them while only having the
 space of a single window.
 
-We have two modes of execution, step and stage, which would be
-activated with a press of a button at the top of the window. Normal
-execution is where the code gets sent to the parser to transform it into
-bytecode, which gets sent to the emulation core to process it. The core
-would process every line until there is no more code or there's a line
-that causes the system to stop, either from a crash or syscall. 
-This means that the user will only see the last processed state
-of the emulation core via the console and register windows, however 
-this was not implemented due to the lack of an interrupt system for SWIM. 
-Step execution is much more interesting from an educational
-perspective. The user will get to see how each line is processed, and
-the previously executed line would be highlighted to make the flow control more
+We have two modes of execution, step and stage, which would be activated
+with a press of a button at the top of the window. Normal execution is
+where the code gets sent to the parser to transform it into bytecode,
+which gets sent to the emulation core to process it. The core would
+process every line until there is no more code or there's a line that
+causes the system to stop, either from a crash or syscall. This means
+that the user will only see the last processed state of the emulation
+core via the console and register windows, however this was not
+implemented due to the lack of an interrupt system for SWIM. Step
+execution is much more interesting from an educational perspective. The
+user will get to see how each line is processed, and the previously
+executed line would be highlighted to make the flow control more
 explicit and hopefully make debugging logic errors easier to find. The
 highlight would be designed to contrast with the default theme
-appropriately. MARS has speed control with executing
-code measured by instructions per second, but we rarely saw any use for
-it since it is like the normal execution mode but slow. A brand-new form of execution 
-is excuting by stage, which is similar to step execution but it will execute the stage 
-within the single-cycle datapath. The lines that correlate to 
-the stage that was previously executed are highlighted on the datapath. 
-The nice part about the design of the step execution mode is that
-everything is visually communicated to the user, there is no need for
-the console to show any information unless it pertains to user I/O. With
-addition to step-execution, we could apply the rewind function through
-this to improve the debugging process. It is important to note that we
-give users the ability to reset the datapath at any
-point during execution as a panic mechanism, i.e. an infinite loop.
+appropriately. MARS has speed control with executing code measured by
+instructions per second, but we rarely saw any use for it since it is
+like the normal execution mode but slow. A brand-new form of execution
+is excuting by stage, which is similar to step execution but it will
+execute the stage within the single-cycle datapath. The lines that
+correlate to the stage that was previously executed are highlighted on
+the datapath. The nice part about the design of the step execution mode
+is that everything is visually communicated to the user, there is no
+need for the console to show any information unless it pertains to user
+I/O. With addition to step-execution, we could apply the rewind function
+through this to improve the debugging process. It is important to note
+that we give users the ability to reset the datapath at any point during
+execution as a panic mechanism, i.e. an infinite loop.
 
 \begin{figure}[H]
     \includegraphics[width=6cm]{mars-execution-buttons}
@@ -4408,14 +4427,14 @@ from the front-end down to the core itself:
 
 Overall, having the ability to load multiple projects is a simple
 ``nice-to-have'' but it undermines the fundamental goal of what we want
-SWIM to be. As we incorporate the visual datapath and further
-develop it into a mature MIPS emulator, we will disregard the notion
-even more and focus on implementing features that would make SWIM fun
-and rich to use. Besides, loading and saving a different project is as
-easy as pushing a button. The only valid case for implementing multiple
-project tabs is if we redesign the entire interface to allow different
-emulation cores and parsers to interface since everything is being
-designed with MIPS in mind currently.
+SWIM to be. As we incorporate the visual datapath and further develop it
+into a mature MIPS emulator, we will disregard the notion even more and
+focus on implementing features that would make SWIM fun and rich to use.
+Besides, loading and saving a different project is as easy as pushing a
+button. The only valid case for implementing multiple project tabs is if
+we redesign the entire interface to allow different emulation cores and
+parsers to interface since everything is being designed with MIPS in
+mind currently.
 
 \subsection{Displaying Errors}
 
@@ -4444,8 +4463,8 @@ messages shown on the terminal, and should alleviate the problem of
 having a separate tab within the terminal only for error messages. In
 order for any program to show any prompt for user I/O, the program has
 to be assembled properly in the first place so there should be no
-overlap between the two. The errors will display when the user 
-is attempting to assemble their erroneous code.
+overlap between the two. The errors will display when the user is
+attempting to assemble their erroneous code.
 
 The second method is to hover over incorrect lines to display the
 message that way, however the challenge would be differentiating those
@@ -4653,7 +4672,7 @@ styled!(pub RedDiv : Div {
     color: "red";
 });
     \end{verbatim}
-          
+
           With \texttt{styled!} being the macro to write in CSS rules for the
           application and the component being visible for the code to use with the
           familiar structure we have to give a certain area of the page color,
@@ -4755,22 +4774,22 @@ styled!(pub RedDiv : Div {
 
 With all of the probable options laid out, it is imperative that we
 follow the responsive web design (RWD) protocol given that it is having
-different components interacting (register window, console/memory/visual datapath window, monaco
-window, and buttons). It is a ``design approach that addresses the range
-of devices and device sizes, enabling automatic adaptation to the
-screen, whether the content is viewed on a tablet, phone, television, or
-watch'' \cite{mdn-responsive-design}. The relevant methods of
-implementation would be for the user to be able to adjust sizes of the
-windows at will (i.e. dragging the border between the Monaco and console/memory/visual datapath
-window to get more room for either window, or scaling the text based on
-the size of the main window. There are multiple situations that will
-arise that will force us to think this way in order for SWIM to look
-professional across all platforms. The Monaco Editor is a challenge with this since it
-has its own CSS system, so we have to be mindful of making the two look
-cohesive. For SWIM, we used raw CSS to style the page and codicon, 
-the icon library for Monaco Editor, and font awesome 
-as our icon libraries to make SWIM look modern as Visual Studio Code.
-
+different components interacting (register window, console/memory/visual
+datapath window, monaco window, and buttons). It is a ``design approach
+that addresses the range of devices and device sizes, enabling automatic
+adaptation to the screen, whether the content is viewed on a tablet,
+phone, television, or watch'' \cite{mdn-responsive-design}. The relevant
+methods of implementation would be for the user to be able to adjust
+sizes of the windows at will (i.e. dragging the border between the
+Monaco and console/memory/visual datapath window to get more room for
+either window, or scaling the text based on the size of the main window.
+There are multiple situations that will arise that will force us to
+think this way in order for SWIM to look professional across all
+platforms. The Monaco Editor is a challenge with this since it has its
+own CSS system, so we have to be mindful of making the two look
+cohesive. For SWIM, we used raw CSS to style the page and codicon, the
+icon library for Monaco Editor, and font awesome as our icon libraries
+to make SWIM look modern as Visual Studio Code.
 
 \section{Project Management}
 
@@ -5417,31 +5436,32 @@ already, the central goal of ours became making the toolset as
 accessible and easy to use as possible while also emulating MIPS64 as
 accurately as possible.
 
-SWIM is an online emulator to make it as accessible as possible.
-Users do not have to dedicate any hard drive space or wait through
-download time to use SWIM; everything is handled through the browser.
-The website itself is written with the Rust programming language
-and the tools that allow it to run on the web are WebAssembly, yew, and
-gloo. Thanks to WebAssembly, we were able to use a powerful language like
-Rust to build our website meaning we do not have to sacrifice low-level
-power in exchange for the portability provided by commonly used web
-development languages like JavaScript. Embedded into the front end is
-a Monaco code editor, providing our users with a familiar yet
-powerful tool to work with.
+SWIM is an online emulator to make it as accessible as possible. Users
+do not have to dedicate any hard drive space or wait through download
+time to use SWIM; everything is handled through the browser. The website
+itself is written with the Rust programming language and the tools that
+allow it to run on the web are WebAssembly, yew, and gloo. Thanks to
+WebAssembly, we were able to use a powerful language like Rust to build
+our website meaning we do not have to sacrifice low-level power in
+exchange for the portability provided by commonly used web development
+languages like JavaScript. Embedded into the front end is a Monaco code
+editor, providing our users with a familiar yet powerful tool to work
+with.
 
 Code written in the editor is passed into a custom-built parser and
 assembler that will provide meaningful information about each line of
 code back to the front end to display to the user and then provide the
 binaries of each line of code to a custom-built emulation core where it
-is run. This emulation core was built to emulate MIPS64 as
-accurately as possible complete with a fully-realized visual datapath.
+is run. This emulation core was built to emulate MIPS64 as accurately as
+possible complete with a fully-realized visual datapath.
 
-Now, at the end of Senior Design II, our work on this first iteration SWIM is complete.
-The project is built from almost 25,000 lines of code and contains over 400 tests to make sure it
-stays working properly.
-SWIM supports over 60 real instructions, over 15 pseudo-instructions, labels, and all major data types.
-It takes advantage of Monaco's feature set with mouse-hover information, error underlining,
-and error-messages and suggestions all surfaced within the custom-built parser \& assembler.
+Now, at the end of Senior Design II, our work on this first iteration
+SWIM is complete. The project is built from almost 25,000 lines of code
+and contains over 400 tests to make sure it stays working properly. SWIM
+supports over 60 real instructions, over 15 pseudo-instructions, labels,
+and all major data types. It takes advantage of Monaco's feature set
+with mouse-hover information, error underlining, and error-messages and
+suggestions all surfaced within the custom-built parser \& assembler.
 And it features a 5-stage visual datapath with step-by-step execution.
 
 \printbibliography
