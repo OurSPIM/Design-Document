@@ -77,8 +77,6 @@
     Jimmie Smith
 }
 
-% TODO: Add individual roles
-
 % TODO: With the exception of the personal sections, ALL text should be written in we/our/us voice.
 
 \begin{document}
@@ -4383,18 +4381,18 @@ from the front-end down to the core itself:
           navigating between them harder. Learning how web browsers handle
           multiple tabs, it seems like grouping tabs is a great solution for
           organizing them but it would lead to some overhead with how the Monaco
-          window will have to keep track of the multiple files in terms of
-          giving the correct file to the parser. The terminal and register
+          window will have to keep track of the multiple instances in terms of
+          giving the correct one to the parser. The memory and register
           windows should only change based on which file is currently being
           executed, and if a user wants to execute another file while one is
-          still running then we should provide a terminate button which will
-          reset the terminal and register windows.
+          still running then we should provide a panic button which will
+          reset the datapath.
     \item
           {[}Parser{]} One of the key features that we want the parser to do is
-          to communicate with the user in real-time about most errors to save
+          to communicate with the user in assemble-time about most errors to save
           time on debugging their code. However, it will be extremely difficult
           to have it functional if the Monaco window has to juggle between
-          multiple files to send them to the parser. With the current design of
+          multiple instances to send them to the parser. With the current design of
           the parser, it would be wise not to constantly send updated text to it
           as it would penalize our performance.
     \item
@@ -4410,7 +4408,7 @@ from the front-end down to the core itself:
 
 Overall, having the ability to load multiple projects is a simple
 ``nice-to-have'' but it undermines the fundamental goal of what we want
-SWIM to be. As we incorporate animations of the datapath and further
+SWIM to be. As we incorporate the visual datapath and further
 develop it into a mature MIPS emulator, we will disregard the notion
 even more and focus on implementing features that would make SWIM fun
 and rich to use. Besides, loading and saving a different project is as
@@ -4428,7 +4426,7 @@ how to display it. The system in place to allow this is to have the
 parser create an API call to get these messages and organize them on
 what type, then display them in an appropriate fashion.
 
-The first method is to display the error messages within the terminal
+The first method is to display the error messages within the console
 window. In order to make the error messages distinct from the rest, we
 will employ a structure that should be easy for the user to understand
 as followed:
@@ -4446,9 +4444,8 @@ messages shown on the terminal, and should alleviate the problem of
 having a separate tab within the terminal only for error messages. In
 order for any program to show any prompt for user I/O, the program has
 to be assembled properly in the first place so there should be no
-overlap between the two. The update rate to display these errors is
-based on any changes to the Monaco Editor window which varies from user
-to user.
+overlap between the two. The errors will display when the user 
+is attempting to assemble their erroneous code.
 
 The second method is to hover over incorrect lines to display the
 message that way, however the challenge would be differentiating those
@@ -4758,7 +4755,7 @@ styled!(pub RedDiv : Div {
 
 With all of the probable options laid out, it is imperative that we
 follow the responsive web design (RWD) protocol given that it is having
-different components interacting (register window, I/O window, monaco
+different components interacting (register window, console/memory/visual datapath window, monaco
 window, and buttons). It is a ``design approach that addresses the range
 of devices and device sizes, enabling automatic adaptation to the
 screen, whether the content is viewed on a tablet, phone, television, or
