@@ -3563,6 +3563,45 @@ Hopefully, by signifying to the user when an instruction is a
 pseudo-instruction as opposed to a hardware supported instruction, we
 will be able to highlight how the MIPS hardware actually functions.
 
+Supported Pseudo-Instructions:
+\begin{itemize}
+    \item
+    \item li (load immediate)
+    \item move
+    \item seq (set if equal)
+    \item sne (set if not equal)
+    \item sle (set if less than or equal)
+    \item sleu (set if less than or equal unsigned)
+    \item sgt (set if greater than)
+    \item sgtu (set if greater than equal unsigned)
+    \item sge (set if greater than or equal)
+    \item sgeu (set if greater than or equal unsigned)
+    \item lw label (load word from labelled address)
+    \item sw label (store word to labelled address)
+    \item subi (subtract immediate)
+    \item dsubi (double subtract immediate)
+    \item dsubiu (double subtract immediate unsinged)
+    \item muli (multiply immediate)
+    \item dmuli (double multiply immediate)
+    \item dmuliu (double multiply immediate unsigned)
+    \item divi (divide immediate)
+    \item ddivi (double divide immediate)
+    \item ddiviu (double divide immediate unsigned)
+
+\end{itemize}
+
+\subsection{Assembly Idiom vs. Pseudo-Instruction}
+While the documentation provided by MIPS does not talk about pseudo-instructions,
+it does list some information about what it terms assembly idioms.
+Of these, the two that we support are NOP and B\@.
+Effectively, they are the same thing.
+Assembly idioms and pseudo-instructions both are instructions that are not recognized by the hardware
+so they are translated to hardware valid instructions at assembly.
+However, due to their inclusion in MIPS' official documentation, we treat them differently in SWIM.
+Pseudo-instructions are translated to hardware valid instructions and the string in Monaco is updated to show
+these different instructions.
+However, assembly idioms are left as is within Monaco and are only changed in memory.
+
 \subsection{Comment Removal}
 
 The MIPS assembly language supports comments within written code to
@@ -5213,7 +5252,6 @@ frequently used web browsers.
         permission.}
 \end{figure}
 
-% TODO SD2: Update from "ideally" once work has been done to test browser support
 According to \cite{statcounter}, the most commonly used browser on
 desktops worldwide as of September of 2022 was Google Chrome with over
 two-thirds of the market share. The top four most-used web browsers on
@@ -5223,12 +5261,10 @@ share on desktop. Because of this, we want to guarantee that our project
 is fully functional on these four browsers at a minimum. Google Chrome,
 Microsoft Edge, Opera (the fifth most-used browser), and Brave, are all
 based on the open-source project Chromium, and compatibility for one
-generally implies compatibility for the others. This should ideally
-result in a slightly reduced workload when testing and, although we are
-not planning to specifically ensure that SWIM works on Brave or Opera,
-these may be supported without any additional effort.
+generally implies compatibility for the others.
+This resulted in a slightly reduced workload when testing.
 
-For the four browsers, our first goal has been to ensure that the
+For the four browsers, our first goal was to ensure that the
 various technologies used for the project are all fully supported. The
 first technology we checked on for this was the main programming
 language we are going to be building our project in, Rust, or by
@@ -5238,36 +5274,19 @@ according to \cite{mdn-webassembly}, one of the main developers of
 WebAssembly, and with this compatibility list, Opera is listed as having
 full support, too.
 
-% TODO SD2: Update tense from "planning"
-Another major technology we need to make sure is fully compatible with
-all of the browsers we want to support is Monaco \cite{monaco}, the code
-editor library we are planning to have our users use to write their
-MIPS32 and MIPS64 programs. According to its developer, Microsoft, the
-Monaco Editor has support for Chrome, Edge, Safari, and Firefox. It also
-mentions support for the Opera browser.
+Another major technology we needed to make sure is fully compatible with
+all of the browsers we want to support was Monaco \cite{monaco}, the code
+editor library our users use to write their
+ MIPS64 programs.
+According to its developer, Microsoft, the
+Monaco Editor has support for Chrome, Edge, Safari, and Firefox.
+It also mentions support for the Opera browser.
 
-Of note about the Monaco code editor is that it does not support mobile
-browsers. While mobile support is not a goal of SWIM, having room to
-expand to other browsers may be of interest in future iterations.
-Despite this, Monaco does not support mobile browsers, so this will not
-be a future possibility. In this case, an alternative code editor
-library would be necessary in such a future iteration.
-
-% TODO SD2: Rewrite "entirely possible" based on development
-While we are hoping to write as much of the project as we can in Rust,
-it is entirely possible that some of the front-end interface of the
-project has to be written JavaScript to accomplish some tasks.
-JavaScript is one of the core technologies used in web development,
-meaning all major browsers have a JavaScript engine incorporated into
-them. There should not be any issues with compatibility for JavaScript
-on any of the web browsers we are targeting. Instead, the practically
-guaranteed support for JavaScript on almost all web browsers should
-allow SWIM to patch any other compatibility issues.
-
-Based on Figure \ref{fig:browser-technology-support}, all of the
-browsers we are planning on supporting are compatible with the
-aforementioned technologies. This means that our project should not run
-into any compatibility issues, or will be possible to mitigate.
+As shown on Figure \ref{fig:browser-technology-support}, all of the
+browsers we were planning on supporting are compatible with the
+aforementioned technologies.
+This meant that our project has not run
+into any compatibility issues.
 
 \begin{figure}[H]
     {\renewcommand{\arraystretch}{1.4}
