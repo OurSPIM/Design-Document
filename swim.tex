@@ -701,11 +701,11 @@ The most notable issue that arises from this project is the simulation
 of an instruction set architecture that was created not in the public
 domain, but as a commercial product by MIPS Technologies. After
 research, it is clear that the creation of a MIPS emulator is legal, and
-is supported anecdotally by other existing emulators. “Clean room
-design,” also known as the “Chinese wall technique,” is the concept of
-reverse engineering and using publicly available specifications from an
-original creator, then creating an original piece of work without
-infringing on copyright. The term “clean” is used to describe this
+is supported anecdotally by other existing emulators. ``Clean room
+design,'' also known as the ``Chinese wall technique,'' is the concept
+of reverse engineering and using publicly available specifications from
+an original creator, then creating an original piece of work without
+infringing on copyright. The term ``clean'' is used to describe this
 process since there is no knowledge of copyrighted or private
 techniques. Creating SWIM, as well as any other emulator, is considered
 legal due to this argument. This is especially true for the case of
@@ -718,15 +718,6 @@ options available publicly for emulating MIPS. Since this project is
 completely original with no code influence from these other projects, no
 legal issues are foreseen with basing features or aspects of the
 interface with software that already exists.
-
-One aspect of inspiration that could have legal ramifications is the
-original name of the project: OurSPIM. This was based on the current de
-facto MIPS simulator, SPIM, which while is simply MIPS backwards, may
-hold copyright restrictions unbeknownst to the development team. This
-project is not affiliated in any way with the group that made SPIM, so
-alternative names were brainstormed to alleviate this possible conflict.
-These names and other possible considerations can be seen in Section
-\ref{sec:naming}.
 
 We do not foresee any ethical issues from our design of SWIM. Generally
 speaking, ethical issues stem from one of three different places:
@@ -744,8 +735,8 @@ application, this similarly should be reason for no ethical issues.
 Similar to ethical issues, no privacy issues are foreseen based on our
 needs. SWIM will run entirely in a user's local web browser client and
 does not make use of accounts for users, meaning no sensitive data, such
-as email address or passwords, will be stored on servers on servers used
-to host SWIM. Further, the project does not communicate with outside
+as email address or passwords, will be stored on the servers used to
+host SWIM. Further, the project does not communicate with outside
 servers outside the initial loading of the application.
 
 We are currently hoping to put the SWIM project under the GNU General
@@ -758,22 +749,6 @@ build would arise. Since the GPL uses the concept of copyleft to ensure
 anyone is allowed to use, distribute, and modify software in any ways
 seen fit. Plainly, no issues should arise from copyright because SWIM
 will be licensed in a way that allows for its free distribution.
-
-One subject that can often become an issue in regards to legality,
-privacy, and ethics is the use of cookies. We do not foresee having any
-issues on these fronts due to the limited extent to which cookies may be
-used. Internet cookies generally become issues when they start misusing
-personal information about users often to aid in targeted
-advertisements. SWIM does not intend to advertise, nor use cookies to
-track or identify personal information about users. Cookies, if used,
-are exclusively for storing user preferences like font, screen layout,
-and themes, so no privacy-related or ethical issues are foreseen to
-arise from the use of cookies. To avoid legal issues and comply with the
-GDPR, SWIM may include a small pop-up that appears on screen when a user
-first accesses our website notifying them of cookie use. As this project
-is currently projected to be used for North American audiences, this
-addition primarily serves to comply with international laws regarding
-digitized personal information.
 
 \subsection{Financing}
 SWIM is a project that was pitched by a student, and thus funding
