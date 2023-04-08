@@ -813,7 +813,6 @@ consist of all developing members providing each a nominal amount of
 money to rent the server and domain. However, for long-term use, it was
 determined that no-cost hosting is ideal.
 
-% TODO: Specify priority ranking of requirements
 \section{Project Requirements and Specifications}
 \subsection{Overall}
 \subsubsection{Requirements}
@@ -843,13 +842,6 @@ determined that no-cost hosting is ideal.
     \item Unit tests should be created in tandem during development.
     \item Any tests should be enforced as passing prior to additional changes
           being made to the project code repository.
-\end{itemize}
-
-\subsubsection{Stretch Goals}
-\begin{itemize}
-    \item The interface should be able to switch between using all supported
-          instructions and running in a subset mode where only MIPS32
-          functionality is exposed.
 \end{itemize}
 
 \subsection{Emulation Core}
@@ -901,19 +893,6 @@ of a processor.
           amount of time.
 \end{itemize}
 
-\subsubsection{Stretch Goals}
-\begin{itemize}
-    \item Additional instruction support
-
-          While core functionality of the project will be able to perform a
-          powerful variety of operations, additional instructions will be added
-          into support as time permits. This includes more variations of
-          arithmetic and memory operations, additional floating-point operations,
-          and use of I/O devices with system calls. Instructions intended to be
-          supported after the completion of required instructions can likewise be
-          found in Section \ref{subsec:supported-instructions}.
-\end{itemize}
-
 \subsection{Interface}
 \subsubsection{Requirements}
 
@@ -947,57 +926,14 @@ of a processor.
           the contents of the registers between binary, integer, and hexadecimal.
     \item Memory view: Users should be able to view the entire contents of the
           instruction and data memory.
-\end{itemize}
+    \item Interactive live view of datapath
 
-\subsubsection{Business Requirements}
-\begin{itemize}
-    \item The interface should be easy to use and familiar for users already
-          familiar with Visual Studio Code, Replit, or Godbolt.
-    \item The interface should act performant and responsive, where there are no
-          frame drops nor stuttering, and selected options give feedback within
-          0.1 seconds of interacting.
-    \item The interface should act as a logical bridge between the emulation core
-          and the parser.
-\end{itemize}
-
-\subsubsection{Stretch Goals}
-\begin{itemize}
-    \item While stepping through execution, registers that change flash with a
-          temporary highlight.
-    \item Registers should have the ability of being organized by category. In the
-          MIPS architecture, there would likely be 3 categories: One for
-          general-purpose registers, one for floating-point registers, and one for
-          internal hidden registers (e.g., the PC or the condition code register).
-
-          \begin{figure}[H]
-              \includegraphics[height=6cm]{vs-code-register-categories}
-              \caption{Visual Studio Code Register Categories for x86-64.}
-          \end{figure}
-
-    \item The user should be able to directly edit the values of registers.
-    \item Time slider: The user should be able to choose the rate at which
-          instructions are run, up to a limit based on the capabilities of the
-          user's browser client and hardware.
-    \item Entropy viewer for registers: The user should be able see which
-          registers have the most activity and are changing.
-    \item Advanced memory view: The user should be able to see various parts of
-          memory labeled by their function. For example, the user should be able
-          to see which parts of memory are instructions, which instruction is
-          currently being executed within memory, and the location of the stack
-          pointer. The user should be able to toggle between representation
-          formats for given pieces of memory.
-    \item Interactive live view of pipeline
-
-          Interactive live view of the emulator pipeline with access to memory and
-          register contents. A user could hover over various components or traces
-          with their mouse to see their current contents. This is listed as a
-          stretch goal due to time constraints, but if this goal is met, the user
-          will be able to understand MIPS more by visualization. The live view
-          will provide the user with how the information is processed and pass
-          through each stage in a moving cursor through the chart. Users can see
-          what happens to the data and where it will go, simply by hovering the
-          cursor, or it can automatically show. This will help with the purpose of
-          this web app even more.
+          Interactive live view of the emulator datapath with access to inner
+          trace contents. A user could hover over various components or traces
+          with their mouse to see their current contents. The live view will
+          provide the user with how the information is processed and passed
+          through each stage. Users should be able to see which stage is active
+          with some visual indication.
     \item Mouse hover instruction assistance
 
           With other IDEs, users can get assistance and documentation by hovering
@@ -1014,33 +950,19 @@ of a processor.
           \end{figure}
 
     \item The information provided in the hover dialog should include the effect
-          of the instruction in pseudocode, parameters to a given instruction
-          name, and any possible limitations to this instruction. (For example,
-          the maximum or minimum immediate values for the addi instruction.)
-    \item Graphical memory viewing
+          of the instruction in pseudocode and any possible limitations to this
+          instruction.
+\end{itemize}
 
-          Outside of viewing the data in memory by its binary or other
-          representations, memory could be instead viewed in additional graphical
-          formats, whereas each bit could be represented as a pixel in a grid. In
-          larger memory sizes, this becomes a new practical method of viewing
-          data. This could give the ability to view images, and if I/O
-          functionality is implemented in a different stretch goal, allow the user
-          to play simple graphical games.
-
-          Users would additionally be able to choose which parts of memory to view
-          graphically and the dimensions of the representation (e.g., all in one
-          line, in a 256x256 grid).
-
-    \item Reverse execution
-
-          Reverse execution is the capability to step backwards in execution. In
-          other words, the emulator should record its past states so that it can
-          go back to them later. This could allow students to thoroughly
-          understand how a program works, or undo previous parts of execution to
-          replace with other instructions.
-    \item The interface should be able to support a light and dark theme.
-    \item The user should be able to change the amount of memory available for
-          use, to a reasonable extent.
+\subsubsection{Business Requirements}
+\begin{itemize}
+    \item The interface should be easy to use and familiar for users already
+          familiar with Visual Studio Code, Replit, or Godbolt.
+    \item The interface should act performant and responsive, where there are no
+          frame drops nor stuttering, and selected options give feedback within
+          0.1 seconds of interacting.
+    \item The interface should act as a logical bridge between the emulation core
+          and the parser.
 \end{itemize}
 
 \subsection{Parser}
@@ -1071,6 +993,17 @@ of a processor.
     \item If the parser is reading an instruction and expects a label name as one
           of the operands but receives one that has not been defined, it should be
           considered an error.
+    \item Suggestions for correct instruction or label when an invalid one is
+          recognized
+
+          This falls as an extension to the existing functionality of reporting
+          errors. In the event that there are invalid instructions or labels used
+          in inputted assembly code, the parser should also be able to give
+          suggestions on which instructions or labels to use in replacement. If
+          there are instructions or labels with similar names to the invalid ones,
+          these will be suggested first before others. The existing error
+          recognition for instruction names and label names should still operate
+          at a similar level of quality and speed, with or without this feature.
 \end{itemize}
 
 \subsubsection{Business Requirements}
@@ -1084,55 +1017,6 @@ of a processor.
     \item The parser should create an API to be used with the graphical interface.
     \item The API used by the parser should be structured in a way that makes
           front-end development as simple as possible.
-\end{itemize}
-
-\subsubsection{Stretch Goals}
-\label{subsec:parser-stretch-goals}
-\begin{itemize}
-    \item Suggestions for correct instruction or label when an invalid one is
-          recognized
-
-          This falls as an extension to the existing functionality of reporting
-          errors. In the event that there are invalid instructions or labels used
-          in inputted assembly code, the parser should also be able to give
-          suggestions on which instructions or labels to use in replacement. If
-          there are instructions or labels with similar names to the invalid ones,
-          these will be suggested first before others. The existing error
-          recognition for instruction names and label names should still operate
-          at a similar level of quality and speed, with or without this feature.
-
-          \ul{Tentative specification:} One way to have this implemented is
-          via a string similarity function, where the parser would then be
-          able to suggest the instruction name or label name that is most
-          similar to the one the user wrote. One version of this is the
-          Levenshtein Distance function, which finds the number of edits
-          required to alter one string into another
-          \cite{seth-string-similarity}. This function is already included in
-          the Rust programming language as an external crate
-          \cite{rust-doc-levenshtein}.
-
-          Both the runtime and space complexity of this function are $O(m*n)$,
-          where $m$ is the length of the first string and $n$ is the length of the
-          second string. This implies that the addition and implementation of
-          instruction and label suggestion should be within specified time
-          requirements.
-
-    \item Recognition when a label is created but never used
-
-          This extends required support for providing errors of using labels in
-          J-type instructions that do not exist elsewhere in a given assembly
-          program. The parser should also be able to recognize labels that are
-          created but never used as an operand in any instruction of the program,
-          and return a warning for this case. If there exists any unused labels in
-          a program, there should be no effective impediment for the user with
-          respect to running their program.
-
-          \ul{Tentative specification:} This system could be implemented
-          by associating a boolean value with each label, defaulting to
-          false and only switching to true when the label is found as an
-          operand. Then, any label that has a boolean value of false after
-          the parser and assembler have completed their processes would be
-          instances of this issue.
 \end{itemize}
 
 \section{Project Challenges}
