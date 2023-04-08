@@ -3475,16 +3475,17 @@ Supported Pseudo-Instructions:
 \end{itemize}
 
 \subsection{Assembly Idiom vs. Pseudo-Instruction}
-While the documentation provided by MIPS does not talk about pseudo-instructions,
-it does list some information about what it terms assembly idioms.
-Of these, the two that we support are NOP and B\@.
-Effectively, they are the same thing.
-Assembly idioms and pseudo-instructions both are instructions that are not recognized by the hardware
-so they are translated to hardware valid instructions at assembly.
-However, due to their inclusion in MIPS' official documentation, we treat them differently in SWIM.
-Pseudo-instructions are translated to hardware valid instructions and the string in Monaco is updated to show
-these different instructions.
-However, assembly idioms are left as is within Monaco and are only changed in memory.
+While the documentation provided by MIPS does not talk about
+pseudo-instructions, it does list some information about what it terms
+assembly idioms. Of these, the two that we support are NOP and B\@.
+Effectively, they are the same thing. Assembly idioms and
+pseudo-instructions both are instructions that are not recognized by the
+hardware so they are translated to hardware valid instructions at
+assembly. However, due to their inclusion in MIPS' official
+documentation, we treat them differently in SWIM. Pseudo-instructions
+are translated to hardware valid instructions and the string in Monaco
+is updated to show these different instructions. However, assembly
+idioms are left as is within Monaco and are only changed in memory.
 
 \subsection{Comment Removal}
 
@@ -5145,31 +5146,29 @@ share on desktop. Because of this, we want to guarantee that our project
 is fully functional on these four browsers at a minimum. Google Chrome,
 Microsoft Edge, Opera (the fifth most-used browser), and Brave, are all
 based on the open-source project Chromium, and compatibility for one
-generally implies compatibility for the others.
-This resulted in a slightly reduced workload when testing.
+generally implies compatibility for the others. This resulted in a
+slightly reduced workload when testing.
 
-For the four browsers, our first goal was to ensure that the
-various technologies used for the project are all fully supported. The
-first technology we checked on for this was the main programming
-language we are going to be building our project in, Rust, or by
-extension, the language it compiles to, WebAssembly. WebAssembly has
-support for Chrome, Edge, Safari, and Firefox on desktops and laptops
-according to \cite{mdn-webassembly}, one of the main developers of
-WebAssembly, and with this compatibility list, Opera is listed as having
-full support, too.
+For the four browsers, our first goal was to ensure that the various
+technologies used for the project are all fully supported. The first
+technology we checked on for this was the main programming language we
+are going to be building our project in, Rust, or by extension, the
+language it compiles to, WebAssembly. WebAssembly has support for
+Chrome, Edge, Safari, and Firefox on desktops and laptops according to
+\cite{mdn-webassembly}, one of the main developers of WebAssembly, and
+with this compatibility list, Opera is listed as having full support,
+too.
 
 Another major technology we needed to make sure is fully compatible with
-all of the browsers we want to support was Monaco \cite{monaco}, the code
-editor library our users use to write their
- MIPS64 programs.
-According to its developer, Microsoft, the
-Monaco Editor has support for Chrome, Edge, Safari, and Firefox.
-It also mentions support for the Opera browser.
+all of the browsers we want to support was Monaco \cite{monaco}, the
+code editor library our users use to write their MIPS64 programs.
+According to its developer, Microsoft, the Monaco Editor has support for
+Chrome, Edge, Safari, and Firefox. It also mentions support for the
+Opera browser.
 
 As shown on Figure \ref{fig:browser-technology-support}, all of the
 browsers we were planning on supporting are compatible with the
-aforementioned technologies.
-This meant that our project has not run
+aforementioned technologies. This meant that our project has not run
 into any compatibility issues.
 
 \begin{figure}[H]
