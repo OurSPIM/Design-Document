@@ -170,28 +170,27 @@ education as a standard emulator for both MIPS32 and MIPS64.
 Our solution to this issue is SWIM, a simple web interface for MIPS32
 and MIPS64. SWIM is a MIPS emulator that supports a subset of both
 MIPS32 and MIPS64, and completely runs within a web browser. In SWIM,
-people will be able to write and run MIPS32 and MIPS64 programs in
-browsers with an enhanced text editor that will feature line-by-line
-execution, the ability to view register and memory contents, and
-recognition of MIPS pseudo-instructions in a modern, easy-to-use
-interface. Making an emulator that supports both major versions of MIPS
-means that students will be able to use SWIM throughout an extended part
-of their low-level programming education, especially considering
-alternative options for MIPS emulation. Being browser-based, the barrier
-for entry is much lower than downloaded software, is agnostic to any one
-platform or operating system, and accessible from anywhere with an
-internet connection. Having modern features like step-through debugging
-and register viewing will make the development experience more similar
-to modern languages and easier to work with.
+people can write and run MIPS32 and MIPS64 programs in browsers with an
+enhanced text editor with line-by-line execution, view register and
+memory contents, and recognize MIPS pseudo-instructions in a modern,
+easy-to-use interface. Making an emulator that supports both major
+versions of MIPS means that students will be able to use SWIM throughout
+an extended part of their low-level programming education, especially
+considering alternative options for MIPS emulation. Being browser-based,
+the barrier for entry is much lower than downloaded software, is
+agnostic to any one platform or operating system, and accessible from
+anywhere with an internet connection. Having modern features like
+step-through debugging and register viewing will make the development
+experience more similar to modern languages and easier to work with.
 
-The code for the project will be written primarily in Rust
-\cite{rust-book} to utilize its secure memory management systems, type
-checking, and borrow checking. Where necessary, JavaScript will be used
-to supplement this for web-based development. The text editing interface
-will use the Monaco library \cite{monaco} due to its existing
-familiarity with programmers. The server-side component of SWIM merely
-serves to deliver content and application files. SWIM will implement a
-strong subset of the instructions supported by MIPS32 and MIPS64.
+The code for the project is written primarily in Rust \cite{rust-book}
+to utilize its secure memory management systems, type checking, and
+borrow checking. Where necessary, JavaScript and TypeScript is used to
+supplement this for web-based development. The text editing interface
+uses the Monaco library \cite{monaco} due to its existing familiarity
+with programmers. The server-side component of SWIM merely serves to
+deliver content and application files. SWIM implements a strong subset
+of the instructions supported by MIPS32 and MIPS64.
 
 \subsubsection{The Tech Stack}
 SWIM's tech stack is unique in the fact that a lot of the tools and
@@ -208,22 +207,21 @@ toolkit \cite{gloo} facilitates how the front end interacts with
 Javascript APIs and aids in converting Rust code into the appropriate
 WebAssembly binaries and JavaScript files without direct intervention or
 understanding from a development perspective. WebAssembly
-\cite{webassembly} is still in its infancy, but it will allow our Rust
-code to be run on browsers like Google Chrome, Mozilla Firefox, Apple
-Safari, and Microsoft Edge. Due to the recency of WebAssembly, users
-must run the latest version of those browsers – or their respective FOSS
-forks (i.e. Chromium, Waterfox, etc.) – in order for WebAssembly to
-function properly. While the majority of code running for this project
-will be in WebAssembly, JavaScript is still essential for the
-application to initially load on the web browser. Trunk \cite{trunk}
-will be the tool for packaging and finalizing the software; Trunk has
-configurations that would allow us to compile test versions of the
-software as we edit it automatically and if they fail, alert us.
+\cite{webassembly} is still in its infancy, but it allows our Rust code
+to be run on browsers like Google Chrome, Mozilla Firefox, Apple Safari,
+and Microsoft Edge. Due to the recency of WebAssembly, users must run
+the latest version of those browsers – or their respective FOSS forks
+(i.e. Chromium, Waterfox, etc.) – in order for WebAssembly to function
+properly. While the majority of code running for this project is in
+WebAssembly, JavaScript is still essential for the application to
+initially load on the web browser. Trunk \cite{trunk} is the tool for
+packaging and finalizing the software; Trunk has configurations that
+allows us to automatically re-compile the software as we edit it.
 
-GitHub Pages is used to host the website, additionally allowing users
-access to the project's source code on the same site. For the user
-interface, Microsoft's Monaco Editor will be used, given its support for
-assembly syntax, Intellisense, themes, and its extensible API.
+GitHub Pages is used to host SWIM, additionally allowing users access to
+the project's source code on the same site. For the user interface,
+Microsoft's Monaco Editor is used, given its support for assembly
+syntax, Intellisense, themes, and its extensible API.
 
 \begin{figure}[H]
     \includegraphics[height=10cm]{tech-stack}
@@ -273,15 +271,15 @@ project felt like a great balance between direction and difficulty.
 % TODO: Source of demand
 Currently there is a significant demand in industry for custom
 emulation. To become a professional emulator developer, small steps of
-learning are required. By writing this emulator, our team will be taking
-a small step in this direction and should leave with a better
-understanding emulator development. The ability to understand all parts
-of a computing system -- RAM, flash memory, register states, and so on
--- are crucial to working with emulation. Additionally, physical
-hardware can be limited based its interfaces, may be costly to develop
-on, or in some cases inaccessible altogether. Security researchers want
-to be able to create as many virtual environments as possible with
-minimal cost to understand everything a system does.
+learning are required. By writing this emulator, our team is taking a
+small step in this direction and we provide a better understanding of
+emulator development. The ability to understand all parts of a computing
+system -- RAM, flash memory, register states, and so on -- are crucial
+to working with emulation. Additionally, physical hardware can be
+limited based its interfaces, may be costly to develop on, or in some
+cases inaccessible altogether. Security researchers want to be able to
+create as many virtual environments as possible with minimal cost to
+understand everything a system does.
 
 \subsection{Individual Motivations}
 \subsubsection{Kevin Cahalan}
