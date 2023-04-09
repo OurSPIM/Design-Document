@@ -4771,26 +4771,21 @@ free standard plan trial made it unusable for our group. While this was
 no longer used, we continued to send daily scrum information by simply
 continuing to write in our Discord server, on the same schedule the
 DailyBot provides us, and with the retrospective reports at the end of
-the work week. It is at this point that we realized we may not need a
-bot or a software to record and oversee our progress at all since at the
-end of the day we are still doing this by ourselves. However, the
-DailyBot does give good insight on how daily scrums are made, so that we
-follow suit with a different method after it becomes less of a use to
-the team.
+the work week.
 
 \subsection{Version Control and Continuous Integration}
 \label{subsec:version-control-and-ci}
 
-Our group has decided to use GitHub as its primary location of storing
-and collaborating on code for this project, due to its wide use in
+Our group decided to use GitHub as its primary location of storing and
+collaborating on code for this project, due to its wide use in
 open-source communities and familiarity from creating previous projects.
-There are a few important considerations used when creating the process
+There were a few important considerations used when creating the process
 to version control and create consistent, valid code. When publishing
 any new code to the project, it should be the case that it has no
 compilation errors, follows good coding practices, and passes all test
-cases. To enforce this, both client-side and server-side checks are used
-to keep all group members to a defined standard before code is added to
-the main project.
+cases. To enforce this, both client-side and server-side checks were
+used to keep all group members to a defined standard before code is
+added to the main project.
 
 On each cloned instance of the main git repository, a pre-commit hook is
 brought with the project. We felt that this method of enforcing
@@ -4811,11 +4806,11 @@ later as seen fit. Any future changes to the hook or additional hooks
 added later would be applied automatically when pulling the latest
 remote changes.
 
-Client-side formatting, linting, and testing is ideal for quick
+Client-side formatting, linting, and testing was ideal for quick
 revisions and local testing, but are easy to disable or otherwise avoid.
 Server-side checking is also used in our project to ensure that all code
 that will be merged into the repository's main branch passes all format
-checking, linting, and tests. This can all be done with built-in
+checking, linting, and tests. This was all done with built-in
 functionality from GitHub as part of their services, so this was the
 method chosen to perform server-side checks.
 
@@ -4874,8 +4869,8 @@ Additionally, this solution incurs no charge for us, making it an
 incredibly compelling option. While GitHub Pages is not capable of
 delivering dynamic pages, static resources and pages are easily
 deployable. Since trunk outputs the project build into a single folder
-of static HTML, CSS, JS, and WASM files, we feel that GitHub Pages is
-well-suited for this project.
+of static HTML, CSS, JS, and WASM files, GitHub Pages was well-suited
+for this project.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{github-check-status}
@@ -4885,14 +4880,15 @@ well-suited for this project.
 The repository is configured \cite{actions-gh-pages} to automatically
 test, build, and deploy the project each time the main branch has new
 changes, with the average time from merging to deployment taking less
-than 5 minutes, which we consider to be effective for the project. While
-setting up deployment, we found a number of changes that had to be made
-with GitHub Actions to allow it to operate properly. The existing GitHub
-Actions workflow responsible for checking the code for errors should
-ideally be utilized and passed before proceeding ahead to deployment. By
-default, workflows cannot be triggered by other workflows, so we had to
-add the \texttt{workflow\_call} trigger to the existing check action,
-which then allows a deployment workflow to call this first.
+than 5 minutes, which we considered to be effective for the project.
+While setting up deployment, we found a number of changes that had to be
+made with GitHub Actions to allow it to operate properly. The existing
+GitHub Actions workflow responsible for checking the code for errors
+should ideally be utilized and passed before proceeding ahead to
+deployment. By default, workflows cannot be triggered by other
+workflows, so we had to add the \texttt{workflow\_call} trigger to the
+existing check action, which then allows a deployment workflow to call
+this first.
 
 Additionally, specific to Yew and trunk, GitHub Pages did not initially
 work properly in deployment. Since GitHub Pages formats the URL of the
@@ -4944,15 +4940,6 @@ change each time it is built, this makes the build significantly more
 efficient. In initial testing, we have found that with these
 optimizations and changes, the time to test and build was reduced from
 about 10 minutes to less than 30 seconds.
-
-One issue we have yet to see with this project is how GitHub Pages
-handles redirection of subdirectories to the project. Since Yew apps are
-single page applications, many URLs direct to the same one page, where
-Yew then routes the user to the specified location. Since GitHub Pages
-only offers static pages, redirection from these subdirectory URLs may
-not be supported. While this may become a topic of discussion later,
-this may also not be an issue if all our project operates on the primary
-URL of deployment.
 
 \section{Testing}
 
