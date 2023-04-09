@@ -1107,9 +1107,9 @@ division (hi and lo) \cite{mips-specification}. The general purpose
 registers are mostly used as source and destination registers for ALU
 instructions operations. These registers help the processors output the
 results of operations, in either 32 or 64-bits. In this case, since we
-are also going to enable MIPS64 support for the emulator, the MIPS64
-processor will, naturally produce 64-bit results, even if the
-instructions' format are fixed within 32-bit.
+are enabling MIPS64 support for the emulator, the MIPS64 processor will
+naturally produce 64-bit results, even if the instructions' format are
+fixed within 32-bit.
 
 \begin{figure}[H]
     \includegraphics[height=16cm]{mips64-register-layout}
@@ -1242,13 +1242,13 @@ to control the system, which includes memory management, exception
 handling, keeping cache addresses and manipulating them, as well as
 being responsible for some of the CPU's setup just to name a few.
 
-The remaining three coprocessors are used as floating point units, with
+The remaining three coprocessors are used as floating-point units, with
 CP2 being ``implementation-specific,'' which means CP2 is only available
 as a floating point for certain implementations of the MIPS architecture
-\cite[p.~74]{mips-specification}. The floating point units are used to
+\cite[p.~74]{mips-specification}. The floating-point units are used to
 move instructions to and from the coprocessor, and there are specialized
 instructions for these coprocessors to use the opcode space for those
-tasks. However, for the floating point units to work, CP1 needs to be
+tasks. However, for the floating-point units to work, CP1 needs to be
 activated by CP0, or else it will return an exception.
 
 \subsubsection{Registers and Additional Instructions}
