@@ -4357,27 +4357,24 @@ message that way.
 \subsection{Interactive Graphical View of Datapath}
 \label{subsec:datapath-visual-representation}
 
-% NOTE: This section used to have a reference after "WepSIM" to the section
-% that discusses alternative MIPS emulators.
-
-One of the key stretch goals of SWIM is the ability to view a live,
-interactive version of the simulated MIPS64 datapath. This functionality
+One of the key features of SWIM is the ability to view a live,
+interactive version of a simulated MIPS64 datapath. This functionality
 is largely unique to this project and does not exist in many other
-alternative MIPS emulators, with the exception of WepSIM. It has been
-shown through a number of studies \cite{presmeg2006, carney2002} the
-benefit of using images and graphics to study concepts, thus for the
-educational purposes of SWIM, offering an interactive, graphical view of
-the datapath is essential for understanding computer architecture
-concepts at a deeper level.
+alternative MIPS emulators, with the exception of WepSIM \cite{wepsim}.
+It has been shown through a number of studies \cite{presmeg2006,
+    carney2002} the benefit of using images and graphics to study concepts,
+thus for the educational purposes of SWIM, offering an interactive,
+graphical view of the datapath is essential for understanding computer
+architecture concepts at a deeper level.
 
 Despite there not being many animated visualizations for datapaths,
-there are many close alternatives in other areas that can be used as
-context for the style and view of the variation of this feature as it
-exists in SWIM. For instance, many video games that focus on low-level
-circuitry mechanics (such as Minecraft, NandGame, and Turing Complete)
-allow players to expose individual pieces of wiring interactively to
-gain a rich understanding of the data and signals that pass through
-these systems \cite{minecraft, nandgame, turing-complete}. Figure
+there are many close alternatives in other areas that were used as
+context for the appearance of this feature as it exists in SWIM. For
+instance, many video games that focus on low-level circuitry mechanics
+(such as Minecraft, NandGame, and Turing Complete) allow players to
+expose individual pieces of wiring interactively to gain a richer
+understanding of the data and signals that pass through these systems
+\cite{minecraft, nandgame, turing-complete}. Figure
 \ref{fig:turing-complete} offers one such example of this concept.
 
 \begin{figure}[H]
@@ -4400,33 +4397,22 @@ seen in computer architecture textbooks and course lecture slides. This
 form of visualization has become the de facto standard despite these
 limitations.
 
-With this context, it can be seen the importance of a both interactive
+With this context, it can be seen the importance of both an interactive
 and properly-abstracted graphical depiction of a processor. The primary
 way to view the active portions of the datapath is by highlighting the
-wires of the datapath associated with the current stage. This is a
-simple yet naive approach to this, as there is no differentiation
-between wires that are active versus inactive. Despite this limitation,
-this is planned to be the first iteration of this visualization feature.
+wires of the datapath associated with the current stage.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{mips-graphical-view-staging}
     \caption{Example of the first planned iteration of the interactive graphical view feature. Original image from \protect\cite[p.~287]{hennessy-patterson}.}
 \end{figure}
 
-Future iterations of this highlighting functionality would allow for
-specific lines to only be activated when they are selected by a
-multiplexor, for example.
-
 An additional aspect of this interactive graphical representation is the
 ability to hover over specific lines and elements in the datapath to
-view their contents. These contents would include a name of the selected
-elements, its description, and the current value associated with that
-element. The user would also be able to view the meaning of the value of
-the element, as well as other possible values of that element. In the
-case of data lines, there would be no description to the value, but
-instead a raw binary representation with a decimal or floating-point
-representation, depending on the specific line. Figure
-\ref{fig:hover-over-mockup} illustrates the case of viewing a data line.
+view their contents. These contents include a name of the selected
+element, its description, and the current value associated with that
+element. Figure \ref{fig:hover-over-mockup} illustrates the case of
+viewing a data line.
 
 \begin{figure}[H]
     \includegraphics[height=8cm]{hover-over-mockup}
@@ -4434,21 +4420,21 @@ representation, depending on the specific line. Figure
     \label{fig:hover-over-mockup}
 \end{figure}
 
-To implement this feature, a number of design aspects must be considered
-in both the initial drawing of the datapath and the rendering of the
+To implement this feature, a number of design aspects were considered in
+both the initial drawing of the datapath and the rendering of the
 datapath. An important consideration when selecting software to sketch
 the datapath is the ability to tag and label elements by stage and by
 element. After cursory research, it was decided that the datapath would
 be sketched from scratch using Diagrams.net for its ease-of-use and
 access. In addition, Diagrams.net has the ability to add tags and
 additional metadata to each element. However, by default this metadata
-is not exported in any format other than the format specific to
+is not found in any exportable format other than the format specific to
 Diagrams.net, .drawio. With no standardized method of importing and
 reading this export format, this would not be feasible to use. Despite
 this, Diagrams.net offers an SVG add-on that adds support for including
 metadata in SVG file exports. As the vector graphics format is
 widely-supported by third-party tools and libraries, this was decided as
-the methodology for exporting the raw datapath.
+the methodology for exporting a tagged datapath diagram.
 
 With an exported SVG file containing the simulated datapath, the second
 consideration is the method of importing this file into a renderable
@@ -4459,24 +4445,13 @@ the rendering of the datapath, as the datapath is highly complex and
 must be zoomed to avoid loss of detail or an improper resolution.
 Instead, direct vector graphics were decided as a necessary alternative.
 This methodology allows individual lines or groups of elements to be
-controlled directly using Javascript or Rust code.
-
-An alternative version of this feature, not within the scope of SWIM's
-stretch goals, is to instead highlight and show lines in a datapath
-modeled against a real-world die image. Due to its high complexity, this
-was not considered for implementation, but is a possible alternative for
-other datapaths or processor architectures. This feature largely mirrors
-the visualization as described by \cite{wojtowicz2015}.
-
-\begin{figure}[H]
-    \includegraphics[height=10cm]{wojtowicz-visualization}
-    \caption{Proposed visualization approach with internal buses and datapaths shown, combined with overlay for selected functional components. Sourced by \protect\cite[Fig.~2]{wojtowicz2015}.}
-\end{figure}
+controlled directly using Javascript or Rust code, as it exists within
+the DOM.
 
 This interactive view, while designed to work specifically with the MIPS
 architecture, can be expanded easily to work with other platforms and
-architectures. Extensibility will not be a major aspect of design for
-this feature, but there will be some consideration to at least keep it
+architectures. Extensibility was not be a major design aspect for this
+feature, but there still was some consideration to at least keep it
 modular and separated from other components of the codebase.
 
 \subsection{CSS}
