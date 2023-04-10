@@ -144,7 +144,7 @@ MIPS64 in that process, as well.
 
 While there are already a number of emulators and tools available for
 students and instructors to learn and teach MIPS, there can be a number
-of issues surrounding them that make them difficult or even impossible
+of issues that make them difficult or even impossible
 to use in some cases. Current options for MIPS emulation software are
 overly-complex or use out-of-date frameworks. Our project aims to be a
 new, alternative MIPS emulation tool that is easier to digest compared
@@ -160,13 +160,7 @@ meaning the 64-bit extension of MIPS, MIPS64, is unsupported. Many
 students do not attempt to use SPIM unless required by their courses due
 to these limitations. Due to this, learning low-level programming
 concepts, a task that is already difficult in and of itself, is even
-more difficult for most students than it needs to be. The goal of SWIM
-is to change this outcome, where students should be interested and want
-to use the emulator to study for classes and self-taught individuals
-should be able to use it to satisfy curiosity. Both groups of people
-should experience a minimal learning curve when it comes to interacting
-with the MIPS pipeline. SWIM aims to become the standard for MIPS
-education as a standard emulator for both MIPS32 and MIPS64.
+more difficult for most students than it needs to be. 
 
 Our solution to this issue is SWIM, a simple web interface for MIPS32
 and MIPS64. SWIM is a MIPS emulator that supports a subset of both
@@ -184,9 +178,16 @@ anywhere with an internet connection. Having modern features like
 step-through debugging and register viewing will make the development
 experience more similar to modern languages and easier to work with.
 
-The code for the project is written primarily in Rust \cite{rust-book}
+The goal of SWIM is to help students be interested and want
+to use the emulator to study for classes and self-taught individuals 
+to use it to satisfy curiosity. Both groups of people
+should experience a minimal learning curve when it comes to interacting
+with the MIPS pipeline. SWIM aims to become the standard for MIPS
+education as a standard emulator for both MIPS32 and MIPS64.
+
+The code for this project is written primarily in Rust \cite{rust-book}
 to utilize its secure memory management systems, type checking, and
-borrow checking. Where necessary, JavaScript and TypeScript is used to
+borrow-checking. Where necessary, JavaScript and TypeScript is used to
 supplement this for web-based development. The text editing interface
 uses the Monaco library \cite{monaco} due to its existing familiarity
 with programmers. The server-side component of SWIM merely serves to
@@ -986,11 +987,11 @@ of a processor.
 
 \section{Project Challenges}
 
-One of the challenges that this project faces includes unfamiliarity
+One of the challenges that this project faces is being unfamiliar
 with the technology. Each team member had to study Rust and Yew on their
 own, not without the additional background knowledge in HTML, CSS, and
 JavaScript necessary for front-end development. Furthermore, as SWIM
-focuses on the implementation of MIPS64, overall some members needed to
+focuses on the implementation of MIPS64, some members needed to
 review and understand granular implementation details of the instruction
 set architecture. As such, time was dedicated towards researching these
 concepts and finding currently-available options for MIPS simulators, to
@@ -1014,7 +1015,7 @@ have numerous personal and educational roadblocks (such as assignments
 and tests for other classes, weddings, or extracurricular activities).
 DailyBot became unusable after a month of usage due to subscription
 limitations, however daily scrums were continued to be tracked manually
-and was no longer an issue.
+through GitHub Projects and was no longer an issue.
 
 An additional solution to the challenge of meeting time was to create
 more meetings within small subgroups of members. In addition to meeting
@@ -1101,12 +1102,12 @@ often called direct addressing, has the effective address as part of the
 \label{subsec:mips64-registers}
 
 With the current MIPS64 architecture, there are several registers that
-go into the CPU. They include 32 and 64-bit general purpose registers,
+go into the CPU. They include 32 and 64 bit general purpose registers,
 the Program Counter, and special registers for multiplication and
 division (hi and lo) \cite{mips-specification}. The general purpose
 registers are mostly used as source and destination registers for ALU
 instructions operations. These registers help the processors output the
-results of operations, in either 32 or 64-bits. In this case, since we
+results of operations, in either 32 or 64 bits. In this case, since we
 are enabling MIPS64 support for the emulator, the MIPS64 processor will
 naturally produce 64-bit results, even if the instructions' format are
 fixed within 32-bit.
@@ -1133,7 +1134,7 @@ All of MIPS' format is encoded in binary, as computations and operations
 deal with binary arithmetic and logical shifts with or without
 conditions. All of MIPS instructions are 32-bit long, and subsequently,
 there are 32 registers used in MIPS. The first 6 bits of the instruction
-is called the opcode, which identifies what type and what operation the
+is called the opcode, which identifies the type and operation the
 instruction is carrying out. There are 3 instruction formats that will
 be discussed in the next section: R-Type, I-Type and J-Type.
 
@@ -1234,7 +1235,7 @@ floating-point values.
 
 MIPS' coprocessors are all grouped into a MIPS processor, and as of
 MIPS64, the coprocessors handle different things within the system, and
-without them, MIPS would cease to operate. There are a total of 4
+without them, MIPS would not operate. There are a total of 4
 coprocessors provided by the architecture, numbering from 0 to 3.
 
 Coprocessor 0, or CP0, is the foundation of the processor. CP0's job is
@@ -3805,7 +3806,7 @@ If the value cannot be represented with 16-bits, an error is generated.
 \label{sec:front-end}
 
 The main six components that constitute the front end are the Monaco
-editor, the register viewer, the console, the memory viewer, the visual
+editor, the register viewer, the console, the memory view, the visual
 datapath, and the buttons. Most of them are implemented using HTML with
 the \texttt{html!} macro discussed in Section \ref{subsec:html-macro}
 and Yew components. For the Monaco Editor library's details, see Section
@@ -3814,7 +3815,7 @@ of the main components the users see when SWIM is launched, as it is the
 place where the code is displayed and edited by the users. The register
 viewer shows values of the GP and FP registers. The console is where the
 user is notified about errors in their code at specific locations or to
-tell the user the code was successfully assembled. The memory viewer
+tell the user that the code was successfully assembled. The memory viewer
 will display the 64 kB of RAM that the datapath uses, it is formatted so
 the instructions and data are readable in hexadecimal with an ASCII
 viewer on the right. The visual datapath will help users understand how
@@ -3830,13 +3831,13 @@ into a user interface, which will be discussed in Section
 \ref{subsec:ui-design}.
 
 The reason the front end is structured this way is that it helps the
-user become familiar quickly with what SWIM does. This kind of layout is
+user quickly become familiar with what SWIM does. This kind of layout is
 standard and is the staple for contemporary code editors. For example
 the MARS app, which is similar to what we are making as a code editor
 and MIPS processor, also has this interface setup. Visual Studio Code is
 another example of the layout we are aiming for SWIM to look like, with
 the Editor and console taking up over half the window space. The main
-editor being prevalent helps the user to know where to start editing
+editor being prevalent helps the user know where to start editing
 code, with the console right beneath them for ease of debugging and
 performance gauging. However, with Monaco being our choice for the code
 editor as well as Visual Studio Code's choice, it may be hard to be
@@ -3954,7 +3955,7 @@ Monaco Editor is structured:
 
 For this project we aim to have a light-bluish theme, since it fits with
 the name SWIM. Tailwind CSS's color palette helps us in choosing the
-right kind of blue for this project. We are currently planning for our
+right kind of blue for this project. We were planning for our
 primary color to look like this (hex \#1D4ED8):
 
 \begin{figure}[H]
@@ -3962,18 +3963,28 @@ primary color to look like this (hex \#1D4ED8):
     \caption{Primary color of SWIM.}
 \end{figure}
 
-As for our secondary color, we aim to have a lighter blue to simulate
+As for our secondary color, we aimed to have a lighter blue to simulate
 swimming from the depth gradually up to the surface. This is the color
-example (hex \#38BDF8):
+sample (hex \#38BDF8):
 
 \begin{figure}[H]
     \includegraphics[height=2cm]{color-secondary}
     \caption{Secondary color of SWIM.}
 \end{figure}
 
-The accent is going to be gold in color, as it helps with complementing
+The accent was going to be gold in color, as it helps with complementing
 the windows feel we envisioned for this app while also keeping our
 uniqueness by making it fit the name SWIM.
+
+Version 1 of SWIM has used a little different color scheme compared to
+the palette discussed above so that it will be easier for the viewer and
+developers' eyes.
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{V1-layout}
+	\caption{Screenshot of Version 1 of SWIM, to showcase its color scheme}
+	\label{fig:V1-layout}
+\end{figure}
 
 \paragraph{Font Selection}
 
@@ -4014,12 +4025,16 @@ through different devices and operating systems of their computers, This
 is where dynamic screen size support comes in. The web app will
 automatically adjust the original ratios of the windows in the program
 so that it matches the ratio of the monitor, or whatever the user set
-their system's resolution to be in. As of currently when this topic is
+their system's resolution to be in. As of the moment when this topic is
 discussed, there may be a problem with implementing this as it will have
 to be tested within a variety of window sizes within browsers. The first
 step to achieving this is for the app to be able to resize and ratio
 itself when the browser minimizes or changes size, which should be able
 to come along with the browser's app handling.
+
+Currently, adjustable windows has not been implemented within Version 1 of
+SWIM due to it messing with other components when resizing. The view themselves 
+are not affected, but for now all components are fixed size.
 
 \subsection{Loading and Saving}
 
@@ -4193,7 +4208,7 @@ execution as a panic mechanism, i.e. an infinite loop.
 The register window will show two tabs to show two different types of
 registers: general purpose (GP) and floating-point (FP). General purpose
 registers are used primarily to supply data for most instructions, as
-well as to move data to floating-point registers. Floating-point
+well as to move data to floating-point registers. FP
 registers are used for instructions involving the floating-point unit.
 Registers are transferred to the front end by the API provided by the
 emulation core. Details on the MIPS specification of general purpose and
@@ -4203,9 +4218,11 @@ floating-point registers are described in Section
 The register window shows the values of registers in decimal by default,
 but they can be converted to hexadecimal or binary with a press of a
 button, additionally making SWIM more unique than other emulators with
-register viewing functions. This converting functionality will help
-understanding values in registers better, as users may have a preference
-between reading binary, decimal, or hexadecimal formats.
+register viewing functions. For floating point registers, they can also 
+be viewed in float or double values in scientific notation. 
+This converting functionality will help understanding values in registers 
+better, as users may have a preference between reading binary, decimal, 
+or hexadecimal formats.
 
 \subsection{The Help Button}
 
@@ -4235,10 +4252,10 @@ functionality within the help pop-up to search for specific answers for
 the users' questions. Some questions will have the answer pointing the
 user towards User Settings, which is located
 
-However, with that having been said, we are also debating if the help
-section is worth making. For the reasons stated in the beginning, we do
-agree to implement it, but it may be difficult for the amount of things
-it does.
+However, with that having been said, we have decided against making a help
+button for Version 1 of SWIM due to its difficulty in implementation, as well
+as having errors, mouse hover for information within the code section and this
+documentation for the user to read on how to use this application.
 
 \subsection{The Lack of Project Tabs and Why}
 \label{subsec:lack-of-project-tabs}
