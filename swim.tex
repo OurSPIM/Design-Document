@@ -77,7 +77,6 @@
     Jimmie Smith
 }
 
-% TODO: With the exception of the personal sections, ALL text should be written in we/our/us voice.
 
 \begin{document}
 
@@ -270,9 +269,7 @@ needed for a project without clear direction, we do not have the time or
 luxury to gamble on a project to get lost on. This MIPS emulation
 project felt like a great balance between direction and difficulty.
 
-% TODO: Source of demand
-Currently there is a significant demand in industry for custom
-emulation. To become a professional emulator developer, small steps of
+To become a professional emulator developer, small steps of
 learning are required. By writing this emulator, our team is taking a
 small step in this direction and we provide a better understanding of
 emulator development. The ability to understand all parts of a computing
@@ -532,8 +529,7 @@ The following are the ideas provided by each group member.
     \item Test driven development. All instructions should have test cases to
           prove that they work correctly.
     \item Naming the project “OurSPIM.” This name was based on an assignment named
-          “MySPIM.” We decided that we do not want our own SPIM.
-          % TODO: Unclear sentence
+          “MySPIM.”
     \item The possible project name “MipAndNayNay64.” This project name is based
           off the song “Watch Me.”
     \item That way at which our instruction decode code would be written.
@@ -2437,22 +2433,6 @@ stands for ``arithmetic logic unit,'' and can perform addition,
 subtraction, bitwise logic, and several kinds of checks. ALUs are
 dynamic, having at runtime their operations specified with some kind of
 operation code. There is no standard for operation codes in practice.
-
-% TODO: Source for these operations being used in MIPS education?
-The simple ALU generally used in MIPS education (when discussing
-specifically its implementation) supports eight operations, taking a
-3-bit operation code. However, this is limited in ability, as many
-instructions that SWIM requires cannot be supported with only eight ALU
-operations. The eight-operation ALU can perform the following
-operations: \emph{add}, \emph{subtract}, \emph{unsigned compare},
-\emph{signed compare}, \emph{bitwise and}, \emph{bitwise or}, \emph{left
-    shift 16}, and \emph{bitwise not}. Operations such as \emph{multiply},
-\emph{xor}, and so on, are missing. For this project, as outlined by the
-control signals in Section \ref{subsec:control-signals}, we use an
-extended version of the simple eight-operation ALU, where the operation
-code has been expanded to four bits, allowing for 16 total operations.
-The original eight are preserved, as those are commonly used in
-education, and additional operations follow after.
 
 For the sake of this project, only one ALU is required in the primary
 unit, and an additional floating-point ALU is required in the
@@ -4663,8 +4643,7 @@ to make SWIM look modern as Visual Studio Code.
 
 \section{Project Management}
 
-\subsection{Project Milestones}
-% TODO: Update milestones?
+\subsection{Original Project Milestones}
 
 {\renewcommand{\arraystretch}{1.4}
     \begin{tabularx}{\textwidth}{|l|X|}
@@ -4967,17 +4946,16 @@ pleasing interface. To that end, we are planning on not only having
 extensive unit testing but are also planning on having a thorough user
 experience test plan, as well.
 
-% TODO: Edit this after SD2
 From a broad perspective, there are three distinct sections to SWIM: the
 emulation core, the parser, and the visual front end. While these
-sections will all interface with each other in the end product, they
-will largely be considered isolated systems for the sake of development.
-Because of this, we will not be able to test interactivity between the
-three sections until relatively later during Senior Design II. Not only
-this, but many smaller aspects of the software might be used so
+sections all interface with each other in the end product, they
+can largely be considered isolated systems for the sake of development.
+Because of this, we were not able to test interactivity between the
+three sections until relatively late during Senior Design II. Not only
+this, but many smaller aspects of the software are
 infrequently that, if there is something wrong, it may be unnoticed for
-an extended period of time. To combat these potential issues, we are
-planning on having extensive unit tests in place for automated testing.
+an extended period of time.
+To combat these potential issues, we have extensive integration and unit tests in place for automated testing, almost 450 tests in total.
 That way, we are able to automatically test systems and ensure that
 layering the systems on top of each other does not cause any unexpected
 issues somewhere else in the project.
@@ -5045,10 +5023,6 @@ fn access_bad_register_by_string() {
     \caption{Example of testing in Rust.}
     \label{fig:testing-registers-example}
 \end{figure}
-
-% TODO: Consider writing about meeting a code coverage quota using tarpaulin (https://github.com/xd009642/tarpaulin)
-
-% TODO: Add information on testing the front end
 
 \section{Browser Support}
 \label{sec:browser-support}
@@ -5223,8 +5197,6 @@ Rust and JavaScript. Supporting a custom operating system would greatly
 improve the diversity of use for SWIM, and allow for professors of
 operating system courses to suggest SWIM to their students.
 
-% TODO: \subsection{A syscall API to allow for GUI and game development}
-
 \subsection{Desktop Application}
 
 Making a desktop application of SWIM may be a great feature to add, as a
@@ -5262,6 +5234,158 @@ simultaneously. In this case, this may involve the addition of a tabbed
 system of editors, selecting between the one that is loaded within the
 emulation core.
 
+\section{Insights and Lessons Learned}
+Throughout these last two semesters, everyone on the SWIM team has become very familiar with a multitude of technologies and frameworks,
+many of which most members of the team had never touched before this project.
+We have encountered many roadblocks along the way, some that we had expected and already had solutions for lined up but many others that required intense collaboration and unique thinking to surpass.
+Listed below is a brief overview of the insights and lessons learned by each member of the SWIM throughout the last eight months that we have worked together on this project.
+
+\susection{Huy Nguyen}
+Having been working as a frontend for SWIM, specifically the User Interface, I have picked up some insights throughout my development.
+I learned that Yew helps with integrating HTML into Rust, as they seem similar to JavaScript.
+However, it took me quite some weeks to be able to code a basic table view with Rust and Yew.
+A few key takeaways from my time with Yew is the use of variable units and how to access data from another file within the project, through the use of crates and other Rust libraries and dependencies.
+I have also made use of props to display the data needed within the component, and to generate the register view.
+Formatting data strings in Rust is also part of the job, as there are many ways to express the forms in which a Vector can be expressed.
+Overall, with Rust and Yew being quite new technology, I have learned quite a few things form researching and working with them.
+
+However, compared to Jimmie, who worked on rust-monaco, I did not dive into Rust and Yew as much as I do in HTML and CSS, since that is the basis of this frontend interface.
+Before this project, CSS was something that I have never interacted much outside of a few small peeks.
+CSS became a challenge that I had to overcome, similar to Rust and Yew coding, due to lack of experience.
+For CSS, I learned how to color independent parts of the UI, as well as how to size them so that they dynamically change in accordance to screen size.
+A big part of my work with CSS is making tabs and buttons to be as interactive as possible.
+It was a lot of challenge getting the button to look right, especially with button focus and active state where the button appears different than its idle state.
+After the CSS is edited, I then would add label and classes to HTML component for the CSS to produce a decent-looking result.
+
+Besides technical learnings, I have also gained experience in working with a team for a project like this, namely communicating with other members, setting and achieving weekly goals, which would prove useful in another team-based project for a company, for example.
+I have had some setbacks that prove to set the team's milestones behind, which made the goals constantly changing, but I have learned that good communication on progress and setting schedule to work with the project have helped immensely in mitigating this problem.
+
+\subsection{Jimmie Smith}
+When we started the SWIM project, I made it my goal to fully grasp the paradigm of Rust and WebAssembly as a web framework.
+Since my front-end knowledge was not fully developed, it was interesting to look into it openly and see it as the next step in web development.
+I proposed that rather the front-end uses Typescript that we embraced this framework, Yew, which was selected due to its maturity and the projects that were developed on it.
+Another reason for my proposal is because I believed this would be a rare opportunity for a project to be done under one language.
+This would aid in communicating on our initial design drafts for the interface and how all parts of SWIM would interact with each other.
+My first obstacle was if there was a code editor library that could be interfaced with Yew.
+Fortunately, there was a code editor library that could be used with Yew, Monaco Editor, which was used in a few projects that I used as a guide for interfacing with it.
+
+One thing that proved invaluable was getting external help from the maintainers of the Yew framework via their discord server since I knew it would be a struggle to
+understand the framework by myself with the documentation.
+I discussed extensively with the developer of Mipsy Web (a project with similar goals and uses the same Assembly language)
+and the maintainer of rust-monaco about the limitations of Yew & rust-monaco.
+I came to the conclusion that when you are working with new technologies, you have to take risks to get the features that you want in your project.
+A good example of this was when I had to implement our custom language into Monaco, usually it is consists of registering the language,
+creating the tokenizer, completion item provider which powers Intellisense, and a theme to compliment the rules of the language. The issue I faced was attempting to do so resulted in SWIM crashing on initial load and
+I did not have enough time to do this while I have to implement other features.
+So, I decided to fork rust-monaco and modify the default MIPS configuration to fit with ours.
+This had the unintended consequence of having a lot of built-in features from that configuration like folding and supporting hexadecimal numbers.
+
+However, sometimes there are obstacles that cannot be overcome.
+This occurred when I came to the conclusion that doing file save traditionally was impossible in the framework due to wasm-bindgen
+not being able to interface with JavaScript that has been postprocessed.
+So, Evan provided the alternative of copying the code to the user clipboard so they can save it locally on their text editor.
+The issue with that is the Clipboard API is listed as unstable which meant we would have to enable some flags then interface it via web-sys, which is a challenge in of itself. Luckily, Jerrett found
+Yew Hooks which alleviated the possible issue of complicating the codebase and I even used it to make the mouse hover provider implementation simple to do.
+The only oddity that is occurring is that the API is not being communicated properly on Chrome for Mac specifically on SWIM. For now, I'll provide a disclaimer and alternative for those users.
+
+A huge achievement with the project was the highlight feature implementation.
+For a majority of the features that were implemented, they took two weeks (compared to the weekly sprint others had) to fully realize since
+I wanted the design to be efficient yet sensible to other members in the team.
+The main goal was to create two stacks that store only one element, one for the highlighted line and one for not highlighted.
+Since this is a moment-to-moment event, what is pushed into the highlight stack will immediately show up on the screen and be popped onto the not highlighted stack at the same time.
+Then to clear the highlight, pop the highlighted stack and update the screen by removing the highlight itself.
+From there, the coordination with the parser to track which line corresponded to the program counter and the core's implementation of the program counter was trivial.
+It showed how well the team was with doing their implementations independently and combining them together to fully realize an idea.
+
+\subsection{Jerrett Longworth}
+During the course of developing SWIM, I have become more familiar and comfortable with concepts in web development, using a framework that translates Rust code into Javascript code.
+The visual datapath was an aspect of the project that had broken down exactly how Javascript manages memory and event listeners.
+Rust itself is a completely new language with a new mental model around memory management that I had not seen up to this point.
+This system is incredibly helpful for tracking errors provided by the Rust compiler.
+
+While developing the visual datapath in particular, a deep understanding was developed of the framework, to the point where this project has reached some of the limits of what this framework is capable of.
+Some functionality was unavailable, however this did not impact our ability to reach an end product to be proud of.
+It is clear that the community around web development in Rust is still relatively new, but out of what exists there is a clear focus and emphasis on the safe memory management model that is associated with Rust.
+
+While developing the emulation core and designing the floating-point coprocessor, it was important to maintain a clear understanding of the MIPS specifications and framework set by the primary processor to be consistent for students learning computer architecture and assembly.
+While there was a considerable amount of original design into the creation of the emulation core design as it exists in SWIM, the goal is for it to be approachable with a close reference to Hennessy and Patterson's MIPS datapath design.
+This project has helped me walk away with new experience in working deeply with documentation and understanding the nuances of architecture design and changes over multiple iterations.
+This last point stems from the fact that MIPS has undergone six major revisions, of which some instruction encodings have been removed or repurposed to better fit the needs of more modern assembly programmers.
+
+
+\subsection{Kevin Cahalan}
+Well, the first big lesson from this project is that using Rust for the front-end was probably not the best idea.
+The Rust front-end scene has not hit maturity yet.
+Watching the guys on the front-end struggle was definitely a thing to behold.
+In hindsight, I would not propose a serious project with a Rust front-end again.
+There were all sorts of features I would have liked this project that had to be skipped for the sake of time thanks to our Rust front-end.
+All sort of awesome front-end libraries coded in JavaScript were not at our convenience.
+On the other hand, writing a web application with practically no JavaScript is quite the meme.
+This team can move forward with yet another awesome story.
+If I had Jimmy talk at my wedding, he'll talk about Yew and wasm-bindgen.
+
+Using Rust for our Emulation core was a great decision.
+Our emulation core code came out super clean and nice.
+Rust enums, by golly, they are great.
+Testing the emulation core worked flawlessly on wasm, x86 and arm.
+The cargo build system, package manager, and test system were awesome.
+For the most part, our development was free of unpredictable behavior.
+The team was able to put a high percentage of time into feature development thanks to Rust.
+
+Through this project I got to learn Github and git to a much deeper extend than I had in the past.
+The Github continuous integration feature is quite awesome.
+For this project Github was setup so that only working code could be merged into main.
+The main branch was also setup to automatically deploy SWIM.
+Much time was saved by this automated testing and deployment.
+The main branch never got scrambled or destroyed.
+
+GitHub's project management features made our work very clear and straight forward.
+Everyone knew what they had to do.
+Github issues, pull requests, and project management all fit together like fine wine.
+
+\subsection{Evan Raiford}
+On SWIM, I have had a dual role.
+I have been the sole developer for the parser \& assembler and I have also been the project's manager.
+As such, the insights and lessons learned I have found are split across these two roles, as well.
+
+One of the biggest takeaways I have had in my developer role on the project was how much of a difference well-developed documentation can make.
+Prior to this project, the languages I had worked in the most were C and Java, neither of which has great documentation to reference while developing.
+Thanks to this, whenever I was not sure what function I needed for a task or how something is structured, I would search the issue online and have to use a third-party reference like an article or a Stack Overflow post to find a solution.
+The documentation for Rust, in contrast, is excellent being both thorough and concise at the same time.
+Having well-written descriptions for all methods and data types available through mouse hover meant I was able to figure out most problems without ever having to leave my IDE.
+And when I needed more information than was provided there, I was able to consult the Rust language book and have confidence that the information provided there was written with more accuracy than what can be given to a Stack Overflow response or a third-party article.
+
+Another big insight I learned was that structuring your code to work well in a team environment requires effort on multiple fronts.
+In prior group projects, my approach was to be as descriptive as possible.
+Functions and variables would have moderately long names that detail what they did and were used for explicitly.
+Additionally, my code would have comments every few lines so anybody reading my code would know exactly what is going on and what my approach is.
+With SWIM, this system was insufficient.
+There are 11,000 lines of code for the parser \& assembler between the actual code for it and all of the associated tests.
+Everybody had their own parts of the project and all of the roles are too intricate for every other member to stay intimately familiar with everyone else's code.
+Additionally, if there is a version two of the project, they will not have constant access to us to explain our code if the comments are insufficient.
+So, I spent a lot of time trying to limit how my code can be interfaced with to make it easier to understand what needs to be done.
+To that end, I built many structs to help anybody interacting with my code understand relationships between the data I am working with and enums
+to show the different options for what a function can do.
+Additionally, I used constant variables for the supported lists of instructions and recognized register names that are referenced various times
+throughout the process that can easily be referenced and modified by subsequent teams.
+I also added in many tests to make sure any changes made to what I have written do not break anything elsewhere in the project.
+Another test I added was an overarching one that makes sure that the supported and unsupported instruction list are exhaustive and mutually exclusive.
+This design shift has been a great lesson I have learned.
+
+The insights I have gained on the project management front all dealt with trying to balance schedules, scope, priorities, and interests of a diverse development team.
+Different members of the team needed different things from me as project manager and addressing all of those each week was a difficult thing to make time for.
+Also, different members of the team needed different levels of direction.
+Some members worked best when they had explicit guidelines for what was needed to be done in a given week while others worked best when the end goal was shown to them and they
+were just given the freedom to find their solution in their own time and in their own way by the week's end.
+One interesting situation arose early on where we discovered that some parts of our project would be done well ahead of schedule and so we needed to extend our scope on that front however there were disagreements
+as to what should be added to the project to that end.
+Finding the proper solution to that while keeping everybody excited and engaged with the project was an interesting challenge.
+Another challenge arose where certain team members would go above and beyond and add more than was required for our project.
+While extra features and functionality for our project is of course great, it also added extra work for other team members who would have then have to support those features on their sides of the project as well.
+With all of these, I came to the conclusion.
+Having an explicit structure in place for your schedule or your scope or your sprint structure is great however nothing ever goes according to plan and every team member is unique.
+Building these structures as a guideline for development and then tailoring them on demand to the specific situation or person has worked best in my experience.
+
 \section{Summary and Conclusion}
 
 In broad strokes, the goal of our project was to create a user-friendly
@@ -5287,14 +5411,17 @@ Code written in the editor is passed into a custom-built parser and
 assembler that will provide meaningful information about each line of
 code back to the front end to display to the user and then provide the
 binaries of each line of code to a custom-built emulation core where it
-is run. This emulation core was built to emulate MIPS64 as accurately as
+is run.
+This emulation core was built to emulate MIPS64 as accurately as
 possible complete with a fully-realized visual datapath.
 
 Now, at the end of Senior Design II, our work on this first iteration
-SWIM is complete. The project is built from almost 25,000 lines of code
-and contains over 400 tests to make sure it stays working properly. SWIM
-supports over 60 real instructions, over 15 pseudo-instructions, labels,
-and all major data types. It takes advantage of Monaco's feature set
+SWIM is complete.
+The project is built from almost 25,000 lines of code
+and contains over 400 tests to make sure it stays working properly.
+SWIM supports over 60 real instructions, about 20 pseudo-instructions, labels,
+and all major data types.
+It takes advantage of Monaco's feature set
 with mouse-hover information, error underlining, and error-messages and
 suggestions all surfaced within the custom-built parser \& assembler.
 And it features a 5-stage visual datapath with step-by-step execution.
