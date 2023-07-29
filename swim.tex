@@ -2662,7 +2662,7 @@ students using SWIM for their courses.
               \item \_ 1001 (9) - Perform unsigned multiplication.
               \item \_ 1010 (10) - Perform signed integer division. (Returns the integer quotient.)
               \item \_ 1011 (11) - Perform unsigned integer division. (Returns the integer quotient.)
-              \item \_ 1100 (12) - Perform an addition, and set the OverflowWriteBlock signal in the event of an overflow.
+              \item \_ 1100 (12) - Perform a shift left logical operation by ``shamt'' bits.
           \end{itemize}
 
     \item ALUOp
@@ -2685,7 +2685,6 @@ students using SWIM for their courses.
                     additionally be determined by bits 10-6 of the instruction, as
                     the ``funct'' field alone does not provide the full description
                     of those instructions.)
-              \item 1000 (8) - Perform an addition, and set the OverflowWriteBlock signal in the event of an overflow.
           \end{itemize}
 
     \item ALUSrc
@@ -2703,7 +2702,7 @@ students using SWIM for their courses.
           \begin{itemize}
               \tightlist
               \item Determines if the datapath should consider branching. Exact choice of
-                    branching or not relies on the result from the ALU.
+                    branching or not relies on the result from the ALU. This can be overridden by the Jump signal.
               \item 0 - Do not consider branching.
               \item 1 - Consider branching.
           \end{itemize}
@@ -2733,9 +2732,10 @@ students using SWIM for their courses.
     \item Jump
           \begin{itemize}
               \tightlist
-              \item Determines if the datapath should jump. This is an unconditional branch.
-              \item 0 - Do not jump.
-              \item 1 - Use the jump address provided from the instruction.
+              \item Determines if the datapath should jump. This is an unconditional branch. The Branch signal may be overridden depending on the value of this signal.
+              \item 0 - Do not jump. Defer to the Branch signal.
+              \item 1 - Jump by using the address specified in the instruction's lower bits.
+              \item 2 - Jump by using the address specified in the contents of register \texttt{rs}. This is used in \texttt{jr} and \texttt{jalr} instructions.
           \end{itemize}
 
     \item MemRead
